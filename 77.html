@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <title>شقق</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <header>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+      <div class="logo">
+        <h1>جامعة اللوتس</h1>
+      </div>
+    </header>
+
+    <div class="container" id="app"></div>
+
+    <script>
+      const apartments = [
+        {
+          name: "شقة في عماره 62 قصاد المسجد دور رابع عماره كلها أهالي وبنات متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 62/vid.mp4"],
+        },
+        {
+          name: "شقة في عماره 74 دور تاني عمارة بنات متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 74/vid.mp4"],
+        },
+        {
+          name: "شقة في عمارة 85 قصاد مصنع البيبسي دور تالت متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 85/vid1.mp4"],
+        },
+        {
+          name: "شقة في عمارة 97 دور سادس متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 97/vid.mp4"],
+        },
+        {
+          name: "شقة في عماره 106 المربع التاني عمارة كلها أهالي متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 106/vid.mp4"],
+        },
+        {
+          name: "شقة في عمارة 110 دور تاني عمارة كلها أهالي وبنات",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 110/vid.mp4"],
+        },
+        {
+          name: "شقة في عمارة 115 المربع التاني خلفي دور سادس عمارة أهالي وشباب وبنات متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 115/vid.mp4"],
+        },
+        {
+          name: "شقة في عمارة 124 المربع الأول خلفي دور خامس عمارة شباب وبنات متاحة للحجز السنة الجاية",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 124/vid.mp4"],
+        },
+        {
+          name: "شقة في عمارة 126 المربع الاول خلفي دور خامس عمارة بنات وشباب كل الفرش جديد متاحة للحجز السنة الجديدة",
+          location: "ال77",
+          price: "",
+          images: ["./الشقق/منطقة ال 77 عمارة/عماره 126/vid.mp4"],
+        },
+      ];
+
+      function render() {
+        const app = document.getElementById("app");
+
+        apartments.forEach((apt) => {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          card.innerHTML = `
+      <div class="slider">
+        ${
+          apt.images && apt.images.length > 0
+            ? apt.images
+                .map((file, i) => {
+                  if (file.endsWith(".mp4")) {
+                    return `
+                      <video class="${i === 0 ? "active" : ""}" controls preload="none" playsinline>
+                        <source src="${file}" type="video/mp4">
+                      </video>
+                    `;
+                  } else {
+                    return `
+                      <img src="${file}" loading="lazy" class="${i === 0 ? "active" : ""}">
+                    `;
+                  }
+                })
+                .join("")
+            : `<img src="default.jpg">`
+        }
+
+        <div class="nav">
+          <button onclick="event.stopPropagation(); prev(this)">❮</button>
+         <button onclick="event.stopPropagation(); next(this)">❯</button>
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="title">${apt.name}</div>
+
+        <div class="action-btn">
+          <div class="price-btn">${apt.price}</div>
+
+          <div class="book-btn"
+            onclick="bookNow(\`${apt.name}\`,\`${apt.location}\`,\`${apt.price}\`)">
+            احجز
+          </div>
+        </div>
+      </div>
+    `;
+
+          app.appendChild(card);
+        });
+      }
+
+      render();
+
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img, video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        // وقف الفيديو الحالي
+        if (items[index].tagName === "VIDEO") {
+          items[index].pause();
+        }
+
+        items[index].classList.remove("active");
+        items[(index + 1) % items.length].classList.add("active");
+      }
+
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img, video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        // وقف الفيديو الحالي
+        if (items[index].tagName === "VIDEO") {
+          items[index].pause();
+        }
+
+        items[index].classList.remove("active");
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
+
+      function bookNow(name, location, price) {
+        let phone = "201152638852";
+
+        let message = `عايز احجز :
+       ${name}
+       الموقع: ${location}
+       السعر: ${price}`;
+
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
+      }
+
+      function focusVideo(el) {
+        let video = el.closest(".slider").querySelector("video.active");
+        if (video) {
+          video.play().catch(() => {});
+        }
+      }
+    </script>
+
+    <script src="dark.js"></script>
+  </body>
+</html>

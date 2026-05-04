@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <title>الخدمات</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        background: #f3f3f3;
+        padding: 20px;
+        direction: rtl;
+      }
+      .title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+      .container {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 15px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .name {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .call-btn {
+        display: block;
+        background: #28a745;
+        color: #fff;
+        padding: 8px;
+        border-radius: 8px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="title">الخدمات في المنطقة</div>
+
+    <div class="container" id="services"></div>
+
+    <script>
+      const services = [
+        { name: "سوبر ماركت كيمت", phone: "01016132032" },
+        { name: "سوبر ماركت أسر الشهداء", phone: "01066966703" },
+        { name: "القرطبي أنابيب", phone: "01017280277" },
+        { name: "صيدلية د. مروه", phone: "01063500929" },
+        { name: "صيدلية د. أحمد اسماعيل", phone: "01126999444" },
+        { name: "صيدلية د. أحمد اسماعيل", phone: "01010771112" },
+        { name: "صيدلية د. أحمد اسماعيل", phone: "01126999888" },
+        { name: "كريم أنابيب", phone: "01098155996" },
+        { name: "ديلفري", phone: "01055629514" },
+        { name: "أكل منزلي", phone: "01044519826" },
+        { name: "كهربائي محمود عبد الحكم", phone: "01009766793" },
+        { name: "كهربائي عمرو احمد", phone: "01020327131" },
+        { name: "كهربائي محمد زين", phone: "01000622314" },
+        { name: "سباك هيثم", phone: "01097687540" },
+        { name: "سباك محمد شعبان", phone: "01096996152" },
+        { name: "سباك ابانوب", phone: "01550506315" },
+        { name: "حداد محمد", phone: "01000316317" },
+        { name: "حداد الزهراء", phone: "01061901959" },
+        { name: "نقاش محمد", phone: "01009131062" },
+        { name: "نقاش ابو مينا", phone: "01069874424" },
+        { name: "تروسكل نادر", phone: "01023096319" },
+        { name: "تروسكل ابو شمس", phone: "01127046079" },
+        { name: "كهربائي الزهراء", phone: "01022690969" },
+        { name: "محل أدوات كهرباء", phone: "01012013618" },
+        { name: "خياطة أم سمر", phone: "01050440212" },
+      ];
+
+      const container = document.getElementById("services");
+
+      services.forEach((s) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+    <div class="name">${s.name}</div>
+    <a class="call-btn" href="tel:${s.phone}">
+      📞 ${s.phone}
+    </a>
+  `;
+
+        container.appendChild(card);
+      });
+    </script>
+  </body>
+</html>

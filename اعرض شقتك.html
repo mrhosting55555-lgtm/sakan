@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>اعرض خدمتك / شقتك</title>
+
+    <style>
+      /* RESET */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* CONTAINER */
+      .container {
+        width: 100%;
+        max-width: 500px;
+        background: #fff;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      /* TITLE */
+      .title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      /* CHOICES */
+      .choices {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .choice {
+        flex: 1;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        cursor: pointer;
+        background: #f3f3f3;
+        transition: 0.3s;
+      }
+
+      .choice.active {
+        background: #25d366;
+        color: #fff;
+      }
+
+      /* FORM */
+      .form {
+        display: none;
+      }
+
+      .form.active {
+        display: block;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+      }
+
+      /* BUTTON */
+      button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #25d366;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          align-items: flex-start;
+        }
+
+        .container {
+          max-width: 100%;
+          height: 100vh;
+          border-radius: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="title">اعرض خدمتك أو شقتك</div>
+
+      <div class="choices">
+        <div class="choice active" onclick="switchType('service', this)">
+          خدمة
+        </div>
+        <div class="choice" onclick="switchType('apartment', this)">شقة</div>
+      </div>
+
+      <div id="service" class="form active">
+        <input
+          type="text"
+          id="serviceName"
+          placeholder="نوع الخدمة (سباك - كهربائي)"
+        />
+        <input type="text" id="servicePhone" placeholder="رقمك" />
+        <button onclick="sendService()">إرسال</button>
+      </div>
+
+      <div id="apartment" class="form">
+        <input type="text" id="area" placeholder="المنطقة" />
+        <input type="text" id="building" placeholder="رقم العمارة" />
+        <input type="text" id="apt" placeholder="رقم الشقة" />
+
+        <button onclick="sendApartment()">إرسال</button>
+      </div>
+    </div>
+
+    <script>
+      function switchType(type, el) {
+        document
+          .querySelectorAll(".choice")
+          .forEach((c) => c.classList.remove("active"));
+        el.classList.add("active");
+
+        document
+          .querySelectorAll(".form")
+          .forEach((f) => f.classList.remove("active"));
+        document.getElementById(type).classList.add("active");
+      }
+
+      function sendService() {
+        let name = document.getElementById("serviceName").value;
+        let phone = document.getElementById("servicePhone").value;
+
+        let msg = `عايز أعرض خدمة:
+${name}
+رقمي: ${phone}`;
+
+        openWhatsApp(msg);
+      }
+
+      function sendApartment() {
+        let area = document.getElementById("area").value;
+        let building = document.getElementById("building").value;
+        let apt = document.getElementById("apt").value;
+
+        let msg = `عايز أعرض شقة:
+المنطقة: ${area}
+العمارة: ${building}
+الشقة: ${apt}
+
+`;
+
+        openWhatsApp(msg);
+      }
+
+      function openWhatsApp(message) {
+        let phone = "201152638852";
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank");
+      }
+    </script>
+  </body>
+</html>

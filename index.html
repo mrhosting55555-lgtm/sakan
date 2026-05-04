@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سكن جامعة اللوتس</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial;
+        background: #f3f3f3;
+        overflow-x: hidden;
+      }
+
+      .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background: #b69461;
+        direction: ltr;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        font-size: 16px;
+        margin-left: auto;
+        order: 2;
+      }
+      .theme-toggle {
+        background: #222;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 450px;
+        background: url("./خلفيه.png") no-repeat center/cover;
+        display: flex;
+        align-items: center;
+        padding: 30px;
+        color: #fff;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-content {
+        position: relative;
+        max-width: 500px;
+        margin-left: auto;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+        margin-bottom: 10px;
+      }
+
+      .hero p {
+        margin-bottom: 20px;
+      }
+
+      .btns {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: #caa46a;
+        color: #fff;
+      }
+
+      .btn-secondary {
+        background: #fff;
+        color: #333;
+      }
+      .cards {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+      }
+
+      .card {
+        min-width: 160px;
+        height: 130px;
+        border-radius: 15px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 10px;
+        color: #fff;
+        font-weight: bold;
+        scroll-snap-align: start;
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+      .info {
+        display: flex;
+        justify-content: space-around;
+        background: #fff;
+        margin: 15px;
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+      }
+      body.dark {
+        background: #121212;
+        color: #fff;
+      }
+
+      body.dark .navbar {
+        background: #222;
+      }
+
+      body.dark .nav-links a {
+        color: #fff;
+      }
+
+      body.dark .info {
+        background: #1e1e1e;
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          justify-content: center;
+        }
+
+        .nav-links {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .hero {
+          min-height: 350px;
+          text-align: center;
+          justify-content: center;
+        }
+
+        .hero h1 {
+          font-size: 26px;
+        }
+
+        .cards {
+          padding: 10px;
+        }
+
+        .card {
+          min-width: 140px;
+          height: 110px;
+          font-size: 14px;
+        }
+
+        .info {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="navbar">
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <div class="nav-links">
+        <a href="عن السكن.html">كل ما يخص السكن</a>
+        <a href="تواصل معنا.html">تواصل معنا</a>
+        <a href="اعرض شقتك.html">اعرض خدمتك / شقتك</a>
+        <a href="الخدمات .html">المرافق والخدمات</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-content">
+        <h1>سكن جامعة اللوتس</h1>
+        <p>اختار سكنك الصح من هنا</p>
+
+        <div class="btns">
+          <a
+            href="https://wa.me/201152638852"
+            target="_blank"
+            class="btn btn-primary"
+          >
+            احجز الآن
+          </a>
+          <a href="تواصل معنا.html" target="_blank" class="btn btn-primary">
+            للأستفسار
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <a
+        href="سكن مصر.html"
+        class="card"
+        style="background-image: url(&quot;./سكن مصر.jpeg&quot;)"
+        >سكن مصر</a
+      >
+
+      <a
+        href="ابني بيتك.html"
+        class="card"
+        style="background-image: url(&quot;./ابني بيتك.png&quot;)"
+        >ابني بيتك</a
+      >
+
+      <a
+        href="القرنفل.html"
+        class="card"
+        style="background-image: url(&quot;./القرنفل.png&quot;)"
+        >القرنفل</a
+      >
+
+      <a
+        href="البريطانيه.html"
+        class="card"
+        style="background-image: url(&quot;./البريطانيه.jpeg&quot;)"
+        >البريطانيه</a
+      >
+
+      <a
+        href="الحكوميه.html"
+        class="card"
+        style="background-image: url(&quot;./حكوميه.jpg&quot;)"
+        >الحكوميه</a
+      >
+
+      <a
+        href="ال7 عماير.html"
+        class="card"
+        style="background-image: url(&quot;./7 عماير.jpg&quot;)"
+        >السبع عمائر</a
+      >
+
+      <a
+        href="77.html"
+        class="card"
+        style="background-image: url(&quot;./77.jpg&quot;)"
+        >ال77 عماره</a
+      >
+    </div>
+
+    <div class="info">
+      <div>📍 المنيا الجديدة - كمين الصفا</div>
+      <div>📞 01152638862</div>
+    </div>
+    <script src="dark.js"></script>
+  </body>
+</html>
