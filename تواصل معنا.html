@@ -120,6 +120,58 @@
         transform: translate(-25px, -130px) scale(1);
         opacity: 1;
       }
+
+      .icon {
+        font-size: 38px;
+        color: □white;
+        cursor: pointer;
+        transition: 0.25s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .icon:hover {
+        transform: translateY(-15px) scale(1.7);
+      }
+
+      .bottom-dock {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        display: flex;
+        align-items: center;
+        gap: 22px;
+
+        padding: 14px 24px;
+        border-radius: 28px;
+
+        background: rgba(169, 169, 169, 0.827);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        z-index: 9999;
+      }
+
+      .bottom-dock a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .bottom-dock img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        transition: 0.3s ease;
+      }
+
+      .bottom-dock img:hover {
+        transform: translateY(-12px) scale(1.25);
+      }
     </style>
   </head>
 
@@ -144,16 +196,21 @@
         </form>
       </div>
     </div>
+    <!-- Contact Section -->
 
-    <div class="floating-menu">
-      <div class="main-btn" onclick="toggleMenu()">+</div>
+    <!-- Bottom Dock -->
+    <div class="bottom-dock">
+      <a href="https://wa.me/201152638852" target="_blank">
+        <img src="whatsapp.png" alt="GitHub" />
+      </a>
 
-      <a href="https://wa.me/201152638852" target="_blank" class="item whatsapp"
-        >W</a
-      >
-      <a href="https://t.me/Hooda55555" target="_blank" class="item telegram"
-        >T</a
-      >
+      <a href="https://t.me/Hooda55555" target="_blank">
+        <img src="Telegram.png" alt="Chrome" />
+      </a>
+
+      <a href="https://www.facebook.com/share/g/1KmaE6Zdiq/" target="_blank">
+        <img src="Facebook.png" alt="Chrome" />
+      </a>
     </div>
 
     <script>
