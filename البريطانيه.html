@@ -1,122 +1,182 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>شقق</title>
+    <title>شقق جامعة اللوتس</title>
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
   <body>
     <header>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-
       <div class="logo">
         <h1>جامعة اللوتس</h1>
       </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </header>
+
+    <!-- البحث -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 ابحث عن شقة أو منطقة..."
+        onkeyup="render()"
+      />
+    </div>
+
+    <!-- الفلتر -->
+    <div class="filter-buttons">
+      <button onclick="filterApartments('all')">🏠 الكل</button>
+      <button onclick="filterApartments('girls')">👩 بنات</button>
+      <button onclick="filterApartments('boys')">👨 شباب</button>
+    </div>
+
+    <!-- الشقق -->
     <div class="container" id="app"></div>
 
     <script>
+      let currentFilter = "all";
+
         const apartments = [
-          <!--{
+          {
             name: "شقة في عمارة 62",
             location: "ال77",
             price: "",
+             type: "girls",
             images: ["./الشقق/منطقة ال 77 عمارة/عماره 62/vid.mp4"],
-          },-->
+          },
         ];
 
-        function render() {
-          const app = document.getElementById("app");
+        function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
 
-          apartments.forEach((apt) => {
+      function render() {
+        const app = document.getElementById("app");
+        app.innerHTML = "";
+
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
+
+          .forEach((apt) => {
             const card = document.createElement("div");
             card.className = "card";
 
             card.innerHTML = `
-        <div class="slider">
-          ${apt.images
-            .map((file, i) => {
-              if (file.endsWith(".mp4")) {
-                return `
-                <video class="${i === 0 ? "active" : ""}" controls>
-                  <source src="${file}" type="video/mp4">
-                </video>
+
+              <div class="slider">
+
+                  ${apt.images
+                    .map((file, i) => {
+                      if (file.endsWith(".mp4")) {
+                        return `
+                              <video class="${i == 0 ? "active" : ""}" controls>
+                                  <source src="${file}" type="video/mp4">
+                              </video>
+                              `;
+                      }
+
+                      return `
+                          <img src="${file}" class="${i == 0 ? "active" : ""}">
+                          `;
+                    })
+                    .join("")}
+
+                  <div class="nav">
+                      <button onclick="prev(this)">❮</button>
+                      <button onclick="next(this)">❯</button>
+                  </div>
+
+              </div>
+
+              <div class="card-content">
+
+                  <div class="title">
+                      ${apt.name}
+                  </div>
+
+                  <div class="action-btn">
+
+                      <div class="price-btn">
+                          ${apt.price}
+                      </div>
+
+                      <div class="book-btn"
+                      onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">
+
+                         احجز
+
+                      </div>
+
+                  </div>
+
+              </div>
+
               `;
-              } else {
-                return `
-                <img src="${file}" class="${i === 0 ? "active" : ""}">
-              `;
-              }
-            })
-            .join("")}
-
-          <div class="nav">
-            <button onclick="prev(this)">❮</button>
-            <button onclick="next(this)">❯</button>
-          </div>
-        </div>
-
-        <div class="card-content">
-          <div class="title">${apt.name}</div>
-
-          <div class="action-btn">
-            <div class="price-btn">${apt.price}</div>
-
-            <div class="book-btn"
-              onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">
-              احجز
-            </div>
-          </div>
-        </div>
-      `;
 
             app.appendChild(card);
           });
-        }
+      }
 
-        render();
+      render();
 
-        function next(btn) {
-          let slider = btn.closest(".slider");
-          let items = slider.querySelectorAll("img, video");
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
 
-          let index = [...items].findIndex((el) =>
-            el.classList.contains("active"),
-          );
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
 
-          items[index].classList.remove("active");
-          items[(index + 1) % items.length].classList.add("active");
-        }
+        items[index].classList.remove("active");
 
-        function prev(btn) {
-          let slider = btn.closest(".slider");
-          let items = slider.querySelectorAll("img, video");
+        items[(index + 1) % items.length].classList.add("active");
+      }
 
-          let index = [...items].findIndex((el) =>
-            el.classList.contains("active"),
-          );
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
 
-          items[index].classList.remove("active");
-          items[(index - 1 + items.length) % items.length].classList.add(
-            "active",
-          );
-        }
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
 
-        function bookNow(name, location, price) {
-          let phone = "201152638852";
+        items[index].classList.remove("active");
 
-          let message = `عايز احجز :
-          ${name}
-          الموقع: ${location}
-          السعر: ${price}`;
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
 
-          let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      function bookNow(name, location, price) {
+        let phone = "201152638852";
 
-          window.open(url, "_blank");
-        }
+        let message = `عايز احجز :
+
+      ${name}
+
+      الموقع : ${location}
+
+      السعر : ${price}`;
+
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
+      }
     </script>
+
     <script src="dark.js"></script>
   </body>
 </html>
+

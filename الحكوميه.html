@@ -1,35 +1,57 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>شقق</title>
+    <title>شقق جامعة اللوتس</title>
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
   <body>
     <header>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-
       <div class="logo">
         <h1>جامعة اللوتس</h1>
       </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </header>
+
+    <!-- البحث -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 ابحث عن شقة أو منطقة..."
+        onkeyup="render()"
+      />
+    </div>
+
+    <!-- الفلتر -->
+    <div class="filter-buttons">
+      <button onclick="filterApartments('all')">🏠 الكل</button>
+      <button onclick="filterApartments('girls')">👩 بنات</button>
+      <button onclick="filterApartments('boys')">👨 شباب</button>
+    </div>
+
+    <!-- الشقق -->
     <div class="container" id="app"></div>
 
     <script>
+      let currentFilter = "all";
+
       const apartments = [
         {
           name: "شقة في عمارة 128",
           location: "الحكوميه",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة الحكومية/عماره 128/vid.mp4"],
         },
 
         {
-          name: "شقة في عمارة 128//",
+          name: "شقة في عمارة 128",
           location: "الحكوميه",
           price: "",
+          type: "boys",
           images: ["./الشقق/منطقة الحكومية/128/vid.mp4"],
         },
 
@@ -37,13 +59,15 @@
           name: "شقة في عمارة 137",
           location: "الحكوميه",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة الحكومية/عماره 137/vid.mp4"],
         },
 
         {
-          name: "شقة في الي عماره 148",
+          name: "شقة في عمارة 148",
           location: "الحكوميه",
           price: "",
+          type: "girls",
           images: [
             "./الشقق/منطقة الحكومية/148/1.jpg",
             "./الشقق/منطقة الحكومية/148/2.jpg",
@@ -55,85 +79,120 @@
         },
 
         {
-          name: "شقة في عمارة 154 دور ارضي",
+          name: "شقة في عمارة 154 دور أرضي",
           location: "الحكوميه",
           price: "",
+          type: "boys",
           images: ["./الشقق/منطقة الحكومية/عماره 154/vid.mp4"],
         },
       ];
 
+      function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
+
       function render() {
         const app = document.getElementById("app");
+        app.innerHTML = "";
 
-        apartments.forEach((apt) => {
-          const card = document.createElement("div");
-          card.className = "card";
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
 
-          card.innerHTML = `
-      <div class="slider">
-        ${apt.images
-          .map((file, i) => {
-            if (file.endsWith(".mp4")) {
-              return `
-              <video class="${i === 0 ? "active" : ""}" controls>
-                <source src="${file}" type="video/mp4">
-              </video>
-            `;
-            } else {
-              return `
-              <img src="${file}" class="${i === 0 ? "active" : ""}">
-            `;
-            }
-          })
-          .join("")}
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
 
-        <div class="nav">
-          <button onclick="prev(this)">❮</button>
-          <button onclick="next(this)">❯</button>
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+
+        <div class="slider">
+
+            ${apt.images
+              .map((file, i) => {
+                if (file.endsWith(".mp4")) {
+                  return `
+                        <video class="${i == 0 ? "active" : ""}" controls>
+                            <source src="${file}" type="video/mp4">
+                        </video>
+                        `;
+                }
+
+                return `
+                    <img src="${file}" class="${i == 0 ? "active" : ""}">
+                    `;
+              })
+              .join("")}
+
+            <div class="nav">
+                <button onclick="prev(this)">❮</button>
+                <button onclick="next(this)">❯</button>
+            </div>
+
         </div>
-      </div>
 
-      <div class="card-content">
-        <div class="title">${apt.name}</div>
+        <div class="card-content">
 
-        <div class="action-btn">
-          <div class="price-btn">${apt.price}</div>
+            <div class="title">
+                ${apt.name}
+            </div>
 
-          <div class="book-btn"
-            onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">
-            احجز
-          </div>
+            <div class="action-btn">
+
+                <div class="price-btn">
+                    ${apt.price}
+                </div>
+
+                <div class="book-btn"
+                onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">
+
+                    احجز
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
-    `;
 
-          app.appendChild(card);
-        });
+        `;
+
+            app.appendChild(card);
+          });
       }
 
       render();
 
       function next(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img, video");
+        let items = slider.querySelectorAll("img,video");
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
 
         items[index].classList.remove("active");
+
         items[(index + 1) % items.length].classList.add("active");
       }
 
       function prev(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img, video");
+        let items = slider.querySelectorAll("img,video");
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
 
         items[index].classList.remove("active");
+
         items[(index - 1 + items.length) % items.length].classList.add(
           "active",
         );
@@ -143,15 +202,19 @@
         let phone = "201152638852";
 
         let message = `عايز احجز :
-        ${name}
-        الموقع: ${location}
-        السعر: ${price}`;
+
+${name}
+
+الموقع : ${location}
+
+السعر : ${price}`;
 
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
         window.open(url, "_blank");
       }
     </script>
+
     <script src="dark.js"></script>
   </body>
 </html>

@@ -1,175 +1,222 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>شقق</title>
+    <title>شقق جامعة اللوتس</title>
     <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
   <body>
     <header>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-
       <div class="logo">
         <h1>جامعة اللوتس</h1>
       </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </header>
+
+    <!-- البحث -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍ابحث عن شقة ..."
+        onkeyup="render()"
+      />
+    </div>
+
+    <!-- الفلتر -->
+    <div class="filter-buttons">
+      <button onclick="filterApartments('all')">🏠 الكل</button>
+      <button onclick="filterApartments('girls')">👩 بنات</button>
+      <button onclick="filterApartments('boys')">👨 شباب</button>
+    </div>
+
+    <!-- الشقق -->
     <div class="container" id="app"></div>
 
     <script>
+      let currentFilter = "all";
       const apartments = [
         {
           name: "شقة في عماره 62 قصاد المسجد دور رابع عماره كلها أهالي وبنات متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 62/vid.mp4"],
         },
         {
           name: "شقة في عماره 74 دور تاني عمارة بنات متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 74/vid.mp4"],
         },
         {
           name: "شقة في عمارة 85 قصاد مصنع البيبسي دور تالت متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 85/vid1.mp4"],
         },
         {
           name: "شقة في عمارة 97 دور سادس متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 97/vid.mp4"],
         },
         {
           name: "شقة في عماره 106 المربع التاني عمارة كلها أهالي متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 106/vid.mp4"],
         },
         {
           name: "شقة في عمارة 110 دور تاني عمارة كلها أهالي وبنات",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 110/vid.mp4"],
         },
         {
           name: "شقة في عمارة 115 المربع التاني خلفي دور سادس عمارة أهالي وشباب وبنات متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 115/vid.mp4"],
         },
         {
           name: "شقة في عمارة 124 المربع الأول خلفي دور خامس عمارة شباب وبنات متاحة للحجز السنة الجاية",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 124/vid.mp4"],
         },
         {
           name: "شقة في عمارة 126 المربع الاول خلفي دور خامس عمارة بنات وشباب كل الفرش جديد متاحة للحجز السنة الجديدة",
           location: "ال77",
           price: "",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 126/vid.mp4"],
         },
 
-
-
-         {
+        {
           name: " شقة في عمارة 118 المربع التاني  دور تاني عمارة كلها أهالي باقي سرير بنات",
           location: "ال77",
           price: "1000$",
+          type: "girls",
           images: ["./الشقق/منطقة ال 77 عمارة/عماره 118/vid.mp4"],
         },
       ];
 
+      function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
+
       function render() {
         const app = document.getElementById("app");
+        app.innerHTML = "";
 
-        apartments.forEach((apt) => {
-          const card = document.createElement("div");
-          card.className = "card";
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
 
-          card.innerHTML = `
-      <div class="slider">
-        ${
-          apt.images && apt.images.length > 0
-            ? apt.images
-                .map((file, i) => {
-                  if (file.endsWith(".mp4")) {
-                    return `
-                      <video class="${i === 0 ? "active" : ""}" controls preload="none" playsinline>
-                        <source src="${file}" type="video/mp4">
-                      </video>
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
+
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+
+        <div class="slider">
+
+            ${apt.images
+              .map((file, i) => {
+                if (file.endsWith(".mp4")) {
+                  return `
+                        <video class="${i == 0 ? "active" : ""}" controls>
+                            <source src="${file}" type="video/mp4">
+                        </video>
+                        `;
+                }
+
+                return `
+                    <img src="${file}" class="${i == 0 ? "active" : ""}">
                     `;
-                  } else {
-                    return `
-                      <img src="${file}" loading="lazy" class="${i === 0 ? "active" : ""}">
-                    `;
-                  }
-                })
-                .join("")
-            : `<img src="default.jpg">`
-        }
+              })
+              .join("")}
 
-        <div class="nav">
-          <button onclick="event.stopPropagation(); prev(this)">❮</button>
-         <button onclick="event.stopPropagation(); next(this)">❯</button>
+            <div class="nav">
+                <button onclick="prev(this)">❮</button>
+                <button onclick="next(this)">❯</button>
+            </div>
+
         </div>
-      </div>
 
-      <div class="card-content">
-        <div class="title">${apt.name}</div>
+        <div class="card-content">
 
-        <div class="action-btn">
-          <div class="price-btn">${apt.price}</div>
+            <div class="title">
+                ${apt.name}
+            </div>
 
-          <div class="book-btn"
-            onclick="bookNow(\`${apt.name}\`,\`${apt.location}\`,\`${apt.price}\`)">
-            احجز
-          </div>
+            <div class="action-btn">
+
+                <div class="price-btn">
+                    ${apt.price}
+                </div>
+
+                <div class="book-btn"
+                onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">
+
+                    احجز
+
+                </div>
+
+            </div>
+
         </div>
-      </div>
-    `;
 
-          app.appendChild(card);
-        });
+        `;
+
+            app.appendChild(card);
+          });
       }
 
       render();
 
       function next(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img, video");
+        let items = slider.querySelectorAll("img,video");
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
 
-        // وقف الفيديو الحالي
-        if (items[index].tagName === "VIDEO") {
-          items[index].pause();
-        }
-
         items[index].classList.remove("active");
+
         items[(index + 1) % items.length].classList.add("active");
       }
 
       function prev(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img, video");
+        let items = slider.querySelectorAll("img,video");
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
 
-        // وقف الفيديو الحالي
-        if (items[index].tagName === "VIDEO") {
-          items[index].pause();
-        }
-
         items[index].classList.remove("active");
+
         items[(index - 1 + items.length) % items.length].classList.add(
           "active",
         );
@@ -179,20 +226,16 @@
         let phone = "201152638852";
 
         let message = `عايز احجز :
-       ${name}
-       الموقع: ${location}
-       السعر: ${price}`;
+
+${name}
+
+الموقع : ${location}
+
+السعر : ${price}`;
 
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
         window.open(url, "_blank");
-      }
-
-      function focusVideo(el) {
-        let video = el.closest(".slider").querySelector("video.active");
-        if (video) {
-          video.play().catch(() => {});
-        }
       }
     </script>
 
