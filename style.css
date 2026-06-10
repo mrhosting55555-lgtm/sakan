@@ -1,8 +1,4 @@
 
-/* ===========================
-   General
-=========================== */
-
 *{
     margin:0;
     padding:0;
@@ -38,6 +34,41 @@ header{
     color:#000;
 }
 
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* ===========================
+   Search Box (تعديل جديد مهم)
+=========================== */
+
+.search-box {
+    width: min(1300px, 95%);
+    margin: 20px auto 10px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-size: 16px; /* يمنع الموبايل من عمل الزووم التلقائي المزعج */
+    outline: none;
+    transition: .3s;
+    text-align: right;
+}
+
+.search-box input:focus {
+    border-color: #b69461;
+    box-shadow: 0 0 8px rgba(182, 148, 97, 0.3);
+}
+
 /* ===========================
    Filter Buttons
 =========================== */
@@ -45,20 +76,23 @@ header{
 .filter-buttons{
     display:flex;
     justify-content:center;
-    gap:15px;
+    gap:10px;
     flex-wrap:wrap;
-    margin:20px;
+    margin:15px auto 25px auto;
+    width: min(1300px, 95%);
 }
 
 .filter-buttons button{
-    padding:12px 30px;
+    padding: 10px 24px;
     border:none;
     border-radius:50px;
     background:#b69461;
     color:white;
     cursor:pointer;
-    font-size:17px;
+    font-size:16px;
     transition:.3s;
+    flex-grow: 1; /* يوزع الأزرار بالتساوي وم بيكسر الكلام */
+    max-width: 150px;
 }
 
 .filter-buttons button:hover{
@@ -76,6 +110,7 @@ header{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:25px;
+    padding-bottom: 40px;
 }
 
 .card{
@@ -84,6 +119,9 @@ header{
     overflow:hidden;
     box-shadow:0 5px 15px rgba(0,0,0,.12);
     transition:.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card:hover{
@@ -97,7 +135,7 @@ header{
 .slider img,
 .slider video{
     width:100%;
-    height:220px;
+    height:240px; /* زيادة الارتفاع قليلاً ليناسب العرض */
     object-fit:cover;
     display:none;
 }
@@ -119,17 +157,22 @@ header{
     justify-content:space-between;
     transform:translateY(-50%);
     pointer-events:none;
+    padding: 0 5px;
 }
 
 .nav button{
     pointer-events:auto;
     border:none;
-    background:rgba(0,0,0,.5);
+    background:rgba(0,0,0,.6);
     color:white;
-    padding:8px 12px;
+    width: 35px;
+    height: 35px;
+    font-size: 16px;
     cursor:pointer;
-    margin:0 8px;
-    border-radius:8px;
+    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ===========================
@@ -137,25 +180,34 @@ header{
 =========================== */
 
 .card-content{
-    padding:15px;
+    padding:20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
 }
 
 .title{
-    font-size:20px;
+    font-size:18px;
     font-weight:bold;
-    margin-bottom:15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .action-btn{
     display:flex;
+    border-radius: 12px;
+    overflow: hidden; /* عشان ياخد حواف دائرية متناسقة مع الكارت */
 }
 
 .price-btn{
     flex:1;
     background:black;
     color:white;
-    padding:12px;
+    padding:14px;
     text-align:center;
+    font-weight: bold;
 }
 
 .book-btn{
@@ -163,8 +215,9 @@ header{
     background:#25D366;
     color:white;
     text-align:center;
-    padding:12px;
+    padding:14px;
     cursor:pointer;
+    font-weight: bold;
     transition:.3s;
 }
 
@@ -185,6 +238,10 @@ body.dark .card{
     background:#1f1f1f;
 }
 
+body.dark .title {
+    color: #fff;
+}
+
 body.dark .price-btn{
     background:#333;
 }
@@ -194,40 +251,50 @@ body.dark .book-btn{
     color:black;
 }
 
+body.dark .search-box input {
+    background: #1f1f1f;
+    border-color: #333;
+    color: white;
+}
+
 /* ===========================
-   Mobile
+   Mobile (تحسينات الشاشات الصغيرة)
 =========================== */
 
 @media(max-width:768px){
 
     header{
         height:65px;
-        padding:0 10px;
+        padding:0 15px;
     }
 
     .logo h1{
-        font-size:22px;
+        font-size:20px;
     }
 
     body{
-        padding-top:80px;
+        padding-top:75px;
     }
 
     .container{
-        width:95%;
-        grid-template-columns:1fr;
-        gap:18px;
+        width:92%;
+        grid-template-columns:1fr; /* كارت واحد في السطر بملء الشاشة */
+        gap:20px;
     }
 
     .slider img,
     .slider video{
-        height:240px;
+        height:210px; /* تقليل الطول على الموبايل للحفاظ على النسبة والتناسب */
+    }
+
+    .filter-buttons {
+        gap: 8px;
     }
 
     .filter-buttons button{
-        width:31%;
-        padding:10px;
-        font-size:15px;
+        max-width: unset;
+        flex: 1 1 28%; /* يضمن توزيع الأزرار بشكل متجاوب بدون تداخل */
+        padding: 10px 5px;
+        font-size:14px;
     }
-
 }
