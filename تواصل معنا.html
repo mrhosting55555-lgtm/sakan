@@ -2,158 +2,114 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>تواصل معنا</title>
 
     <style>
       body {
         margin: 0;
-        font-family: Arial;
+        font-family: Arial, sans-serif;
         background: linear-gradient(to right, #f5f7fa, #e4e7eb);
+        min-height: 100vh;
+        padding-bottom: 90px; /* مساحة في الأسفل حتى لا يغطي الشريط على المحتوى */
+        box-sizing: border-box;
+      }
+
+      *, *::before, *::after {
+        box-sizing: inherit;
       }
 
       .header {
         background: #111;
         color: white;
         text-align: center;
-        padding: 40px 20px;
+        padding: 30px 15px;
+      }
+
+      .header h1 {
+        margin: 0 0 10px 0;
+        font-size: 28px;
+      }
+
+      .header p {
+        margin: 0;
+        font-size: 16px;
+        opacity: 0.8;
       }
 
       .container {
-        max-width: 900px;
-        margin: 30px auto;
-        padding: 20px;
+        width: 100%;
+        max-width: 600px; /* تم تقليله ليكون متناسقاً أكثر بين اللاب والموبايل */
+        margin: 20px auto;
+        padding: 0 15px;
       }
 
       .card {
         background: white;
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
       }
 
       form {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 15px;
       }
 
       input,
       textarea {
-        padding: 10px;
-        border-radius: 10px;
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
         border: 1px solid #ccc;
+        font-size: 16px; /* يمنع الزووم التلقائي المزعج في هواتف الآيفون */
+        outline: none;
+        transition: border-color 0.3s;
+      }
+
+      input:focus, textarea:focus {
+        border-color: #25d366;
       }
 
       textarea {
-        height: 100px;
+        height: 120px;
         resize: none;
       }
 
       .btn {
         background: #25d366;
         color: white;
-        padding: 10px;
-        border-radius: 10px;
+        padding: 12px;
+        border-radius: 8px;
         cursor: pointer;
         border: none;
         font-size: 16px;
-      }
-
-      .floating-menu {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-      }
-
-      .main-btn {
-        width: 60px;
-        height: 60px;
-        background: #111;
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 26px;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        transition: 0.3s;
-      }
-
-      .floating-menu.active .main-btn {
-        transform: rotate(60deg);
-      }
-
-      .item {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-decoration: none;
         font-weight: bold;
-
-        opacity: 0;
-        transform: scale(0);
-        transition: all 0.4s ease;
+        transition: background 0.3s;
       }
 
-      .whatsapp {
-        background: #25d366;
-      }
-      .facebook {
-        background: #1877f2;
-      }
-      .telegram {
-        background: #0088cc;
+      .btn:hover {
+        background: #20ba56;
       }
 
-      .floating-menu.active .whatsapp {
-        transform: translate(-75px, -50px) scale(1);
-        opacity: 3;
-      }
-
-      .floating-menu.active .telegram {
-        transform: translate(-25px, -130px) scale(1);
-        opacity: 1;
-      }
-
-      .icon {
-        font-size: 38px;
-        color: □white;
-        cursor: pointer;
-        transition: 0.25s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .icon:hover {
-        transform: translateY(-15px) scale(1.7);
-      }
-
+      /* شريط الأيقونات السفلي - متجاوب */
       .bottom-dock {
         position: fixed;
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-
         display: flex;
         align-items: center;
-        gap: 22px;
-
-        padding: 14px 24px;
-        border-radius: 28px;
-
-        background: rgba(169, 169, 169, 0.827);
+        gap: 25px;
+        padding: 12px 24px;
+        border-radius: 30px;
+        background: rgba(169, 169, 169, 0.85);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         z-index: 9999;
+        transition: all 0.3s ease;
       }
 
       .bottom-dock a {
@@ -163,14 +119,48 @@
       }
 
       .bottom-dock img {
-        width: 42px;
-        height: 42px;
+        width: 38px;
+        height: 38px;
         object-fit: contain;
-        transition: 0.3s ease;
+        transition: transform 0.3s ease;
       }
 
-      .bottom-dock img:hover {
-        transform: translateY(-12px) scale(1.25);
+      /* تأثيرات الـ Hover للابتوب فقط */
+      @media (min-width: 769px) {
+        .bottom-dock img:hover {
+          transform: translateY(-8px) scale(1.15);
+        }
+      }
+
+      /* شاشات الموبايل والأجهزة اللوحية الصغيرة */
+      @media (max-width: 768px) {
+        .header {
+          padding: 25px 10px;
+        }
+        .header h1 { font-size: 24px; }
+        .header p { font-size: 14px; }
+
+        .bottom-dock {
+          bottom: 0;
+          left: 0;
+          transform: none;
+          width: 100%;
+          border-radius: 0; /* تحويله لشريط مستقيم أسفل الشاشة تماماً */
+          justify-content: center;
+          gap: 40px;
+          padding: 15px;
+          background: rgba(255, 255, 255, 0.95); /* خلفية بيضاء مريحة للعين في الموبايل */
+          border-top: 1px solid #e4e7eb;
+        }
+
+        .bottom-dock img {
+          width: 34px;
+          height: 34px;
+        }
+        
+        body {
+          padding-bottom: 80px; /* لمنع تداخل المحتوى مع الشريط السفلي */
+        }
       }
     </style>
   </head>
@@ -196,20 +186,18 @@
         </form>
       </div>
     </div>
-    <!-- Contact Section -->
 
-    <!-- Bottom Dock -->
     <div class="bottom-dock">
       <a href="https://wa.me/201152638852" target="_blank">
-        <img src="whatsapp.png" alt="GitHub" />
+        <img src="whatsapp.png" alt="WhatsApp" />
       </a>
 
       <a href="https://t.me/Hooda55555" target="_blank">
-        <img src="Telegram.png" alt="Chrome" />
+        <img src="Telegram.png" alt="Telegram" />
       </a>
 
       <a href="https://www.facebook.com/share/g/1KmaE6Zdiq/" target="_blank">
-        <img src="Facebook.png" alt="Chrome" />
+        <img src="Facebook.png" alt="Facebook" />
       </a>
     </div>
 
@@ -218,25 +206,18 @@
         e.preventDefault();
 
         let phone = "201152638852";
-
-        let name = document.getElementById("name").value;
-        let message = document.getElementById("message").value;
+        let name = document.getElementById("name").value.trim();
+        let message = document.getElementById("message").value.trim();
 
         if (!name || !message) {
           alert("من فضلك املأ البيانات");
           return;
         }
 
-        let fullMessage = `الاسم: ${name}
-       الرسالة: ${message}`;
-
+        let fullMessage = `الاسم: ${name}\nالرسالة: ${message}`;
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(fullMessage)}`;
 
         window.open(url, "_blank");
-      }
-
-      function toggleMenu() {
-        document.querySelector(".floating-menu").classList.toggle("active");
       }
     </script>
   </body>
