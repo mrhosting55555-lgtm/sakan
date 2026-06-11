@@ -29,10 +29,6 @@
         color: #111;
       }
 
-      /* ===========================
-   Navbar (شريط التنقل الزجاجي)
-=========================== */
-
       .navbar {
         display: flex;
         align-items: center;
@@ -350,11 +346,49 @@
           margin: 15px 5% 30px 5%;
           padding: 20px;
         }
+
+
+        #preloader {
+          position: fixed;
+          inset: 0;
+          background: #050816; 
+          z-index: 10000; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+
+        .spinner {
+          width: 50px;
+          height: 50px;
+          border: 5px solid rgba(255, 255, 255, 0.1);
+          border-top-color: #00e5ff;
+          animation: spin 1s linear infinite;
+        }  
+
+        @keyframes spin {
+         to { transform: rotate(360deg); }
+        }
+
+
+#preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+
+
       }
     </style>
   </head>
 
   <body>
+
+    <div id="preloader">
+  <div class="spinner"></div>
+</div>
     <div class="navbar">
       <div class="nav-links">
         <a href="عن السكن.html">كل ما يخص السكن</a>
