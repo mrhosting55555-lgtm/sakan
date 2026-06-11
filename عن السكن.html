@@ -6,61 +6,150 @@
     <title>الأسئلة والشروط</title>
 
     <style>
-      body {
-        margin: 0;
-        font-family: Arial;
-        background: #f3f3f3;
-        padding: 20px;
-        line-height: 1.9;
-      }
+     body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif; /* نفس الخط المتناسق المعتمد */
+  background: #050816; /* نفس الخلفية الداكنة العميقة */
+  color: #ffffff;
+  padding: 40px 20px;
+  line-height: 1.9;
+  direction: rtl; /* ضبط الاتجاه ليكون متناسقاً عربيًا */
+  transition: background .4s, color .4s;
+}
 
-      header {
-        background: #b69461;
-        color: #fff;
-        padding: 15px;
-        text-align: center;
-        border-radius: 10px;
-        margin-bottom: 20px;
-      }
+/* دعم الوضع الفاتح المتناسق */
+body.light {
+  background: #f3f7ff;
+  color: #111;
+}
 
-      .item {
-        background: #fff;
-        margin-bottom: 10px;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      }
+/* ===========================
+   Header (الهيدر الزجاجي المطور)
+=========================== */
 
-      .question {
-        padding: 15px;
-        cursor: pointer;
-        font-weight: bold;
-        background: #f7f7f7;
-      }
+header {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  padding: 25px 15px;
+  text-align: center;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  transition: .3s;
+}
 
-      .answer {
-        display: none;
-        padding: 15px;
-        white-space: pre-line;
-      }
+header h1, header h2 {
+  margin: 0;
+  font-weight: 900;
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-      .item.active .answer {
-        display: block;
-      }
+body.light header {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.05);
+}
 
-      /* دارك مود */
-      body.dark {
-        background: #121212;
-        color: #fff;
-      }
+/* ===========================
+   Accordion Items (قائمة الأسئلة)
+=========================== */
 
-      body.dark .item {
-        background: #1e1e1e;
-      }
+.item {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 15px;
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-      body.dark .question {
-        background: #2a2a2a;
-      }
+body.light .item {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+/* عند فتح السؤال أو تمرير الماوس عليه */
+.item:hover, .item.active {
+  border-color: #00e5ff;
+  box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1);
+}
+
+body.light .item:hover, body.light .item.active {
+  border-color: #7c4dff;
+  box-shadow: 0 10px 25px rgba(124, 77, 255, 0.08);
+}
+
+/* ===========================
+   Question & Answer
+=========================== */
+
+.question {
+  padding: 18px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 17px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light .question {
+  background: rgba(0, 0, 0, 0.01);
+  color: #111;
+}
+
+/* تأثير إضاءة خفيفة على نص السؤال الفعال */
+.item.active .question {
+  background: rgba(0, 229, 255, 0.05);
+  color: #00e5ff;
+}
+
+body.light .item.active .question {
+  background: rgba(124, 77, 255, 0.05);
+  color: #7c4dff;
+}
+
+.answer {
+  display: none;
+  padding: 20px;
+  white-space: pre-line;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(5, 8, 22, 0.2);
+}
+
+body.light .answer {
+  color: #444;
+  border-top-color: rgba(0, 0, 0, 0.03);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.item.active .answer {
+  display: block;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* أنيميشن ناعم لفتح الإجابة */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* إلغاء أكواد الدارك مود القديمة واستبدالها بالبنية الجديدة المرنة */
+body.dark {
+  /* تم دمج الخصائص مباشرة في البنية الأساسية بالأعلى لتجنب التكرار ولجعل الانتقال ناعم جداً */
+}
     </style>
   </head>
 

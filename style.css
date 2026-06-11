@@ -1,53 +1,83 @@
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: 'Cairo', sans-serif;
 }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f5f5f5;
-    padding-top:90px;
-    transition:.3s;
+body {
+    background: #050816; /* نفس الخلفية الداكنة العميقة */
+    color: white;
+    overflow-x: hidden;
+    padding-top: 90px;
+    transition: background .4s, color .4s;
+}
+
+/* الوضع الفاتح المتناسق مع الكود الجديد */
+body.light {
+    background: #f3f7ff;
+    color: #111;
 }
 
 /* ===========================
-   Header
+   Header (تأثير الزجاج الشفاف المطور)
 =========================== */
 
-header{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:70px;
-    background:#b69461;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 20px;
-    z-index:1000;
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8%;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: .3s;
 }
 
-.logo h1{
-    color:#000;
+body.light header {
+    background: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logo h1 {
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .theme-toggle {
-    background: none;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
     border: none;
-    font-size: 22px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
+    transition: .4s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
 }
 
 /* ===========================
-   Search Box (تعديل جديد مهم)
+   Search Box
 =========================== */
 
 .search-box {
-    width: min(1300px, 95%);
-    margin: 20px auto 10px auto;
+    width: min(1300px, 92%);
+    margin: 30px auto 10px auto;
     display: flex;
     justify-content: center;
 }
@@ -55,246 +85,294 @@ header{
 .search-box input {
     width: 100%;
     max-width: 500px;
-    padding: 12px 20px;
-    border: 2px solid #e0e0e0;
+    padding: 14px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 50px;
-    font-size: 16px; /* يمنع الموبايل من عمل الزووم التلقائي المزعج */
+    font-size: 16px;
+    color: white;
     outline: none;
     transition: .3s;
     text-align: right;
+    backdrop-filter: blur(10px);
 }
 
 .search-box input:focus {
-    border-color: #b69461;
-    box-shadow: 0 0 8px rgba(182, 148, 97, 0.3);
+    border-color: #00e5ff;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* تعديل السيرش بوكس للوضع الفاتح */
+body.light .search-box input {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #111;
+}
+body.light .search-box input:focus {
+    border-color: #7c4dff;
+    box-shadow: 0 0 25px rgba(124, 77, 255, 0.15);
 }
 
 /* ===========================
    Filter Buttons
 =========================== */
 
-.filter-buttons{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
-    margin:15px auto 25px auto;
-    width: min(1300px, 95%);
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px auto 35px auto;
+    width: min(1300px, 92%);
 }
 
-.filter-buttons button{
-    padding: 10px 24px;
-    border:none;
-    border-radius:50px;
-    background:#b69461;
-    color:white;
-    cursor:pointer;
-    font-size:16px;
-    transition:.3s;
-    flex-grow: 1; /* يوزع الأزرار بالتساوي وم بيكسر الكلام */
+.filter-buttons button {
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: .4s;
+    flex-grow: 1;
     max-width: 150px;
+    backdrop-filter: blur(10px);
 }
 
-.filter-buttons button:hover{
-    background:#8d6a3c;
-    transform:translateY(-3px);
+.filter-buttons button:hover, 
+.filter-buttons button.active {
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
+}
+
+/* تعديل أزرار الفلتر للوضع الفاتح */
+body.light .filter-buttons button {
+    background: rgba(0, 0, 0, 0.05);
+    color: #444;
+    border: none;
+}
+body.light .filter-buttons button:hover {
+    color: white;
 }
 
 /* ===========================
-   Cards
+   Cards (التصميم الزجاجي المتناسق)
 =========================== */
 
-.container{
-    width:min(1300px,95%);
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-    gap:25px;
-    padding-bottom: 40px;
+.container {
+    width: min(1300px, 92%);
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+    padding-bottom: 60px;
 }
 
-.card{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
-    transition:.3s;
+.card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 35px;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: .5s;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.card:hover{
-    transform:translateY(-6px);
+.card:hover {
+    transform: translateY(-12px);
+    border-color: #00e5ff;
+    box-shadow: 0 20px 50px rgba(0, 229, 255, 0.15);
 }
 
-.slider{
-    position:relative;
+/* الكروت في الوضع الفاتح */
+body.light .card {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+body.light .card:hover {
+    border-color: #7c4dff;
+    box-shadow: 0 20px 40px rgba(124, 77, 255, 0.12);
+}
+
+.slider {
+    position: relative;
+    overflow: hidden;
 }
 
 .slider img,
-.slider video{
-    width:100%;
-    height:240px; /* زيادة الارتفاع قليلاً ليناسب العرض */
-    object-fit:cover;
-    display:none;
+.slider video {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: .6s;
+    display: none;
 }
 
 .slider img.active,
-.slider video.active{
-    display:block;
+.slider video.active {
+    display: block;
+}
+
+.card:hover .slider img,
+.card:hover .slider video {
+    transform: scale(1.06);
 }
 
 /* ===========================
    Slider Buttons
 =========================== */
 
-.nav{
-    position:absolute;
-    top:50%;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    transform:translateY(-50%);
-    pointer-events:none;
-    padding: 0 5px;
+.nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none;
+    padding: 0 10px;
+    z-index: 10;
 }
 
-.nav button{
-    pointer-events:auto;
-    border:none;
-    background:rgba(0,0,0,.6);
-    color:white;
-    width: 35px;
-    height: 35px;
+.nav button {
+    pointer-events: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(5, 8, 22, 0.6);
+    color: white;
+    width: 38px;
+    height: 38px;
     font-size: 16px;
-    cursor:pointer;
-    border-radius:50%;
+    cursor: pointer;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(5px);
+    transition: .3s;
+}
+
+.nav button:hover {
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    border-color: transparent;
+    transform: scale(1.1);
 }
 
 /* ===========================
-   Card Content
+   Card Content & Buttons
 =========================== */
 
-.card-content{
-    padding:20px;
+.card-content {
+    padding: 28px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     justify-content: space-between;
 }
 
-.title{
-    font-size:18px;
-    font-weight:bold;
+.title {
+    font-size: 20px;
+    font-weight: bold;
     line-height: 1.6;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 25px;
+    color: #ffffff;
 }
 
-.action-btn{
-    display:flex;
-    border-radius: 12px;
-    overflow: hidden; /* عشان ياخد حواف دائرية متناسقة مع الكارت */
+body.light .title {
+    color: #111;
 }
 
-.price-btn{
-    flex:1;
-    background:black;
-    color:white;
-    padding:14px;
-    text-align:center;
-    font-weight: bold;
+.action-btn {
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.book-btn{
-    flex:1;
-    background:#25D366;
-    color:white;
-    text-align:center;
-    padding:14px;
-    cursor:pointer;
-    font-weight: bold;
-    transition:.3s;
+body.light .action-btn {
+    border: none;
 }
 
-.book-btn:hover{
-    opacity:.85;
+.price-btn {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    color: #00e5ff; /* السيان المضيء للسعر */
+    padding: 16px;
+    text-align: center;
+    font-weight: 900;
+    font-size: 18px;
+    backdrop-filter: blur(10px);
 }
 
-/* ===========================
-   Dark Mode
-=========================== */
-
-body.dark{
-    background:#121212;
-    color:white;
+body.light .price-btn {
+    background: #111;
+    color: #00e5ff;
 }
 
-body.dark .card{
-    background:#1f1f1f;
-}
-
-body.dark .title {
-    color: #fff;
-}
-
-body.dark .price-btn{
-    background:#333;
-}
-
-body.dark .book-btn{
-    background:#b69461;
-    color:black;
-}
-
-body.dark .search-box input {
-    background: #1f1f1f;
-    border-color: #333;
+.book-btn {
+    flex: 1;
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
     color: white;
+    text-align: center;
+    padding: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: .4s;
+}
+
+.book-btn:hover {
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.2);
 }
 
 /* ===========================
-   Mobile (تحسينات الشاشات الصغيرة)
+   Mobile Optimization
 =========================== */
 
-@media(max-width:768px){
-
-    header{
-        height:65px;
-        padding:0 15px;
+@media(max-width:768px) {
+    header {
+        height: 65px;
+        padding: 0 5%;
     }
 
-    .logo h1{
-        font-size:20px;
+    .logo h1 {
+        font-size: 22px;
     }
 
-    body{
-        padding-top:75px;
+    body {
+        padding-top: 80px;
     }
 
-    .container{
-        width:92%;
-        grid-template-columns:1fr; /* كارت واحد في السطر بملء الشاشة */
-        gap:20px;
+    .container {
+        width: 90%;
+        grid-template-columns: 1fr;
+        gap: 25px;
     }
 
     .slider img,
-    .slider video{
-        height:210px; /* تقليل الطول على الموبايل للحفاظ على النسبة والتناسب */
+    .slider video {
+        height: 220px;
     }
 
     .filter-buttons {
         gap: 8px;
     }
 
-    .filter-buttons button{
+    .filter-buttons button {
         max-width: unset;
-        flex: 1 1 28%; /* يضمن توزيع الأزرار بشكل متجاوب بدون تداخل */
+        flex: 1 1 28%;
         padding: 10px 5px;
-        font-size:14px;
+        font-size: 13px;
     }
 }
