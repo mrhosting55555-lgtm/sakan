@@ -11,28 +11,24 @@
         padding: 0;
         box-sizing: border-box;
         scroll-behavior: smooth;
-        font-family: "Cairo", sans-serif; /* استخدام نفس الخط المتناسق */
+        font-family: "Cairo", sans-serif;
       }
 
       body {
-        background: #050816; /* نفس الخلفية الداكنة العميقة الفخمة */
+        background: #050816;
         color: white;
         overflow-x: hidden;
-        transition:
-          background 0.4s,
-          color 0.4s;
+        transition: background 0.4s, color 0.4s;
       }
 
-      /* الوضع الفاتح المتناسق */
       body.light {
         background: #f3f7ff;
         color: #111;
       }
 
-      /* ===========================
-   Navbar (شريط التنقل الزجاجي)
-=========================== */
-
+      /* =================================
+         Navbar (شريط التنقل الزجاجي)
+      ================================= */
       .navbar {
         display: flex;
         align-items: center;
@@ -42,7 +38,9 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        direction: rtl; /* ضبط الاتجاه ليكون متناسقاً عربيًا */
+        direction: rtl;
+        position: relative; /* مهم جداً لضبط تموضع القائمة المنسدلة */
+        z-index: 1000;
         transition: 0.3s;
       }
 
@@ -55,6 +53,7 @@
         display: flex;
         gap: 25px;
         font-size: 16px;
+        list-style: none;
       }
 
       .nav-links a {
@@ -66,7 +65,7 @@
       }
 
       .nav-links a:hover {
-        color: #00e5ff; /* تأثير السيان المضيء عند التمرير */
+        color: #00e5ff;
       }
 
       body.light .nav-links a {
@@ -74,6 +73,38 @@
       }
       body.light .nav-links a:hover {
         color: #7c4dff;
+      }
+
+      /* === تنسيق زر الثلاث شرط المفقود === */
+      .menu-toggle {
+        display: none; /* مخفي في الكمبيوتر ويظهر فقط في الموبايل */
+        cursor: pointer;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .menu-toggle .bar {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        border-radius: 2px;
+        transition: 0.3s ease;
+      }
+
+      /* تلوين الشرط باللون الأسود في الوضع الفاتح */
+      body.light .menu-toggle .bar {
+        background-color: #111;
+      }
+
+      /* أنيميشن تحويل الثلاث شرط إلى (X) عند الفتح */
+      .menu-toggle.open .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+      }
+      .menu-toggle.open .bar:nth-child(2) {
+        opacity: 0;
+      }
+      .menu-toggle.open .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
       }
 
       .theme-toggle {
@@ -94,9 +125,8 @@
       }
 
       /* ===========================
-   Hero Section
-=========================== */
-
+         Hero Section
+      =========================== */
       .hero {
         position: relative;
         min-height: 500px;
@@ -108,7 +138,6 @@
         overflow: hidden;
       }
 
-      /* طبقة حماية داكنة ناعمة فوق الصورة لراحة العين */
       .hero::before {
         content: "";
         position: absolute;
@@ -147,18 +176,12 @@
       }
 
       body.light .hero p {
-        color: rgba(
-          255,
-          255,
-          255,
-          0.9
-        ); /* الحفاظ على وضوح النص فوق طبقة الهيرو */
+        color: rgba(255, 255, 255, 0.9);
       }
 
       /* ===========================
-   Buttons
-=========================== */
-
+         Buttons
+      =========================== */
       .btns {
         display: flex;
         gap: 15px;
@@ -199,16 +222,15 @@
       }
 
       /* ===========================
-   Cards (سلايدر الكروت الزجاجي اللامع)
-=========================== */
-
+         Cards
+      =========================== */
       .cards {
         display: flex;
         gap: 20px;
         padding: 30px 8%;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        scrollbar-width: none; /* إخفاء شريط التمرير الافتراضي المزعج */
+        scrollbar-width: none;
       }
 
       .cards::-webkit-scrollbar {
@@ -235,7 +257,6 @@
         overflow: hidden;
       }
 
-      /* تأثير التظليل الداخلي للكارت ليظهر الكلام بوضوح */
       .card::before {
         content: "";
         position: absolute;
@@ -268,9 +289,8 @@
       }
 
       /* ===========================
-   Info Section (صندوق البيانات السفلي)
-=========================== */
-
+         Info Section
+      =========================== */
       .info {
         display: flex;
         justify-content: space-around;
@@ -290,26 +310,53 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
       }
 
-      /* إلغاء أكواد الدارك مود القديمة واستبدالها بالبنية الجديدة المرنة */
-      body.dark {
-        /* تم دمج الخصائص مباشرة في البنية الفوقية لتجنب تكرار الكود ولجعل الأنيميشن والتحويل ناعم وسلس */
-      }
-
-      /* ===========================
-   Mobile Responsiveness
-=========================== */
-
+      /* =================================
+         الشاشات الصغيرة والموبايل (Responsive)
+      ================================= */
       @media (max-width: 768px) {
         .navbar {
           padding: 15px 5%;
         }
 
+        /* تحويل القائمة إلى قائمة منسدلة عمودية مخفية افتراضياً */
         .nav-links {
-          gap: 15px;
+          display: none; 
+          flex-direction: column;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: rgba(5, 8, 22, 0.95);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          padding: 25px 0;
+          text-align: center;
+          gap: 20px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        /* تعديل خلفية القائمة المنسدلة في الوضع الفاتح */
+        body.light .nav-links {
+          background: rgba(255, 255, 255, 0.95);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        /* الكلاس الفعال الذي سيتم إضافته بالجافا سكريبت لإظهار القائمة */
+        .nav-links.active {
+          display: flex;
         }
 
         .nav-links a {
-          font-size: 13px;
+          font-size: 16px;
+          display: block;
+          padding: 10px 0;
+        }
+
+        /* إظهار زر الثلاث شرط الآن */
+        .menu-toggle {
+          display: flex;
         }
 
         .hero {
@@ -351,33 +398,31 @@
           padding: 20px;
         }
 
-        /* شاشة التحميل كاملة الشاشة */
+        /* شاشة التحميل */
         #preloader {
           position: fixed;
           inset: 0;
-          background: #050816; /* نفس لون خلفية موقعك الداكن */
-          z-index: 10000; /* أعلى من أي عنصر آخر */
+          background: #050816;
+          z-index: 10000;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: opacity 0.5s ease, visibility 0.5s;
         }
 
-        /* أنيميشن التحميل الدائري */
         .spinner {
           width: 50px;
           height: 50px;
           border: 5px solid rgba(255, 255, 255, 0.1);
-          border-top-color: #00e5ff; /* لون السيان المضيء بتاعك */
+          border-top-color: #00e5ff;
           border-radius: 50%;
           animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
-         to { transform: rotate(360deg); }
+          to { transform: rotate(360deg); }
         }
 
-        /* كلاس سيتم إضافته بالـ JS لإخفاء الشاشة بسلاسة */
         #preloader.fade-out {
           opacity: 0;
           visibility: hidden;
@@ -390,15 +435,25 @@
     <div id="preloader">
       <div class="spinner"></div>
     </div>
-    <div class="navbar">
-      <div class="nav-links">
-        <a href="عن السكن.html">دليلك للسكن</a>
-        <a href="الخدمات .html">المرافق والخدمات</a>
-        <a href="اعرض شقتك.html">اعرض خدمتك / شقتك</a>
-        <a href="تواصل معنا.html">تواصل معنا</a>
+
+    <nav class="navbar">
+      <div class="menu-toggle" id="mobile-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-    </div>
+
+      <ul class="nav-links">
+        <li><a href="عن السكن.html">دليلك للسكن</a></li>
+        <li><a href="الخدمات .html">المرافق والخدمات</a></li>
+        <li><a href="اعرض شقتك.html">اعرض خدمتك / شقتك</a></li>
+        <li><a href="تواصل معنا.html">تواصل معنا</a></li>
+      </ul>
+
+      <div class="logo-zone">
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
+    </nav>
 
     <div class="hero">
       <div class="hero-content">
@@ -406,69 +461,54 @@
         <p>اختار سكنك الصح من هنا</p>
 
         <div class="btns">
-          <a
-            href="https://wa.me/201152638852"
-            target="_blank"
-            class="btn btn-primary"
-          >
-            احجز الآن
-          </a>
-          <a href="تواصل معنا.html" target="_blank" class="btn btn-primary">
-            للاستفسار
-          </a>
+          <a href="https://wa.me/201152638852" target="_blank" class="btn btn-primary">احجز الآن</a>
+          <a href="تواصل معنا.html" target="_blank" class="btn btn-primary">للاستفسار</a>
         </div>
       </div>
     </div>
 
     <div class="cards">
-      <a
-        href="77.html"
-        class="card"
-        style="background-image: url(&quot;./77.jpg&quot;)"
-        >ال77 عماره</a
-      >
-       <a
-        href="ال7 عماير.html"
-        class="card"
-        style="background-image: url(&quot;./7 عماير.jpg&quot;)"
-        >السبع عمائر</a
-      >
-      <a
-        href="الحكوميه.html"
-        class="card"
-        style="background-image: url(&quot;./حكوميه.jpg&quot;)"
-        >الحكوميه</a
-      >
-       <a
-        href="القرنفل.html"
-        class="card"
-        style="background-image: url(&quot;./القرنفل.png&quot;)"
-        >القرنفل</a
-      >
-      <a
-        href="ابني بيتك.html"
-        class="card"
-        style="background-image: url(&quot;./ابني بيتك.png&quot;)"
-        >ابني بيتك</a
-      >
-      <a
-        href="سكن مصر.html"
-        class="card"
-        style="background-image: url(&quot;./سكن مصر.jpeg&quot;)"
-        >سكن مصر</a
-      >
-      <a
-        href="البريطانيه.html"
-        class="card"
-        style="background-image: url(&quot;./البريطانيه.jpeg&quot;)"
-        >البريطانيه</a
-      >
+      <a href="77.html" class="card" style="background-image: url('./77.jpg')"><span>ال77 عماره</span></a>
+      <a href="ال7 عماير.html" class="card" style="background-image: url('./7 عماير.jpg')"><span>السبع عمائر</span></a>
+      <a href="الحكوميه.html" class="card" style="background-image: url('./حكوميه.jpg')"><span>الحكوميه</span></a>
+      <a href="القرنفل.html" class="card" style="background-image: url('./القرنفل.png')"><span>القرنفل</span></a>
+      <a href="ابني بيتك.html" class="card" style="background-image: url('./ابني بيتك.png')"><span>ابني بيتك</span></a>
+      <a href="سكن مصر.html" class="card" style="background-image: url('./سكن مصر.jpeg')"><span>سكن مصر</span></a>
+      <a href="البريطانيه.html" class="card" style="background-image: url('./البريطانيه.jpeg')"><span>البريطانيه</span></a>
     </div>
 
     <div class="info">
       <div>📍 المنيا الجديدة - كمين الصفا</div>
       <div>📞 01152638862</div>
     </div>
+
     <script src="dark.js"></script>
+
+    <script>
+      // كود تشغيل شاشة التحميل (Preloader)
+      window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        if(preloader) {
+          preloader.classList.add('fade-out');
+        }
+      });
+
+      // كود فتح وإغلاق القائمة للموبايل وتأثير الأنيميشن للزر
+      const mobileMenu = document.getElementById('mobile-menu');
+      const navLinks = document.querySelector('.nav-links');
+
+      mobileMenu.addEventListener('click', () => {
+        navLinks.classList.toggle('active');     // فتح/إغلاق القائمة 
+        mobileMenu.classList.toggle('open');     // تحويل الثلاث شرط إلى X وعكسها
+      });
+
+      // إغلاق القائمة تلقائياً إذا قام المستخدم بالضغط على أي رابط بداخلها
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          mobileMenu.classList.remove('open');
+        });
+      });
+    </script>
   </body>
 </html>
