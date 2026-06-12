@@ -29,6 +29,10 @@
         color: #111;
       }
 
+      /* ===========================
+   Navbar (شريط التنقل الزجاجي)
+=========================== */
+
       .navbar {
         display: flex;
         align-items: center;
@@ -346,55 +350,17 @@
           margin: 15px 5% 30px 5%;
           padding: 20px;
         }
-
-
-        #preloader {
-          position: fixed;
-          inset: 0;
-          background: #050816; 
-          z-index: 10000; 
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: opacity 0.5s ease, visibility 0.5s;
-        }
-
-
-        .spinner {
-          width: 50px;
-          height: 50px;
-          border: 5px solid rgba(255, 255, 255, 0.1);
-          border-top-color: #00e5ff;
-          animation: spin 1s linear infinite;
-        }  
-
-        @keyframes spin {
-         to { transform: rotate(360deg); }
-        }
-
-
-#preloader.fade-out {
-  opacity: 0;
-  visibility: hidden;
-}
-
-
-
       }
     </style>
   </head>
 
   <body>
-
-    <div id="preloader">
-  <div class="spinner"></div>
-</div>
     <div class="navbar">
       <div class="nav-links">
-        <a href="عن السكن.html">كل ما يخص السكن</a>
-        <a href="تواصل معنا.html">تواصل معنا</a>
-        <a href="اعرض شقتك.html">اعرض خدمتك / شقتك</a>
+        <a href="عن السكن.html">دليلك للسكن</a>
         <a href="الخدمات .html">المرافق والخدمات</a>
+        <a href="اعرض شقتك.html">اعرض خدمتك / شقتك</a>
+        <a href="تواصل معنا.html">تواصل معنا</a>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </div>
@@ -413,7 +379,7 @@
             احجز الآن
           </a>
           <a href="تواصل معنا.html" target="_blank" class="btn btn-primary">
-            للأستفسار
+            للاستفسار
           </a>
         </div>
       </div>
@@ -421,52 +387,46 @@
 
     <div class="cards">
       <a
-        href="سكن مصر.html"
+        href="77.html"
         class="card"
-        style="background-image: url(&quot;./سكن مصر.jpeg&quot;)"
-        >سكن مصر</a
+        style="background-image: url(&quot;./77.jpg&quot;)"
+        >ال77 عماره</a
       >
-
-      <a
-        href="ابني بيتك.html"
+       <a
+        href="ال7 عماير.html"
         class="card"
-        style="background-image: url(&quot;./ابني بيتك.png&quot;)"
-        >ابني بيتك</a
+        style="background-image: url(&quot;./7 عماير.jpg&quot;)"
+        >السبع عمائر</a
       >
-
-      <a
-        href="القرنفل.html"
-        class="card"
-        style="background-image: url(&quot;./القرنفل.png&quot;)"
-        >القرنفل</a
-      >
-
-      <a
-        href="البريطانيه.html"
-        class="card"
-        style="background-image: url(&quot;./البريطانيه.jpeg&quot;)"
-        >البريطانيه</a
-      >
-
       <a
         href="الحكوميه.html"
         class="card"
         style="background-image: url(&quot;./حكوميه.jpg&quot;)"
         >الحكوميه</a
       >
-
-      <a
-        href="ال7 عماير.html"
+       <a
+        href="القرنفل.html"
         class="card"
-        style="background-image: url(&quot;./7 عماير.jpg&quot;)"
-        >السبع عمائر</a
+        style="background-image: url(&quot;./القرنفل.png&quot;)"
+        >القرنفل</a
       >
-
       <a
-        href="77.html"
+        href="ابني بيتك.html"
         class="card"
-        style="background-image: url(&quot;./77.jpg&quot;)"
-        >ال77 عماره</a
+        style="background-image: url(&quot;./ابني بيتك.png&quot;)"
+        >ابني بيتك</a
+      >
+      <a
+        href="سكن مصر.html"
+        class="card"
+        style="background-image: url(&quot;./سكن مصر.jpeg&quot;)"
+        >سكن مصر</a
+      >
+      <a
+        href="البريطانيه.html"
+        class="card"
+        style="background-image: url(&quot;./البريطانيه.jpeg&quot;)"
+        >البريطانيه</a
       >
     </div>
 

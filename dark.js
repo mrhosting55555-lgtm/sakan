@@ -17,3 +17,10 @@ window.addEventListener('load', () => {
         preloader.classList.add('fade-out'); // إخفاء الشاشة بسلاسة
     }
 });
+
+const menuBtn = document.getElementById('menuBtn');
+const navLinks = document.getElementById('navLinks');
+
+menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('open'); // يضيف أو يحذف كلاس open لتظهر القائمة
+});
