@@ -1,40 +1,60 @@
-const themeToggleBtn = document.querySelector(".theme-toggle");
-const body = document.body;
-themeToggleBtn.addEventListener("click", () => {
-  if (body.classList.contains("light")) {
-    body.classList.remove("light");
-    themeToggleBtn.textContent = "☀️ ";
-  } else {
-    body.classList.add("light");
-    themeToggleBtn.textContent = "🌙 ";
-  }
-});
-
-// كود مطور لتشغيل وإخفاء شاشة التحميل بسرعة
-document.addEventListener("DOMContentLoaded", function () {
+// 1. كود تشغيل وإخفاء شاشة التحميل (Preloader) بسرعة
+window.addEventListener("load", function () {
   const preloader = document.getElementById("preloader");
-
   if (preloader) {
-    // إخفاء الشاشة فوراً بمجرد تحميل الهيكل الأساسي لضمان سرعة الفتح
-    setTimeout(() => {
-      preloader.classList.add("fade-out");
-    }, 1200); // 1200 مللي ثانية تعني (ثانية وربع تقريباً) كحد أقصى للأنيميشن
+    preloader.classList.add("fade-out");
   }
 });
 
-// كود فتح وإغلاق القائمة للموبايل وتأثير الأنيميشن للزر
-const mobileMenu = document.getElementById("mobile-menu");
-const navLinks = document.querySelector(".nav-links");
+// 2. كود فحص وتطبيق الثيم المحفوظ فوراً عند فتح الصفحة (يمنع العودة للدارك مود عند الريفريش)
+(function () {
+  const savedTheme = localStorage.getItem("theme");
+  const body = document.body;
+  const themeBtn = document.getElementById("theme-btn");
 
-mobileMenu.addEventListener("click", () => {
-  navLinks.classList.toggle("active"); // فتح/إغلاق القائمة
-  mobileMenu.classList.toggle("open"); // تحويل الثلاث شرط إلى X وعكسها
-});
+  if (savedTheme === "light") {
+    body.classList.add("light");
+    if (themeBtn) themeBtn.textContent = "☀️";
+  } else {
+    body.classList.remove("light");
+    if (themeBtn) themeBtn.textContent = "🌙";
+  }
+})();
 
-// إغلاق القائمة تلقائياً إذا قام المستخدم بالضغط على أي رابط بداخلها
-document.querySelectorAll(".nav-links a").forEach((link) => {
-  link.addEventListener("click", () => {
-    navLinks.classList.remove("active");
-    mobileMenu.classList.remove("open");
-  });
+// 3. دالة تبديل الثيم عند الضغط على الزرار
+function toggleTheme() {
+  const body = document.body;
+  const themeBtn = document.getElementById("theme-btn");
+
+  body.classList.toggle("light");
+
+  if (body.classList.contains("light")) {
+    if (themeBtn) themeBtn.textContent = "☀️";
+    localStorage.setItem("theme", "light"); // حفظ اختيار الفاتح في المتصفح
+  } else {
+    if (themeBtn) themeBtn.textContent = "🌙";
+    localStorage.setItem("theme", "dark"); // حفظ اختيار الداكن في المتصفح
+  }
+}
+
+// 4. كود تشغيل الـ 3 شرط (يدعم الموبايل في جميع الصفحات navbar أو header)
+document.addEventListener("DOMContentLoaded", function () {
+  const mobileMenu = document.getElementById("mobile-menu");
+  const navLinks = document.querySelector(".nav-links");
+
+  if (mobileMenu && navLinks) {
+    mobileMenu.addEventListener("click", function (e) {
+      e.stopPropagation();
+      navLinks.classList.toggle("active");
+      mobileMenu.classList.toggle("open");
+    });
+
+    // إغلاق القائمة تلقائياً عند الضغط على أي رابط بداخلها
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("active");
+        mobileMenu.classList.remove("open");
+      });
+    });
+  }
 });

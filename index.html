@@ -19,18 +19,64 @@
         color: white;
         overflow-x: hidden;
         transition:
-          background 0.4s,
-          color 0.4s;
-      }
-
-      body.light {
-        background: #f3f7ff;
-        color: #111;
+          background 0.4s ease,
+          color 0.4s ease;
       }
 
       /* =================================
-         Navbar (شريط التنقل الزجاجي)
+         الوضع الفاتح الشامل والمتناسق (Light Mode)
       ================================= */
+      body.light {
+        background: #f3f7ff;
+        color: #111111;
+      }
+
+      body.light .navbar {
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      body.light .nav-links a {
+        color: #333333 !important; /* تلوين النصوص بالداكن في الوضع الفاتح */
+      }
+
+      body.light .nav-links a:hover {
+        color: #7c4dff !important;
+      }
+
+      body.light .menu-toggle .bar {
+        background-color: #111111 !important; /* تحويل الـ 3 شرط للون الأسود في الوضع الفاتح */
+      }
+
+      body.light .card {
+        border-color: rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      body.light .info {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(0, 0, 0, 0.08);
+        color: #111111;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      /* إضافة تأثير النعومة لجميع العناصر عند التغيير */
+      .navbar,
+      .nav-links,
+      .menu-toggle .bar,
+      .card,
+      .info,
+      a {
+        transition:
+          background 0.4s ease,
+          color 0.4s ease,
+          border-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      /* =================================
+          Navbar (شريط التنقل الزجاجي)
+       ================================= */
       .navbar {
         display: flex;
         align-items: center;
@@ -43,12 +89,6 @@
         direction: rtl;
         position: relative; /* مهم جداً لضبط تموضع القائمة المنسدلة */
         z-index: 1000;
-        transition: 0.3s;
-      }
-
-      body.light .navbar {
-        background: rgba(255, 255, 255, 0.7);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       }
 
       .nav-links {
@@ -63,21 +103,13 @@
         color: rgba(255, 255, 255, 0.7);
         font-size: 14px;
         font-weight: bold;
-        transition: 0.3s;
       }
 
       .nav-links a:hover {
         color: #00e5ff;
       }
 
-      body.light .nav-links a {
-        color: #444;
-      }
-      body.light .nav-links a:hover {
-        color: #7c4dff;
-      }
-
-      /* === تنسيق زر الثلاث شرط المفقود === */
+      /* === تنسيق زر الثلاث شرط المطور === */
       .menu-toggle {
         display: none; /* مخفي في الكمبيوتر ويظهر فقط في الموبايل */
         cursor: pointer;
@@ -91,11 +123,6 @@
         background-color: white;
         border-radius: 2px;
         transition: 0.3s ease;
-      }
-
-      /* تلوين الشرط باللون الأسود في الوضع الفاتح */
-      body.light .menu-toggle .bar {
-        background-color: #111;
       }
 
       /* أنيميشن تحويل الثلاث شرط إلى (X) عند الفتح */
@@ -127,8 +154,8 @@
       }
 
       /* ===========================
-         Hero Section
-      =========================== */
+          Hero Section
+       =========================== */
       .hero {
         position: relative;
         min-height: 500px;
@@ -182,8 +209,8 @@
       }
 
       /* ===========================
-         Buttons
-      =========================== */
+          Buttons
+       =========================== */
       .btns {
         display: flex;
         gap: 15px;
@@ -224,8 +251,8 @@
       }
 
       /* ===========================
-         Cards
-      =========================== */
+          Cards
+       =========================== */
       .cards {
         display: flex;
         gap: 20px;
@@ -281,40 +308,9 @@
         box-shadow: 0 15px 30px rgba(0, 229, 255, 0.2);
       }
 
-      body.light .card {
-        border-color: rgba(0, 0, 0, 0.05);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      }
-      body.light .card:hover {
-        border-color: #7c4dff;
-        box-shadow: 0 15px 30px rgba(124, 77, 255, 0.15);
-      }
-
-      /* ===========================
-         Info Section
-      =========================== */
-      .info {
-        display: flex;
-        justify-content: space-around;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        margin: 20px 8% 40px 8%;
-        padding: 25px;
-        border-radius: 24px;
-        text-align: center;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-      }
-
-      body.light .info {
-        background: rgba(255, 255, 255, 0.85);
-        border-color: rgba(0, 0, 0, 0.06);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-      }
-
       /* =================================
-         الشاشات الصغيرة والموبايل (Responsive)
-      ================================= */
+          الشاشات الصغيرة والموبايل (Responsive)
+       ================================= */
       @media (max-width: 768px) {
         .navbar {
           padding: 15px 5%;
@@ -330,7 +326,12 @@
           top: 100%;
           left: 0;
           width: 100%;
-          background: rgba(5, 8, 22, 0.95);
+          background: rgba(
+            5,
+            8,
+            22,
+            0.98
+          ); /* زيادة تعتيم الخلفية لضمان القراءة بوضوح */
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(25px);
           padding: 25px 0;
@@ -343,7 +344,7 @@
 
         /* تعديل خلفية القائمة المنسدلة في الوضع الفاتح */
         body.light .nav-links {
-          background: rgba(255, 255, 255, 0.95);
+          background: rgba(255, 255, 255, 0.98);
           border-bottom: 1px solid rgba(0, 0, 0, 0.05);
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
         }
@@ -359,7 +360,7 @@
           padding: 10px 0;
         }
 
-        /* إظهار زر الثلاث شرط الآن */
+        /* إظهار زر الثلاث شرط الآن بشكل صريح ومستجيب للمس */
         .menu-toggle {
           display: flex;
           position: relative;
@@ -370,12 +371,12 @@
         .hero {
           min-height: 400px;
           text-align: center;
-          padding: 80px 5% 30px 5%;
+          padding: 80px 5% 30px 5%; /* مسافة علوية لتجنب تداخل شريط التنقل */
         }
 
         .hero-content {
           position: relative;
-          z-index: 1; /* خفض طبقة محتوى الهيرو حتى لا يغطي على الأزرار فوقه */
+          z-index: 1; /* خفض طبقة محتوى الهيرو حتى لا يغطي على شريط التنقل */
         }
 
         .hero h1 {
