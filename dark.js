@@ -10,10 +10,15 @@ themeToggleBtn.addEventListener("click", () => {
   }
 });
 
-window.addEventListener("load", () => {
+// كود مطور لتشغيل وإخفاء شاشة التحميل بسرعة
+document.addEventListener("DOMContentLoaded", function () {
   const preloader = document.getElementById("preloader");
+
   if (preloader) {
-    preloader.classList.add("fade-out"); // إخفاء الشاشة بسلاسة
+    // إخفاء الشاشة فوراً بمجرد تحميل الهيكل الأساسي لضمان سرعة الفتح
+    setTimeout(() => {
+      preloader.classList.add("fade-out");
+    }, 1200); // 1200 مللي ثانية تعني (ثانية وربع تقريباً) كحد أقصى للأنيميشن
   }
 });
 
