@@ -318,6 +318,8 @@
       @media (max-width: 768px) {
         .navbar {
           padding: 15px 5%;
+          position: relative;
+          z-index: 9999 !important; /* رفع شريط التنقل بالكامل فوق أي عنصر شفاف */
         }
 
         /* تحويل القائمة إلى قائمة منسدلة عمودية مخفية افتراضياً */
@@ -336,6 +338,7 @@
           gap: 20px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+          z-index: 9998;
         }
 
         /* تعديل خلفية القائمة المنسدلة في الوضع الفاتح */
@@ -359,12 +362,20 @@
         /* إظهار زر الثلاث شرط الآن */
         .menu-toggle {
           display: flex;
+          position: relative;
+          z-index: 10000; /* إعطاء الزر أعلى طبقة ممكنة ليسبق أي عنصر شفاف */
+          padding: 5px; /* تكبير مساحة الضغط لإصبع المستخدم */
         }
 
         .hero {
           min-height: 400px;
           text-align: center;
-          padding: 30px 5%;
+          padding: 80px 5% 30px 5%;
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 1; /* خفض طبقة محتوى الهيرو حتى لا يغطي على الأزرار فوقه */
         }
 
         .hero h1 {
