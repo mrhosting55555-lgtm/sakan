@@ -18,7 +18,9 @@
         background: #050816;
         color: white;
         overflow-x: hidden;
-        transition: background 0.4s, color 0.4s;
+        transition:
+          background 0.4s,
+          color 0.4s;
       }
 
       body.light {
@@ -320,7 +322,7 @@
 
         /* تحويل القائمة إلى قائمة منسدلة عمودية مخفية افتراضياً */
         .nav-links {
-          display: none; 
+          display: none;
           flex-direction: column;
           position: absolute;
           top: 100%;
@@ -333,14 +335,14 @@
           text-align: center;
           gap: 20px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
 
         /* تعديل خلفية القائمة المنسدلة في الوضع الفاتح */
         body.light .nav-links {
           background: rgba(255, 255, 255, 0.95);
           border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-          box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
         }
 
         /* الكلاس الفعال الذي سيتم إضافته بالجافا سكريبت لإظهار القائمة */
@@ -407,7 +409,9 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: opacity 0.5s ease, visibility 0.5s;
+          transition:
+            opacity 0.5s ease,
+            visibility 0.5s;
         }
 
         .spinner {
@@ -420,7 +424,9 @@
         }
 
         @keyframes spin {
-          to { transform: rotate(360deg); }
+          to {
+            transform: rotate(360deg);
+          }
         }
 
         #preloader.fade-out {
@@ -461,20 +467,62 @@
         <p>اختار سكنك الصح من هنا</p>
 
         <div class="btns">
-          <a href="https://wa.me/201152638852" target="_blank" class="btn btn-primary">احجز الآن</a>
-          <a href="تواصل معنا.html" target="_blank" class="btn btn-primary">للاستفسار</a>
+          <a
+            href="https://wa.me/201152638852"
+            target="_blank"
+            class="btn btn-primary"
+            >احجز الآن</a
+          >
+          <a href="تواصل معنا.html" target="_blank" class="btn btn-primary"
+            >للاستفسار</a
+          >
         </div>
       </div>
     </div>
 
     <div class="cards">
-      <a href="77.html" class="card" style="background-image: url('./77.jpg')"><span>ال77 عماره</span></a>
-      <a href="ال7 عماير.html" class="card" style="background-image: url('./7 عماير.jpg')"><span>السبع عمائر</span></a>
-      <a href="الحكوميه.html" class="card" style="background-image: url('./حكوميه.jpg')"><span>الحكوميه</span></a>
-      <a href="القرنفل.html" class="card" style="background-image: url('./القرنفل.png')"><span>القرنفل</span></a>
-      <a href="ابني بيتك.html" class="card" style="background-image: url('./ابني بيتك.png')"><span>ابني بيتك</span></a>
-      <a href="سكن مصر.html" class="card" style="background-image: url('./سكن مصر.jpeg')"><span>سكن مصر</span></a>
-      <a href="البريطانيه.html" class="card" style="background-image: url('./البريطانيه.jpeg')"><span>البريطانيه</span></a>
+      <a
+        href="77.html"
+        class="card"
+        style="background-image: url(&quot;./77.jpg&quot;)"
+        ><span>ال77 عماره</span></a
+      >
+      <a
+        href="ال7 عماير.html"
+        class="card"
+        style="background-image: url(&quot;./7 عماير.jpg&quot;)"
+        ><span>السبع عمائر</span></a
+      >
+      <a
+        href="الحكوميه.html"
+        class="card"
+        style="background-image: url(&quot;./حكوميه.jpg&quot;)"
+        ><span>الحكوميه</span></a
+      >
+      <a
+        href="القرنفل.html"
+        class="card"
+        style="background-image: url(&quot;./القرنفل.png&quot;)"
+        ><span>القرنفل</span></a
+      >
+      <a
+        href="ابني بيتك.html"
+        class="card"
+        style="background-image: url(&quot;./ابني بيتك.png&quot;)"
+        ><span>ابني بيتك</span></a
+      >
+      <a
+        href="سكن مصر.html"
+        class="card"
+        style="background-image: url(&quot;./سكن مصر.jpeg&quot;)"
+        ><span>سكن مصر</span></a
+      >
+      <a
+        href="البريطانيه.html"
+        class="card"
+        style="background-image: url(&quot;./البريطانيه.jpeg&quot;)"
+        ><span>البريطانيه</span></a
+      >
     </div>
 
     <div class="info">
@@ -483,32 +531,5 @@
     </div>
 
     <script src="dark.js"></script>
-
-    <script>
-      // كود تشغيل شاشة التحميل (Preloader)
-      window.addEventListener('load', function() {
-        const preloader = document.getElementById('preloader');
-        if(preloader) {
-          preloader.classList.add('fade-out');
-        }
-      });
-
-      // كود فتح وإغلاق القائمة للموبايل وتأثير الأنيميشن للزر
-      const mobileMenu = document.getElementById('mobile-menu');
-      const navLinks = document.querySelector('.nav-links');
-
-      mobileMenu.addEventListener('click', () => {
-        navLinks.classList.toggle('active');     // فتح/إغلاق القائمة 
-        mobileMenu.classList.toggle('open');     // تحويل الثلاث شرط إلى X وعكسها
-      });
-
-      // إغلاق القائمة تلقائياً إذا قام المستخدم بالضغط على أي رابط بداخلها
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('active');
-          mobileMenu.classList.remove('open');
-        });
-      });
-    </script>
   </body>
 </html>
