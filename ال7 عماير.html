@@ -43,14 +43,18 @@
           location: "ال7 عماير",
           price: "1000",
           type: "girls",
-          images: ["https://drive.google.com/file/d/1m5Ai1avuVuzPSVARh9iClFD3qsML1FOE/view?usp=drive_link"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/1_vgnvmr.mp4",
+          ],
         },
         {
           name: "شقة دور خامس عماره ١٤٢ عمارة أهالي وبنات وشباب متاحة للحجز السنة الجديده",
           location: "ال7 عماير",
           price: "1000",
           type: "girls",
-          images: ["https://drive.google.com/file/d/1YXkfuWu5lTIpBP5ZOJQz4pbMlEZsNNrl/view?usp=drive_link"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034278/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20142/vid_zvzyxd.mp4",
+          ],
         },
 
         {
@@ -58,7 +62,9 @@
           location: "ال7 عماير",
           price: "",
           type: "girls",
-          images: ["https://drive.google.com/file/d/19H8SCG_TWd-QTO0YuA0KPSmoUrW1NK6L/view?usp=drive_link"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034275/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20152/vid_pnyl6d.mp4",
+          ],
         },
 
         {
@@ -66,44 +72,51 @@
           location: "ال7 عماير",
           price: "",
           type: "girls",
-          images: ["https://drive.google.com/file/d/1jgTCcrC0YsYpDCHt_Rmpyd8hVGOH2aIz/view?usp=drive_link"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9/VID_ofjrja.mp4",
+          ],
         },
       ];
 
-     function filterApartments(type) {
+      function filterApartments(type) {
         currentFilter = type;
         render();
       }
 
       function render() {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
+        const app = document.getElementById("app");
+        app.innerHTML = "";
 
-  const search = document.getElementById("searchInput").value.toLowerCase();
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
 
-  apartments
-    .filter(
-      (apt) =>
-        (currentFilter == "all" || apt.type == currentFilter) &&
-        (apt.name.toLowerCase().includes(search) ||
-          apt.location.toLowerCase().includes(search)),
-    )
-    .forEach((apt) => {
-      const card = document.createElement("div");
-      card.className = "card";
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-      card.innerHTML = `
+            card.innerHTML = `
         <div class="slider">
           ${apt.images
             .map((file, i) => {
               const isActive = i == 0 ? "active" : "";
-              
+
               // إذا كان الرابط من جوجل درايف
               if (file.includes("drive.google.com/file/d/")) {
-                const embedUrl = file.replace("/view?usp=drive_link", "/preview");
+                const embedUrl = file.replace(
+                  "/view?usp=drive_link",
+                  "/preview",
+                );
                 return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
               }
-              
+
               // إذا كان فيديو محلي بصيغة mp4
               if (file.endsWith(".mp4")) {
                 return `
@@ -134,30 +147,36 @@
         </div>
       `;
 
-      app.appendChild(card);
-    });
-}
+            app.appendChild(card);
+          });
+      }
 
-// تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
-function next(btn) {
-  let slider = btn.closest(".slider");
-  let items = slider.querySelectorAll(".slider-item");
-  if(items.length <= 1) return;
+      // تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
-  let index = [...items].findIndex((el) => el.classList.contains("active"));
-  items[index].classList.remove("active");
-  items[(index + 1) % items.length].classList.add("active");
-}
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index + 1) % items.length].classList.add("active");
+      }
 
-function prev(btn) {
-  let slider = btn.closest(".slider");
-  let items = slider.querySelectorAll(".slider-item");
-  if(items.length <= 1) return;
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
-  let index = [...items].findIndex((el) => el.classList.contains("active"));
-  items[index].classList.remove("active");
-  items[(index - 1 + items.length) % items.length].classList.add("active");
-}
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
 
       render();
 
@@ -209,12 +228,12 @@ ${name}
     <script src="dark.js"></script>
     <div id="fullImgBox" onclick="closeFullImg()">
       <span id="closeFullImgBtn">✕</span>
-      <img src="" id="fullImg" alt="خريطة كاملة">
+      <img src="" id="fullImg" alt="خريطة كاملة" />
     </div>
 
     <script>
-       // الأكواد البرمجية بتاعتك الحالية...
-       // وما تنساش تضيف الدالتين بتوع الجافا سكريبت اللي فاتوا هنا في الآخر
+      // الأكواد البرمجية بتاعتك الحالية...
+      // وما تنساش تضيف الدالتين بتوع الجافا سكريبت اللي فاتوا هنا في الآخر
     </script>
     <script src="dark.js"></script>
   </body>
