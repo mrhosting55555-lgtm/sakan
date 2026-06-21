@@ -1,0 +1,633 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Cairo", sans-serif;
+}
+
+body {
+  background: #050816;
+  color: white;
+  overflow-x: hidden;
+  padding-top: 90px;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+body.light {
+  background: #f3f7ff;
+  color: #111111;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 75px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: 0.3s;
+}
+
+body.light header {
+  background: rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logo h1 {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+  font-size: 16px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  color: #00e5ff;
+}
+
+body.light .nav-links a {
+  color: #444;
+}
+
+body.light .nav-links a:hover {
+  color: #7c4dff;
+}
+
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+  transition: 0.3s ease;
+}
+
+body.light .menu-toggle .bar {
+  background-color: #111111 !important;
+}
+
+.menu-toggle.open .bar:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.menu-toggle.open .bar:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open .bar:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.theme-toggle {
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+header,
+.nav-links,
+.menu-toggle .bar,
+.card,
+.search-box input,
+.filter-buttons button,
+a {
+  transition:
+    background 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.search-box {
+  width: min(1300px, 92%);
+  margin: 30px auto 10px auto;
+  display: flex;
+  justify-content: center;
+}
+
+.search-box input {
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  font-size: 16px;
+  color: white;
+  outline: none;
+  text-align: right;
+  backdrop-filter: blur(10px);
+}
+
+.search-box input:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.light .search-box input {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #111;
+}
+body.light .search-box input:focus {
+  border-color: #7c4dff;
+  box-shadow: 0 0 25px rgba(124, 77, 255, 0.15);
+}
+
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 20px auto 35px auto;
+  width: min(1300px, 92%);
+}
+
+.filter-buttons button {
+  padding: 12px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  flex-grow: 1;
+  max-width: 150px;
+  backdrop-filter: blur(10px);
+}
+
+.filter-buttons button:hover,
+.filter-buttons button.active {
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  color: white;
+  border-color: transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2);
+}
+
+body.light .filter-buttons button {
+  background: rgba(0, 0, 0, 0.05);
+  color: #444;
+  border: none;
+}
+body.light .filter-buttons button:hover {
+  color: white;
+}
+
+.container {
+  width: min(1300px, 92%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px;
+  padding-bottom: 60px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 35px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative !important;
+}
+
+/* --- [تحديث شامل] السلايدر والميديا لحل مشكلة هوامش جوجل درايف نهائيًا --- */
+.slider {
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+  background-color: #000000;
+  border-top-left-radius: 35px;
+  border-top-right-radius: 35px;
+
+  /* حظر خروج التكبير أو الميديا خارج زوايا الكارت الدائرية */
+  mask-image: radial-gradient(white, black);
+  -webkit-mask-image: radial-gradient(white, black);
+}
+
+.slider .slider-item {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* الصور والفيديوهات المحلية (MP4) */
+.slider img,
+.slider video {
+  object-fit: cover;
+}
+
+/* التنسيق المتكامل لفيديو درايف لمنع قص المحتوى والأزرار التحتانية */
+.slider iframe {
+  width: 100%;
+  height: 100%;
+  /* عمل زووم ذكي ومحسوب لقص الأشرطة السوداء الجانبية الافتراضية من مشغل جوجل */
+  transform: scale(1.18);
+  transform-origin: center center;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+.slider .slider-item.active {
+  display: block;
+}
+
+/* تأمين أزرار التنقل (الأسهم) لتكون فوق طبقة الفيديو وتعمل بكفاءة */
+.nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+  padding: 0 15px;
+  z-index: 25; /* رفع الطبقة لـ 25 لتجاوز زووم الـ iframe */
+}
+
+.nav button {
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(5, 8, 22, 0.85);
+  color: white;
+  width: 38px;
+  height: 38px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav button:hover {
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  border-color: transparent;
+  transform: scale(1.1);
+}
+
+.card-content {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+body.light .title {
+  color: #111;
+}
+
+.action-btn {
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.light .action-btn {
+  border: none;
+}
+
+.price-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  color: #00e5ff;
+  padding: 16px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 18px;
+  backdrop-filter: blur(10px);
+}
+
+body.light .price-btn {
+  background: #111;
+  color: #00e5ff;
+}
+
+.book-btn {
+  flex: 1;
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  color: white;
+  text-align: center;
+  padding: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.book-btn:hover {
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+/* --- قسم الفيديو التعريفي للمنطقة وجعله متجاوبًا --- */
+.custom-video-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 30px auto;
+  padding: 0 15px;
+  max-width: 1250px;
+}
+
+.custom-video-card {
+  background: #111827;
+  border: 2px solid #f59e0b;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 20px rgba(245, 158, 11, 0.15);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.custom-video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #000;
+}
+
+.custom-video-wrapper video,
+.custom-video-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.custom-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #f59e0b;
+  color: #000;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 4px;
+  z-index: 5;
+}
+
+.custom-video-content {
+  padding: 15px;
+  text-align: right;
+}
+
+.custom-video-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+}
+
+#fullImgBox {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: zoom-out;
+}
+
+#fullImg {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  object-fit: contain;
+}
+
+#closeFullImgBtn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#closeFullImgBtn:hover {
+  color: #f59e0b;
+}
+
+/* الشريط المائل في الزاوية للكروت */
+.corner-ribbon {
+  position: absolute;
+  top: 15px;
+  right: -35px;
+  transform: rotate(45deg);
+  width: 130px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  padding: 2px 0;
+}
+
+.corner-ribbon.available {
+  background-color: #10b981;
+}
+
+.corner-ribbon.reserved {
+  background-color: #ef4444;
+}
+
+/* تأثير تكبير خفيف وحركي للصور فقط على أجهزة اللاب توب والكمبيوتر */
+@media (min-width: 769px) {
+  .card:hover {
+    transform: translateY(-12px);
+    border-color: #00e5ff;
+    box-shadow: 0 20px 50px rgba(0, 229, 255, 0.15);
+  }
+  body.light .card:hover {
+    border-color: #7c4dff;
+    box-shadow: 0 20px 40px rgba(124, 77, 255, 0.12);
+  }
+  .card:hover .slider img {
+    transform: scale(1.05);
+    transition: transform 0.4s ease;
+  }
+  .custom-video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(245, 158, 11, 0.25);
+  }
+}
+
+/* ---------------------------------------------------- */
+/* 📱 التنسيقات المتجاوبة بالكامل والخاصة بالموبايل */
+/* ---------------------------------------------------- */
+@media (max-width: 768px) {
+  header {
+    height: 65px;
+    padding: 0 5%;
+    position: fixed;
+    z-index: 9999 !important;
+  }
+
+  .logo h1 {
+    font-size: 22px;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(5, 8, 22, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 25px 0;
+    text-align: center;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+  }
+
+  body.light .nav-links {
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links a {
+    font-size: 16px;
+    display: block;
+    padding: 10px 0;
+  }
+
+  .menu-toggle {
+    display: flex;
+    position: relative;
+    z-index: 10000;
+    padding: 5px;
+  }
+
+  body {
+    padding-top: 80px;
+  }
+
+  .container {
+    width: 90%;
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  /* توافق أبعاد مشغل درايف مع الشاشات الطولية للفون */
+  .slider {
+    height: 220px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
+
+  .slider iframe {
+    /* زيادة نسبة التكبير على الفون لتعويض النقص وأبعاد العرض المستعرضة */
+    transform: scale(1.24);
+  }
+
+  .nav button {
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+    background: rgba(5, 8, 22, 0.8);
+  }
+
+  /* كبح حركات الـ Hover لمنع تعليق الكروت أثناء لمس الشاشة بإصبعك */
+  .card:hover {
+    transform: none !important;
+    box-shadow: 0 10px 25px rgba(0, 229, 255, 0.1) !important;
+  }
+
+  .filter-buttons {
+    gap: 8px;
+  }
+
+  .filter-buttons button {
+    max-width: unset;
+    flex: 1 1 28%;
+    padding: 10px 5px;
+    font-size: 13px;
+  }
+}

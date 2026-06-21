@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>شقق جامعة اللوتس</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <h1>جامعة اللوتس</h1>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    </header>
+
+    <!-- البحث -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 ابحث عن شقة أو منطقة..."
+        onkeyup="render()"
+      />
+    </div>
+
+    <!-- الفلتر -->
+    <div class="filter-buttons">
+      <button onclick="filterApartments('all')">🏠 الكل</button>
+      <button onclick="filterApartments('girls')">👩 بنات</button>
+      <button onclick="filterApartments('boys')">👨 شباب</button>
+    </div>
+
+    <!-- الشقق -->
+    <div class="container" id="app"></div>
+
+    <script>
+      let currentFilter = "all";
+      const apartments = [
+        {
+          name: "شقة دور اول جمب المول",
+          location: "سكن مصر",
+          price: "",
+          type: "boys",
+          images: ["https://drive.google.com/file/d/1eElIK8DohK20ZxoyjyR24gmrSpDOGtL-/view?usp=drive_link"],
+        },
+
+        {
+          name: "شقة في دور خامس العماره كلها أهالي، فيها ديب فريزر ونت أرضي وهيتركب لها مراوح سقف.",
+          location: "سكن مصر",
+          price: "900",
+          type: "girls",
+          images: ["https://drive.google.com/file/d/1yU6IYnsu8lT1rfYJOrVSlDVnKCR_LTAO/view?usp=drive_link"],
+        },
+      ];
+
+      function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
+
+      function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  const search = document.getElementById("searchInput").value.toLowerCase();
+
+  apartments
+    .filter(
+      (apt) =>
+        (currentFilter == "all" || apt.type == currentFilter) &&
+        (apt.name.toLowerCase().includes(search) ||
+          apt.location.toLowerCase().includes(search)),
+    )
+    .forEach((apt) => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="slider">
+          ${apt.images
+            .map((file, i) => {
+              const isActive = i == 0 ? "active" : "";
+              
+              // إذا كان الرابط من جوجل درايف
+              if (file.includes("drive.google.com/file/d/")) {
+                const embedUrl = file.replace("/view?usp=drive_link", "/preview");
+                return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
+              }
+              
+              // إذا كان فيديو محلي بصيغة mp4
+              if (file.endsWith(".mp4")) {
+                return `
+                  <video class="slider-item ${isActive}" controls>
+                    <source src="${file}" type="video/mp4">
+                    متصفحك لا يدعم تشغيل الفيديو.
+                  </video>
+                `;
+              }
+
+              // إذا كانت صورة عادية
+              return `<img src="${file}" class="slider-item ${isActive}">`;
+            })
+            .join("")}
+
+          <div class="nav">
+            <button onclick="prev(this)">❮</button>
+            <button onclick="next(this)">❯</button>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="title">${apt.name}</div>
+          <div class="action-btn">
+            <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
+            <div class="book-btn" onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">احجز</div>
+          </div>
+        </div>
+      `;
+
+      app.appendChild(card);
+    });
+}
+
+// تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
+function next(btn) {
+  let slider = btn.closest(".slider");
+  let items = slider.querySelectorAll(".slider-item");
+  if(items.length <= 1) return;
+
+  let index = [...items].findIndex((el) => el.classList.contains("active"));
+  items[index].classList.remove("active");
+  items[(index + 1) % items.length].classList.add("active");
+}
+
+function prev(btn) {
+  let slider = btn.closest(".slider");
+  let items = slider.querySelectorAll(".slider-item");
+  if(items.length <= 1) return;
+
+  let index = [...items].findIndex((el) => el.classList.contains("active"));
+  items[index].classList.remove("active");
+  items[(index - 1 + items.length) % items.length].classList.add("active");
+}
+
+      render();
+
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        items[index].classList.remove("active");
+
+        items[(index + 1) % items.length].classList.add("active");
+      }
+
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        items[index].classList.remove("active");
+
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
+
+      function bookNow(name, location, price) {
+        let phone = "201152638852";
+
+        let message = `عايز احجز :
+
+${name}
+
+الموقع : ${location}
+
+السعر : ${price}`;
+
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
+      }
+    </script>
+
+    <script src="dark.js"></script>
+    <div id="fullImgBox" onclick="closeFullImg()">
+      <span id="closeFullImgBtn">✕</span>
+      <img src="" id="fullImg" alt="خريطة كاملة">
+    </div>
+
+    <script>
+       // الأكواد البرمجية بتاعتك الحالية...
+       // وما تنساش تضيف الدالتين بتوع الجافا سكريبت اللي فاتوا هنا في الآخر
+    </script>
+    <script src="dark.js"></script>
+  </body>
+</html>
+  </body>
+</html>

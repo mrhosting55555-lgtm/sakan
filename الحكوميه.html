@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>شقق جامعة اللوتس</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">
+        <h1>جامعة اللوتس</h1>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    </header>
+
+    <!-- البحث -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 ابحث عن شقة أو منطقة..."
+        onkeyup="render()"
+      />
+    </div>
+
+    <!-- الفلتر -->
+    <div class="filter-buttons">
+      <button onclick="filterApartments('all')">🏠 الكل</button>
+      <button onclick="filterApartments('girls')">👩 بنات</button>
+      <button onclick="filterApartments('boys')">👨 شباب</button>
+    </div>
+
+    <div class="custom-video-section">
+      <div class="custom-video-card">
+        <div class="custom-video-wrapper">
+          <span class="custom-badge">فيديو المنطقة 🎥</span>
+          <iframe
+            src="https://drive.google.com/file/d/1eQt7m1kKue-eWOKxSoZAl6YSqfRblMvW/view?usp=drive_link"
+            width="100%"
+            height="250"
+            allow="autoplay"
+            allowfullscreen
+          >
+          </iframe>
+        </div>
+        <div class="custom-video-content">
+          <p>منطقة الحكومية</p>
+        </div>
+      </div>
+      <div class="custom-video-card">
+        <div class="custom-video-wrapper">
+          <img
+            src="https://drive.google.com/file/d/1wFZo-EzAvNgD9gFkUDRHVW5GWnFfNvnu/view?usp=drive_link"
+            alt="خريطة المنطقة على جوجل ماب"
+            onclick="openFullImg(this)"
+            style="cursor: zoom-in"
+          />
+          <div class="custom-media-content"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- الشقق -->
+    <div class="container" id="app"></div>
+
+    <script>
+      let currentFilter = "all";
+
+      const apartments = [
+        {
+          name: "شقة في عمارة 128 خلف كيمت دور خامس",
+          location: "الحكوميه",
+          price: "1000$",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1nGXjWlyHQYyAeWdf75X1J9xim4Wospef/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة في عمارة 128 ",
+          location: "الحكوميه",
+          price: "",
+          type: "boys",
+          images: [
+            "https://drive.google.com/file/d/1SsnOnsywhyVpMY41PJYvU8E97BIhGyd6/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة في عمارة 137",
+          location: "الحكوميه",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1Ww1vhVBCdIoROkTvkW6UqDHoe4YJjW0x/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة في عمارة 148",
+          location: "الحكوميه",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1SEYkGWBIF36fpETcw5iavf4YCHKQx_HW/view?usp=drive_link",
+            "https://drive.google.com/file/d/1BjDVe6lApWxhTyxV7vXtezVwvAEJMhn4/view?usp=drive_link",
+            ".https://drive.google.com/file/d/1jcdXKOs9luI6kK2LLtyxKqudjk9zTiaR/view?usp=drive_link",
+            "https://drive.google.com/file/d/1y_vqeEPk_QWh4bsf0IwDoO6ncD26R8EB/view?usp=drive_link",
+            "https://drive.google.com/file/d/1As_btLwAEUjMatiF0HLrNZJx_M88J_ct/view?usp=drive_link",
+            "https://drive.google.com/file/d/1vwXy7XCn017lMVyn7bX0NzI65X2oQwB4/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة في عمارة 154 دور أرضي الايجار شامل كهربا و ميه",
+          location: "الحكوميه",
+          price: "1000$",
+          type: "boys",
+          images: [
+            "https://drive.google.com/file/d/1OyZg5_viXP6VgnhuWAEx4UmBT-OZuGUN/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة على الطريق الجانبي قريبه من كيمت",
+          location: "الحكوميه",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1a1WTfBCvRj-L_ioz0GQOXUwixPp0wz6_/view?usp=drive_link",
+          ],
+        },
+
+        {
+          name: "شقة في عماره 134 دور رابع",
+          location: "الحكوميه",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1tl_Zkbyn1PV9KwU5v8hHHU6yuSoJlnJO/view?usp=drive_link",
+          ],
+        },
+      ];
+
+      function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
+
+      function render() {
+        const app = document.getElementById("app");
+        app.innerHTML = "";
+
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+        <div class="slider">
+          ${apt.images
+            .map((file, i) => {
+              const isActive = i == 0 ? "active" : "";
+
+              // إذا كان الرابط من جوجل درايف
+              if (file.includes("drive.google.com/file/d/")) {
+                const embedUrl = file.replace(
+                  "/view?usp=drive_link",
+                  "/preview",
+                );
+                return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
+              }
+
+              // إذا كان فيديو محلي بصيغة mp4
+              if (file.endsWith(".mp4")) {
+                return `
+                  <video class="slider-item ${isActive}" controls>
+                    <source src="${file}" type="video/mp4">
+                    متصفحك لا يدعم تشغيل الفيديو.
+                  </video>
+                `;
+              }
+
+              // إذا كانت صورة عادية
+              return `<img src="${file}" class="slider-item ${isActive}">`;
+            })
+            .join("")}
+
+          <div class="nav">
+            <button onclick="prev(this)">❮</button>
+            <button onclick="next(this)">❯</button>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="title">${apt.name}</div>
+          <div class="action-btn">
+            <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
+            <div class="book-btn" onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">احجز</div>
+          </div>
+        </div>
+      `;
+
+            app.appendChild(card);
+          });
+      }
+
+      // تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index + 1) % items.length].classList.add("active");
+      }
+
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
+
+      render();
+
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        items[index].classList.remove("active");
+
+        items[(index + 1) % items.length].classList.add("active");
+      }
+
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
+
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+
+        items[index].classList.remove("active");
+
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
+
+      function bookNow(name, location, price) {
+        let phone = "201152638852";
+
+        let message = `عايز احجز :
+
+${name}
+
+الموقع : ${location}
+
+السعر : ${price}`;
+
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+        window.open(url, "_blank");
+      }
+    </script>
+
+    <script src="dark.js"></script>
+    <div id="fullImgBox" onclick="closeFullImg()">
+      <span id="closeFullImgBtn">✕</span>
+      <img src="" id="fullImg" alt="خريطة كاملة" />
+    </div>
+
+    <script src="dark.js"></script>
+  </body>
+</html>
