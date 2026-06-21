@@ -15,17 +15,15 @@
       <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     </header>
 
-    <!-- البحث -->
     <div class="search-box">
       <input
         type="text"
         id="searchInput"
-        placeholder="🔍ابحث عن شقة ..."
+        placeholder="🔍 ابحث عن شقة ..."
         onkeyup="render()"
       />
     </div>
 
-    <!-- الفلتر -->
     <div class="filter-buttons">
       <button onclick="filterApartments('all')">🏠 الكل</button>
       <button onclick="filterApartments('girls')">👩 بنات</button>
@@ -57,14 +55,16 @@
             onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
-
-          <div class="custom-media-content"></div>
         </div>
       </div>
     </div>
 
-    <!-- الشقق -->
     <div class="container" id="app"></div>
+
+    <div id="fullImgBox" onclick="closeFullImg()">
+      <span id="closeFullImgBtn">✕</span>
+      <img src="" id="fullImg" alt="خريطة كاملة" />
+    </div>
 
     <script>
       let currentFilter = "all";
@@ -124,7 +124,7 @@
           ],
         },
         {
-          name: "شقة في عمارة 110 دور تاني عمارة كلها أهالي وبنات<span class='corner-ribbon available'>محجوزه</span>",
+          name: "شقة في عمارة 110 دور تاني عمارة كلها أهالي وبنات <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
           price: "",
           type: "girls",
@@ -142,7 +142,7 @@
           ],
         },
         {
-          name: "شقة في عمارة 124 المربع الأول خلفي دور خامس عمارة شباب وبنات متاحة للحجز السنة الجاية <span class='corner-ribbon available'>محجوزه</span>",
+          name: "شقة في عمارة 124 المربع الأول خلفي دور خامس عمارة شباب وبنات متاحة للحجز السنة الجاية <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
           price: "",
           type: "girls",
@@ -159,9 +159,8 @@
             "https://drive.google.com/file/d/1dOI-UjCW73Hv0iyKsASDtm4QZwMDxcLo/view?usp=drive_link",
           ],
         },
-
         {
-          name: " شقة في عمارة 118 المربع التاني  دور تاني عمارة كلها أهالي باقي سرير بنات <span class='corner-ribbon available'>محجوزه</span>",
+          name: " شقة في عمارة 118 المربع التاني  دور تاني عمارة كلها أهالي باقي سرير بنات <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
           price: "1000$",
           type: "girls",
@@ -178,7 +177,6 @@
             "https://drive.google.com/file/d/1EXAhQjh5dBTHWrf6WqLYGINi1pE-y1Pl/view?usp=drive_link",
           ],
         },
-
         {
           name: "شقه في المربع التاني دور رابع العماره كلها بنات و أهالي باقي 5 سراير",
           location: "ال77",
@@ -206,7 +204,7 @@
         apartments
           .filter(
             (apt) =>
-              (currentFilter == "all" || apt.type == currentFilter) &&
+              (currentFilter === "all" || apt.type === currentFilter) &&
               (apt.name.toLowerCase().includes(search) ||
                 apt.location.toLowerCase().includes(search)),
           )
@@ -214,56 +212,63 @@
             const card = document.createElement("div");
             card.className = "card";
 
+            // فحص وجود شريط محجوزة داخل النص لنقله إلى هيكل الكارت الرئيسي تلافيًا لمشاكل الـ Overflow
+            let ribbonHTML = "";
+            if (apt.name.includes("corner-ribbon")) {
+              if (apt.name.includes("reserved"))
+                ribbonHTML = `<span class="corner-ribbon reserved">محجوزة</span>`;
+              else
+                ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
+            }
+
             card.innerHTML = `
-        <div class="slider">
-          ${apt.images
-            .map((file, i) => {
-              const isActive = i == 0 ? "active" : "";
+            ${ribbonHTML}
+            <div class="slider">
+              ${apt.images
+                .map((file, i) => {
+                  const isActive = i === 0 ? "active" : "";
 
-              // إذا كان الرابط من جوجل درايف
-              if (file.includes("drive.google.com/file/d/")) {
-                const embedUrl = file.replace(
-                  "/view?usp=drive_link",
-                  "/preview",
-                );
-                return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
-              }
+                  if (file.includes("drive.google.com/file/d/")) {
+                    const embedUrl = file.replace(
+                      "/view?usp=drive_link",
+                      "/preview",
+                    );
+                    return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
+                  }
 
-              // إذا كان فيديو محلي بصيغة mp4
-              if (file.endsWith(".mp4")) {
-                return `
-                  <video class="slider-item ${isActive}" controls>
-                    <source src="${file}" type="video/mp4">
-                    متصفحك لا يدعم تشغيل الفيديو.
-                  </video>
-                `;
-              }
+                  if (file.endsWith(".mp4")) {
+                    return `
+                      <video class="slider-item ${isActive}" controls>
+                        <source src="${file}" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                      </video>
+                    `;
+                  }
 
-              // إذا كانت صورة عادية
-              return `<img src="${file}" class="slider-item ${isActive}">`;
-            })
-            .join("")}
+                  return `<img src="${file}" class="slider-item ${isActive}">`;
+                })
+                .join("")}
 
-          <div class="nav">
-            <button onclick="prev(this)">❮</button>
-            <button onclick="next(this)">❯</button>
-          </div>
-        </div>
+              <div class="nav">
+                <button onclick="prev(this)">❮</button>
+                <button onclick="next(this)">❯</button>
+              </div>
+            </div>
 
-        <div class="card-content">
-          <div class="title">${apt.name}</div>
-          <div class="action-btn">
-            <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
-            <div class="book-btn" onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">احجز</div>
-          </div>
-        </div>
-      `;
+            <div class="card-content">
+              <div class="title">${apt.name.replace(/<span[^>]*>([^<]*)<\/span>/g, "")}</div>
+              <div class="action-btn">
+                <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
+                <div class="book-btn" onclick="bookNow('${apt.name.replace(/'/g, "\\'")}', '${apt.location}', '${apt.price}')">احجز</div>
+              </div>
+            </div>
+          `;
 
             app.appendChild(card);
           });
       }
 
-      // تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
+      // دالة التنقل الموحدة والآمنة لجميع أنواع عناصر الميديا
       function next(btn) {
         let slider = btn.closest(".slider");
         let items = slider.querySelectorAll(".slider-item");
@@ -285,36 +290,6 @@
           el.classList.contains("active"),
         );
         items[index].classList.remove("active");
-        items[(index - 1 + items.length) % items.length].classList.add(
-          "active",
-        );
-      }
-
-      render();
-
-      function next(btn) {
-        let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img,video");
-
-        let index = [...items].findIndex((el) =>
-          el.classList.contains("active"),
-        );
-
-        items[index].classList.remove("active");
-
-        items[(index + 1) % items.length].classList.add("active");
-      }
-
-      function prev(btn) {
-        let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img,video");
-
-        let index = [...items].findIndex((el) =>
-          el.classList.contains("active"),
-        );
-
-        items[index].classList.remove("active");
-
         items[(index - 1 + items.length) % items.length].classList.add(
           "active",
         );
@@ -322,30 +297,25 @@
 
       function bookNow(name, location, price) {
         let phone = "201152638852";
-
-        let message = `عايز احجز :
-
-${name}
-
-الموقع : ${location}
-
-السعر : ${price}`;
-
+        let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
+        let message = `عايز احجز:\n\n${cleanName}\n\nالموقع: ${location}\nالسعر: ${price || "اتصل لمعرفة السعر"}`;
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
         window.open(url, "_blank");
       }
-    </script>
 
-    <script src="dark.js"></script>
-    <div id="fullImgBox" onclick="closeFullImg()">
-      <span id="closeFullImgBtn">✕</span>
-      <img src="" id="fullImg" alt="خريطة كاملة" />
-    </div>
+      function openFullImg(element) {
+        const fullImgBox = document.getElementById("fullImgBox");
+        const fullImg = document.getElementById("fullImg");
+        fullImg.src = element.src;
+        fullImgBox.style.display = "flex";
+      }
 
-    <script>
-      // الأكواد البرمجية بتاعتك الحالية...
-      // وما تنساش تضيف الدالتين بتوع الجافا سكريبت اللي فاتوا هنا في الآخر
+      function closeFullImg() {
+        document.getElementById("fullImgBox").style.display = "none";
+      }
+
+      // تشغيل أول رندر عند تحميل الصفحة
+      render();
     </script>
     <script src="dark.js"></script>
   </body>
