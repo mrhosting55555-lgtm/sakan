@@ -36,73 +36,73 @@
     <div class="container" id="app"></div>
 
     <script>
-            let currentFilter = "all";
-            const apartments = [
-              {
-                name: "شقة دور خامس عمارة 141 العمارة بنات وشباب متاحة للحجز السنة الجديده",
-                location: "ال7 عماير",
-                price: "1000",
-                type: "girls",
-                images: [
-                  "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/1_vgnvmr.mp4",
-                ],
-              },
-              {
-                name: "شقة دور خامس عماره ١٤٢ عمارة أهالي وبنات وشباب متاحة للحجز السنة الجديده",
-                location: "ال7 عماير",
-                price: "1000",
-                type: "girls",
-                images: [
-                  "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034278/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20142/vid_zvzyxd.mp4",
-                ],
-              },
+      let currentFilter = "all";
+      const apartments = [
+        {
+          name: "شقة دور خامس عمارة 141 العمارة بنات وشباب متاحة للحجز السنة الجديده",
+          location: "ال7 عماير",
+          price: "1000",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/1_vgnvmr.mp4",
+          ],
+        },
+        {
+          name: "شقة دور خامس عماره ١٤٢ عمارة أهالي وبنات وشباب متاحة للحجز السنة الجديده",
+          location: "ال7 عماير",
+          price: "1000",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034278/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20142/vid_zvzyxd.mp4",
+          ],
+        },
 
-              {
-                name: "شقة دور تاني عمارة 152 مقفلة كلها حديد وكل الفرش جديد حاليا مفروشة ومتنضفة، كل الفرش جديد  <span class='corner-ribbon available'>محجوزه</span>",
-                location: "ال7 عماير",
-                price: "",
-                type: "girls",
-                images: [
-                  "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034275/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20152/vid_pnyl6d.mp4",
-                ],
-              },
-      ئئ
-              {
-                name: "شقة دور رابع عماره 141",
-                location: "ال7 عماير",
-                price: "",
-                type: "girls",
-                images: [
-                  "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9/VID_ofjrja.mp4",
-                ],
-              },
-            ];
+        {
+          name: "شقة دور تاني عمارة 152 مقفلة كلها حديد وكل الفرش جديد حاليا مفروشة ومتنضفة، كل الفرش جديد  <span class='corner-ribbon available'>محجوزه</span>",
+          location: "ال7 عماير",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034275/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20152/vid_pnyl6d.mp4",
+          ],
+        },
 
-            function filterApartments(type) {
-              currentFilter = type;
-              render();
-            }
+        {
+          name: "شقة دور رابع عماره 141",
+          location: "ال7 عماير",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9/VID_ofjrja.mp4",
+          ],
+        },
+      ];
 
-            function render() {
-              const app = document.getElementById("app");
-              app.innerHTML = "";
+      function filterApartments(type) {
+        currentFilter = type;
+        render();
+      }
 
-              const search = document
-                .getElementById("searchInput")
-                .value.toLowerCase();
+      function render() {
+        const app = document.getElementById("app");
+        app.innerHTML = "";
 
-              apartments
-                .filter(
-                  (apt) =>
-                    (currentFilter == "all" || apt.type == currentFilter) &&
-                    (apt.name.toLowerCase().includes(search) ||
-                      apt.location.toLowerCase().includes(search)),
-                )
-                .forEach((apt) => {
-                  const card = document.createElement("div");
-                  card.className = "card";
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
 
-                  card.innerHTML = `
+        apartments
+          .filter(
+            (apt) =>
+              (currentFilter == "all" || apt.type == currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)),
+          )
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
               <div class="slider">
                 ${apt.images
                   .map((file, i) => {
@@ -147,71 +147,71 @@
               </div>
             `;
 
-                  app.appendChild(card);
-                });
-            }
+            app.appendChild(card);
+          });
+      }
 
-            // تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
-            function next(btn) {
-              let slider = btn.closest(".slider");
-              let items = slider.querySelectorAll(".slider-item");
-              if (items.length <= 1) return;
+      // تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
-              let index = [...items].findIndex((el) =>
-                el.classList.contains("active"),
-              );
-              items[index].classList.remove("active");
-              items[(index + 1) % items.length].classList.add("active");
-            }
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index + 1) % items.length].classList.add("active");
+      }
 
-            function prev(btn) {
-              let slider = btn.closest(".slider");
-              let items = slider.querySelectorAll(".slider-item");
-              if (items.length <= 1) return;
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
-              let index = [...items].findIndex((el) =>
-                el.classList.contains("active"),
-              );
-              items[index].classList.remove("active");
-              items[(index - 1 + items.length) % items.length].classList.add(
-                "active",
-              );
-            }
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
+        items[index].classList.remove("active");
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
 
-            render();
+      render();
 
-            function next(btn) {
-              let slider = btn.closest(".slider");
-              let items = slider.querySelectorAll("img,video");
+      function next(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
 
-              let index = [...items].findIndex((el) =>
-                el.classList.contains("active"),
-              );
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
 
-              items[index].classList.remove("active");
+        items[index].classList.remove("active");
 
-              items[(index + 1) % items.length].classList.add("active");
-            }
+        items[(index + 1) % items.length].classList.add("active");
+      }
 
-            function prev(btn) {
-              let slider = btn.closest(".slider");
-              let items = slider.querySelectorAll("img,video");
+      function prev(btn) {
+        let slider = btn.closest(".slider");
+        let items = slider.querySelectorAll("img,video");
 
-              let index = [...items].findIndex((el) =>
-                el.classList.contains("active"),
-              );
+        let index = [...items].findIndex((el) =>
+          el.classList.contains("active"),
+        );
 
-              items[index].classList.remove("active");
+        items[index].classList.remove("active");
 
-              items[(index - 1 + items.length) % items.length].classList.add(
-                "active",
-              );
-            }
+        items[(index - 1 + items.length) % items.length].classList.add(
+          "active",
+        );
+      }
 
-            function bookNow(name, location, price) {
-              let phone = "201152638852";
+      function bookNow(name, location, price) {
+        let phone = "201152638852";
 
-              let message = `عايز احجز :
+        let message = `عايز احجز :
 
       ${name}
 
@@ -219,10 +219,10 @@
 
       السعر : ${price}`;
 
-              let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-              window.open(url, "_blank");
-            }
+        window.open(url, "_blank");
+      }
     </script>
 
     <script src="dark.js"></script>
