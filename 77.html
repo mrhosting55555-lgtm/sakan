@@ -19,11 +19,48 @@
       <input
         type="text"
         id="searchInput"
-        placeholder="🔍 ابحث عن شقة ..."
+        placeholder="🔍 ابحث عن شقة أو منطقة..."
         onkeyup="render()"
       />
     </div>
+    <div class="price-filter">
+      <div class="price-header" onclick="togglePriceFilter()">
+        <span>💰 السعر</span>
+        <span id="arrow">▼</span>
+      </div>
 
+      <div id="priceOptions" class="price-options hide">
+        <label
+          ><input
+            type="radio"
+            name="price"
+            checked
+            onclick="setPriceFilter('all')"
+          />
+          الكل</label
+        >
+
+        <label
+          ><input type="radio" name="price" onclick="setPriceFilter('900')" />
+          حتى 900 جنيه</label
+        >
+
+        <label
+          ><input type="radio" name="price" onclick="setPriceFilter('1000')" />
+          حتى 1000 جنيه</label
+        >
+
+        <label
+          ><input type="radio" name="price" onclick="setPriceFilter('1200')" />
+          حتى 1200 جنيه</label
+        >
+
+        <label
+          ><input type="radio" name="price" onclick="setPriceFilter('1500')" />
+          حتى 1500 جنيه</label
+        >
+      </div>
+    </div>
     <div class="filter-buttons">
       <button onclick="filterApartments('all')">🏠 الكل</button>
       <button onclick="filterApartments('girls')">👩 بنات</button>
@@ -35,7 +72,7 @@
         <div class="custom-video-wrapper">
           <span class="custom-badge">فيديو المنطقة 🎥</span>
           <iframe
-            src="https://drive.google.com/file/d/1JaaW8uGei3fjLiEcvdY9CsoE2EnrpJc5/preview"
+            src=""
             width="100%"
             height="250"
             allow="autoplay"
@@ -44,7 +81,7 @@
           </iframe>
         </div>
         <div class="custom-video-content">
-          <p>منطقة ال77</p>
+          <p>منطقة الحكومية</p>
         </div>
       </div>
       <div class="custom-video-card">
@@ -55,19 +92,18 @@
             onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
+          <div class="custom-media-content"></div>
         </div>
       </div>
     </div>
 
+    <!-- الشقق -->
     <div class="container" id="app"></div>
-
-    <div id="fullImgBox" onclick="closeFullImg()">
-      <span id="closeFullImgBtn">✕</span>
-      <img src="" id="fullImg" alt="خريطة كاملة" />
-    </div>
 
     <script>
       let currentFilter = "all";
+      let priceFilter = "all";
+
       const apartments = [
         {
           name: "شقة في عماره 62 قصاد المسجد دور رابع عماره كلها أهالي وبنات متاحة للحجز السنة الجاية ",
@@ -227,6 +263,33 @@
             "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782338775/WhatsApp_Video_2026-06-25_at_12.53.33_AM_fdd1zd.mp4",
           ],
         },
+        {
+          name: "شقة في المربع الرابع دور تالت عماره 84 لسه بتتفرش فرش جديد متاحة للسنه الجديده بنات، فيها ديب فريزر",
+          location: "ال77",
+          price: "1050$",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783390695/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_77_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9_jhyv9h.mp4",
+          ],
+        },
+        {
+          name: "شقة في المربع التاني أمامي دور رابع العماره أهالي وبنات باقي 5 سراير هيكون فيها فلتر وفيها ديب فريزر",
+          location: "ال77",
+          price: "1000$",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783395111/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84%D9%A7%D9%A7_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%AA%D8%A7%D9%86%D9%8A_%D8%A3%D9%85%D8%A7%D9%85%D9%8A_%D8%AF%D9%88%D8%B1_%D8%B1%D8%A7%D8%A8%D8%B9_%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D8%A3%D9%87%D8%A7%D9%84%D9%8A_%D9%88%D8%A8%D9%86%D8%A7%D8%AA_uznyxx.mp4",
+          ],
+        },
+        {
+          name: "شقة في المربع التالت دور تاني كل الفرش جديد أول مره تتسكن، فيها ديب فريزر ومقفله كلها حديدالعماره أهالي وبنات ",
+          location: "ال77",
+          price: "1100$",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783396007/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_%D9%A7%D9%A7_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%AA%D8%A7%D9%84%D8%AA_%D8%AF%D9%88%D8%B1_%D8%AA%D8%A7%D9%86%D9%8A_%D9%83%D9%84_%D8%A7%D9%84%D9%81%D8%B1%D8%B4_%D8%AC%D8%AF%D9%8A%D8%AF_%D8%A3%D9%88%D9%84_%D9%85%D8%B1%D9%87_%D8%AA%D8%AA%D8%B3%D9%83%D9%86_rv45u3.mp4",
+          ],
+        },
       ];
 
       function filterApartments(type) {
@@ -243,12 +306,36 @@
           .value.toLowerCase();
 
         apartments
-          .filter(
-            (apt) =>
+          .filter((apt) => {
+            const price = parseInt(apt.price);
+            let priceMatch = true;
+            switch (priceFilter) {
+              case "900":
+                priceMatch = price <= 900;
+                break;
+
+              case "1000":
+                priceMatch = price <= 1000;
+                break;
+
+              case "1200":
+                priceMatch = price <= 1200;
+                break;
+
+              case "1500":
+                priceMatch = price <= 1500;
+                break;
+
+              default:
+                priceMatch = true;
+            }
+            return (
               (currentFilter === "all" || apt.type === currentFilter) &&
               (apt.name.toLowerCase().includes(search) ||
-                apt.location.toLowerCase().includes(search)),
-          )
+                apt.location.toLowerCase().includes(search)) &&
+              (priceFilter === "all" ? true : !isNaN(price) && priceMatch)
+            );
+          })
           .forEach((apt) => {
             const card = document.createElement("div");
             card.className = "card";
@@ -353,6 +440,18 @@
 
       function closeFullImg() {
         document.getElementById("fullImgBox").style.display = "none";
+      }
+
+      function setPriceFilter(value) {
+        priceFilter = value;
+        render();
+      }
+
+      function togglePriceFilter() {
+        const options = document.getElementById("priceOptions");
+        const arrow = document.getElementById("arrow");
+        options.classList.toggle("hide");
+        arrow.textContent = options.classList.contains("hide") ? "▼" : "▲";
       }
 
       // تشغيل أول رندر عند تحميل الصفحة

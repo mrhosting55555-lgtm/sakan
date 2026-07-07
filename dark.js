@@ -67,3 +67,11 @@ function closeFullImg() {
   box.style.display = "none"; // بيخفي الصندوق
   document.body.style.overflow = "auto"; // بيرجع السكرول الطبيعي
 }
+function togglePriceFilter() {
+  const options = document.getElementById("priceOptions");
+  const arrow = document.getElementById("arrow");
+
+  options.classList.toggle("hide");
+
+  arrow.textContent = options.classList.contains("hide") ? "▼" : "▲";
+}

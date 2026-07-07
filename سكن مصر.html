@@ -43,7 +43,9 @@
           location: "سكن مصر",
           price: "",
           type: "boys",
-          images: ["https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034267/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%B3%D9%83%D9%86%20%D9%85%D8%B5%D8%B1/%D8%B4%D9%82%D8%A9%20%D8%AF%D9%88%D8%B1%20%D8%A3%D9%88%D9%84%20%D8%AC%D9%86%D8%A8%20%D8%A7%D9%84%D9%85%D9%88%D9%84/vid_kjw5aa.mp4"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034267/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%B3%D9%83%D9%86%20%D9%85%D8%B5%D8%B1/%D8%B4%D9%82%D8%A9%20%D8%AF%D9%88%D8%B1%20%D8%A3%D9%88%D9%84%20%D8%AC%D9%86%D8%A8%20%D8%A7%D9%84%D9%85%D9%88%D9%84/vid_kjw5aa.mp4",
+          ],
         },
 
         {
@@ -51,7 +53,9 @@
           location: "سكن مصر",
           price: "900",
           type: "girls",
-          images: ["https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034268/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%B3%D9%83%D9%86%20%D9%85%D8%B5%D8%B1/%D8%B4%D9%82%D9%87%20%D8%AF%D9%88%D8%B1%20%D8%AE%D8%A7%D9%85%D8%B3%20%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20%D8%A7%D9%87%D8%A7%D9%84%D9%8A/WhatsApp_Video_2026-06-15_at_7.53.41_PM_1_rap7kq.mp4"],
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034268/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%B3%D9%83%D9%86%20%D9%85%D8%B5%D8%B1/%D8%B4%D9%82%D9%87%20%D8%AF%D9%88%D8%B1%20%D8%AE%D8%A7%D9%85%D8%B3%20%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20%D8%A7%D9%87%D8%A7%D9%84%D9%8A/WhatsApp_Video_2026-06-15_at_7.53.41_PM_1_rap7kq.mp4",
+          ],
         },
       ];
 
@@ -61,114 +65,126 @@
       }
 
       function render() {
-  const app = document.getElementById("app");
-  app.innerHTML = "";
+        const app = document.getElementById("app");
+        app.innerHTML = "";
 
-  const search = document.getElementById("searchInput").value.toLowerCase();
+        const search = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
 
-  apartments
-    .filter(
-      (apt) =>
-        (currentFilter == "all" || apt.type == currentFilter) &&
-        (apt.name.toLowerCase().includes(search) ||
-          apt.location.toLowerCase().includes(search)),
-    )
-    .forEach((apt) => {
-      const card = document.createElement("div");
-      card.className = "card";
+        apartments
+          .filter((apt) => {
+            const price = parseInt(apt.price);
+            let priceMatch = true;
+            switch (priceFilter) {
+              case "900":
+                priceMatch = price <= 900;
+                break;
 
-      card.innerHTML = `
-        <div class="slider">
-          ${apt.images
-            .map((file, i) => {
-              const isActive = i == 0 ? "active" : "";
-              
-              // إذا كان الرابط من جوجل درايف
-              if (file.includes("drive.google.com/file/d/")) {
-                const embedUrl = file.replace("/view?usp=drive_link", "/preview");
-                return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
-              }
-              
-              // إذا كان فيديو محلي بصيغة mp4
-              if (file.endsWith(".mp4")) {
-                return `
-                  <video class="slider-item ${isActive}" controls>
-                    <source src="${file}" type="video/mp4">
-                    متصفحك لا يدعم تشغيل الفيديو.
-                  </video>
-                `;
-              }
+              case "1000":
+                priceMatch = price <= 1000;
+                break;
 
-              // إذا كانت صورة عادية
-              return `<img src="${file}" class="slider-item ${isActive}">`;
-            })
-            .join("")}
+              case "1200":
+                priceMatch = price <= 1200;
+                break;
 
-          <div class="nav">
-            <button onclick="prev(this)">❮</button>
-            <button onclick="next(this)">❯</button>
-          </div>
-        </div>
+              case "1500":
+                priceMatch = price <= 1500;
+                break;
 
-        <div class="card-content">
-          <div class="title">${apt.name}</div>
-          <div class="action-btn">
-            <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
-            <div class="book-btn" onclick="bookNow('${apt.name}','${apt.location}','${apt.price}')">احجز</div>
-          </div>
-        </div>
-      `;
+              default:
+                priceMatch = true;
+            }
+            return (
+              (currentFilter === "all" || apt.type === currentFilter) &&
+              (apt.name.toLowerCase().includes(search) ||
+                apt.location.toLowerCase().includes(search)) &&
+              (priceFilter === "all" ? true : !isNaN(price) && priceMatch)
+            );
+          })
+          .forEach((apt) => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-      app.appendChild(card);
-    });
-}
+            // فحص وجود شريط محجوزة داخل النص لنقله إلى هيكل الكارت الرئيسي تلافيًا لمشاكل الـ Overflow
+            let ribbonHTML = "";
+            if (apt.name.includes("corner-ribbon")) {
+              if (apt.name.includes("reserved"))
+                ribbonHTML = `<span class="corner-ribbon reserved">محجوزة</span>`;
+              else
+                ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
+            }
 
-// تحديث دوال التنقل لدعم جميع العناصر (.slider-item)
-function next(btn) {
-  let slider = btn.closest(".slider");
-  let items = slider.querySelectorAll(".slider-item");
-  if(items.length <= 1) return;
+            card.innerHTML = `
+            ${ribbonHTML}
+            <div class="slider">
+              ${apt.images
+                .map((file, i) => {
+                  const isActive = i === 0 ? "active" : "";
 
-  let index = [...items].findIndex((el) => el.classList.contains("active"));
-  items[index].classList.remove("active");
-  items[(index + 1) % items.length].classList.add("active");
-}
+                  if (file.includes("drive.google.com/file/d/")) {
+                    const embedUrl = file.replace(
+                      "/view?usp=drive_link",
+                      "/preview",
+                    );
+                    return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
+                  }
 
-function prev(btn) {
-  let slider = btn.closest(".slider");
-  let items = slider.querySelectorAll(".slider-item");
-  if(items.length <= 1) return;
+                  if (file.endsWith(".mp4")) {
+                    return `
+                      <video class="slider-item ${isActive}" controls>
+                        <source src="${file}" type="video/mp4">
+                        متصفحك لا يدعم تشغيل الفيديو.
+                      </video>
+                    `;
+                  }
 
-  let index = [...items].findIndex((el) => el.classList.contains("active"));
-  items[index].classList.remove("active");
-  items[(index - 1 + items.length) % items.length].classList.add("active");
-}
+                  return `<img src="${file}" class="slider-item ${isActive}">`;
+                })
+                .join("")}
 
-      render();
+              <div class="nav">
+                <button onclick="prev(this)">❮</button>
+                <button onclick="next(this)">❯</button>
+              </div>
+            </div>
 
+            <div class="card-content">
+              <div class="title">${apt.name.replace(/<span[^>]*>([^<]*)<\/span>/g, "")}</div>
+              <div class="action-btn">
+                <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
+                <div class="book-btn" onclick="bookNow('${apt.name.replace(/'/g, "\\'")}', '${apt.location}', '${apt.price}')">احجز</div>
+              </div>
+            </div>
+          `;
+
+            app.appendChild(card);
+          });
+      }
+
+      // دالة التنقل الموحدة والآمنة لجميع أنواع عناصر الميديا
       function next(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img,video");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
-
         items[index].classList.remove("active");
-
         items[(index + 1) % items.length].classList.add("active");
       }
 
       function prev(btn) {
         let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll("img,video");
+        let items = slider.querySelectorAll(".slider-item");
+        if (items.length <= 1) return;
 
         let index = [...items].findIndex((el) =>
           el.classList.contains("active"),
         );
-
         items[index].classList.remove("active");
-
         items[(index - 1 + items.length) % items.length].classList.add(
           "active",
         );
@@ -176,33 +192,38 @@ function prev(btn) {
 
       function bookNow(name, location, price) {
         let phone = "201152638852";
-
-        let message = `عايز احجز :
-
-${name}
-
-الموقع : ${location}
-
-السعر : ${price}`;
-
+        let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
+        let message = `عايز احجز:\n\n${cleanName}\n\nالموقع: ${location}\nالسعر: ${price || "اتصل لمعرفة السعر"}`;
         let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
         window.open(url, "_blank");
       }
-    </script>
 
-    <script src="dark.js"></script>
-    <div id="fullImgBox" onclick="closeFullImg()">
-      <span id="closeFullImgBtn">✕</span>
-      <img src="" id="fullImg" alt="خريطة كاملة">
-    </div>
+      function openFullImg(element) {
+        const fullImgBox = document.getElementById("fullImgBox");
+        const fullImg = document.getElementById("fullImg");
+        fullImg.src = element.src;
+        fullImgBox.style.display = "flex";
+      }
 
-    <script>
-       // الأكواد البرمجية بتاعتك الحالية...
-       // وما تنساش تضيف الدالتين بتوع الجافا سكريبت اللي فاتوا هنا في الآخر
+      function closeFullImg() {
+        document.getElementById("fullImgBox").style.display = "none";
+      }
+
+      function setPriceFilter(value) {
+        priceFilter = value;
+        render();
+      }
+
+      function togglePriceFilter() {
+        const options = document.getElementById("priceOptions");
+        const arrow = document.getElementById("arrow");
+        options.classList.toggle("hide");
+        arrow.textContent = options.classList.contains("hide") ? "▼" : "▲";
+      }
+
+      // تشغيل أول رندر عند تحميل الصفحة
+      render();
     </script>
     <script src="dark.js"></script>
-  </body>
-</html>
   </body>
 </html>
