@@ -8,9 +8,10 @@ require("dotenv").config();
 
 const app = express();
 
-// إعدادات أساسية
+// إعدادات أساسية مع زيادة الحد الأقصى للبيانات (لضمان الاستقرار)
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // 1. إعداد Cloudinary
 cloudinary.config({
@@ -35,13 +36,14 @@ mongoose
   .then(() => console.log("تم الاتصال بقاعدة البيانات بنجاح 🚀"))
   .catch((err) => console.log("خطأ في الاتصال بقاعدة البيانات:", err));
 
-// 3. تصميم الجداول (Schemas)
+// 3. تصميم الجداول (Schemas) - أضفنا حقل videoUrl
 const apartmentSchema = new mongoose.Schema({
   description: String,
   location: String,
   type: String,
   price: String,
   images: [String],
+  videoUrl: String, // حقل خاص بلينك الفيديو الخارجي
   status: { type: String, default: "متاحة" },
   createdAt: { type: Date, default: Date.now },
 });
@@ -59,7 +61,7 @@ const Booking = mongoose.model("Booking", bookingSchema);
 // 4. مسارات الـ API (Routes)
 // ==========================================
 
-// مسار: إضافة شقة جديدة
+// مسار: إضافة شقة جديدة (يدعم الصور وملف الفيديو الخارجي)
 app.post("/api/apartments", upload.array("media", 15), async (req, res) => {
   try {
     const mediaUrls = req.files ? req.files.map((file) => file.path) : [];
@@ -70,6 +72,7 @@ app.post("/api/apartments", upload.array("media", 15), async (req, res) => {
       type: req.body.type,
       price: req.body.price,
       images: mediaUrls,
+      videoUrl: req.body.videoUrl || "", // استقبال حفظ لينك الفيديو
     });
 
     await newApartment.save();
