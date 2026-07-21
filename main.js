@@ -299,7 +299,11 @@ function togglePriceFilter() {
   }
 }
 
-// تشغيل جلب البيانات بدل الرندر المباشر
-document.addEventListener("DOMContentLoaded", () => {
-  fetchApartments();
-});
+// تشغيل الموقع بمجرد فتحه
+// 1. عرض الشقق القديمة فوراً عشان الصفحة متبقاش فاضية
+if (typeof apartments !== "undefined") {
+  render();
+}
+
+// 2. جلب الشقق الجديدة من السيرفر في الخلفية ودمجها
+fetchApartments();
