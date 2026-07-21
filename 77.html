@@ -101,9 +101,6 @@
     <div class="container" id="app"></div>
 
     <script>
-      let currentFilter = "all";
-      let priceFilter = "all";
-
       const apartments = [
         {
           name: "شقة في عماره 62 قصاد المسجد دور رابع عماره كلها أهالي وبنات متاحة للحجز السنة الجاية ",
@@ -112,6 +109,23 @@
           type: "girls",
           images: [
             "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034271/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2062/vid_auefra.mp4",
+          ],
+        },
+        {
+          name: "شقة في عماره 152 دور تالت باقي 3 سراير (سمر)",
+          location: "ال77",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625015/WhatsApp_Image_2026-07-21_at_6.43.04_AM_b1u958.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625014/WhatsApp_Image_2026-07-21_at_6.42.49_AM_iuvgqm.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625014/WhatsApp_Image_2026-07-21_at_6.42.48_AM_l37wru.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625013/WhatsApp_Image_2026-07-21_at_6.42.58_AM_jddasn.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625013/WhatsApp_Image_2026-07-21_at_6.42.52_AM_w2lieh.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625012/WhatsApp_Image_2026-07-21_at_6.42.45_AM_gmeews.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625011/WhatsApp_Image_2026-07-21_at_6.42.39_AM_xaizmh.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625012/WhatsApp_Image_2026-07-21_at_6.42.48_AM_1_gkgpr7.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784625011/WhatsApp_Image_2026-07-21_at_6.42.37_AM_p9jrip.jpg",
           ],
         },
         {
@@ -291,8 +305,6 @@
           ],
         },
 
-
-
         {
           name: "شقة في عماره 76 دور أرضي مرتفع العماره أهالي وفيه كاميرات في العماره، هيكون متاح ديب فريزر مطلوب ٣ بنات ياخدوا الشقة كلها سينجل",
           location: "ال77",
@@ -312,175 +324,80 @@
           ],
         },
 
+        {
+          name: "شقة في عماره ٧٧ دور تالت باقي ٣ سراير أول مره تتسكن",
+          location: "ال77",
+          price: "1000",
+          type: "boys",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547266/2_fk4u7b.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547266/3_kx8wf1.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547265/15_jcrc9o.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547265/1_youipo.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547265/16_pfnsdx.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547265/9_mqbbc9.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547265/8_oevwam.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547264/14_f7puln.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547261/7_mc1rba.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547260/12_n3ki54.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547262/13_zyllet.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547260/11_v6uyul.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547260/10_uq2osx.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547262/13_zyllet.jpg",
+            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547266/4_hgxxld.jpg",
+          ],
+        },
 
+        {
+          name: "شقة في  المربع الأول أمامي خلف السوبر ماركت دور تالت اول مره تتأجر <span class='corner-ribbon reserved'>محجوزة</span>",
+          location: "ال77",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784550743/WhatsApp_Video_2026-07-20_at_2.51.15_AM_uvixte.mp4",
+          ],
+        },
 
+        {
+          name: "شقة في المربع التاني دور سادس باقي سرير",
+          location: "ال77",
+          price: "900",
+          type: "boys",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784551225/WhatsApp_Video_2026-07-20_at_2.51.16_AM_nmmgsw.mp4",
+          ],
+        },
+        {
+          name: "شقه في عماره 73 دور تالت العماره كلها بنات ",
+          location: "ال77",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784619038/WhatsApp_Video_2026-07-21_at_6.45.07_AM_noludw.mp4",
+          ],
+        },
+        {
+          name: "شقه في المربع الاول خلفي عماره 125 دور اول علوي باقي اوضه سينجل و اوضه دابل",
+          location: "ال77",
+          price: "",
+          type: "boys",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784619524/WhatsApp_Video_2026-07-21_at_6.45.06_AM_toqgfw.mp4",
+          ],
+        },
+
+        {
+          name: "شقة عند المسجد دور تاني لسه بتتفرش كل الفرش زيرو وفيها ديب فريزر ونت أرضي ومقفله حديد والعماره عائلات",
+          location: "ال77",
+          price: "",
+          type: "girls",
+          images: [
+            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784623442/WhatsApp_Video_2026-07-21_at_6.42.37_AM_dndeaz.mp4",
+          ],
+        },
       ];
-
-      function filterApartments(type) {
-        currentFilter = type;
-        render();
-      }
-
-      function render() {
-        const app = document.getElementById("app");
-        app.innerHTML = "";
-
-        const search = document
-          .getElementById("searchInput")
-          .value.toLowerCase();
-
-        apartments
-          .filter((apt) => {
-            const price = parseInt(apt.price);
-            let priceMatch = true;
-            switch (priceFilter) {
-              case "900":
-                priceMatch = price <= 900;
-                break;
-
-              case "1000":
-                priceMatch = price <= 1000;
-                break;
-
-              case "1200":
-                priceMatch = price <= 1200;
-                break;
-
-              case "1500":
-                priceMatch = price <= 1500;
-                break;
-
-              default:
-                priceMatch = true;
-            }
-            return (
-              (currentFilter === "all" || apt.type === currentFilter) &&
-              (apt.name.toLowerCase().includes(search) ||
-                apt.location.toLowerCase().includes(search)) &&
-              (priceFilter === "all" ? true : !isNaN(price) && priceMatch)
-            );
-          })
-          .forEach((apt) => {
-            const card = document.createElement("div");
-            card.className = "card";
-
-            // فحص وجود شريط محجوزة داخل النص لنقله إلى هيكل الكارت الرئيسي تلافيًا لمشاكل الـ Overflow
-            let ribbonHTML = "";
-            if (apt.name.includes("corner-ribbon")) {
-              if (apt.name.includes("reserved"))
-                ribbonHTML = `<span class="corner-ribbon reserved">محجوزة</span>`;
-              else
-                ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
-            }
-
-            card.innerHTML = `
-            ${ribbonHTML}
-            <div class="slider">
-              ${apt.images
-                .map((file, i) => {
-                  const isActive = i === 0 ? "active" : "";
-
-                  if (file.includes("drive.google.com/file/d/")) {
-                    const embedUrl = file.replace(
-                      "/view?usp=drive_link",
-                      "/preview",
-                    );
-                    return `<iframe class="slider-item ${isActive}" src="${embedUrl}" allow="autoplay" allowfullscreen></iframe>`;
-                  }
-
-                  if (file.endsWith(".mp4")) {
-                    return `
-                      <video class="slider-item ${isActive}" controls>
-                        <source src="${file}" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
-                      </video>
-                    `;
-                  }
-
-                  return `<img src="${file}" class="slider-item ${isActive}">`;
-                })
-                .join("")}
-
-              <div class="nav">
-                <button onclick="prev(this)">❮</button>
-                <button onclick="next(this)">❯</button>
-              </div>
-            </div>
-
-            <div class="card-content">
-              <div class="title">${apt.name.replace(/<span[^>]*>([^<]*)<\/span>/g, "")}</div>
-              <div class="action-btn">
-                <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
-                <div class="book-btn" onclick="bookNow('${apt.name.replace(/'/g, "\\'")}', '${apt.location}', '${apt.price}')">احجز</div>
-              </div>
-            </div>
-          `;
-
-            app.appendChild(card);
-          });
-      }
-
-      // دالة التنقل الموحدة والآمنة لجميع أنواع عناصر الميديا
-      function next(btn) {
-        let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll(".slider-item");
-        if (items.length <= 1) return;
-
-        let index = [...items].findIndex((el) =>
-          el.classList.contains("active"),
-        );
-        items[index].classList.remove("active");
-        items[(index + 1) % items.length].classList.add("active");
-      }
-
-      function prev(btn) {
-        let slider = btn.closest(".slider");
-        let items = slider.querySelectorAll(".slider-item");
-        if (items.length <= 1) return;
-
-        let index = [...items].findIndex((el) =>
-          el.classList.contains("active"),
-        );
-        items[index].classList.remove("active");
-        items[(index - 1 + items.length) % items.length].classList.add(
-          "active",
-        );
-      }
-
-      function bookNow(name, location, price) {
-        let phone = "201152638852";
-        let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
-        let message = `عايز احجز:\n\n${cleanName}\n\nالموقع: ${location}\nالسعر: ${price || "اتصل لمعرفة السعر"}`;
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-        window.open(url, "_blank");
-      }
-
-      function openFullImg(element) {
-        const fullImgBox = document.getElementById("fullImgBox");
-        const fullImg = document.getElementById("fullImg");
-        fullImg.src = element.src;
-        fullImgBox.style.display = "flex";
-      }
-
-      function closeFullImg() {
-        document.getElementById("fullImgBox").style.display = "none";
-      }
-
-      function setPriceFilter(value) {
-        priceFilter = value;
-        render();
-      }
-
-      function togglePriceFilter() {
-        const options = document.getElementById("priceOptions");
-        const arrow = document.getElementById("arrow");
-        options.classList.toggle("hide");
-        arrow.textContent = options.classList.contains("hide") ? "▼" : "▲";
-      }
-
-      // تشغيل أول رندر عند تحميل الصفحة
-      render();
     </script>
+    <script src="main.js"></script>
     <script src="dark.js"></script>
   </body>
 </html>
