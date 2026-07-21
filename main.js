@@ -217,7 +217,7 @@ function closeModal() {
   document.getElementById("bookingModal").style.display = "none";
 }
 
-// 3. دالة إرسال الطلب للسيرفر
+// 3. دالة إرسال الطلب للسيرفر وفتح الواتساب معاً
 async function submitBooking(event) {
   event.preventDefault(); // منع الصفحة من التحميل
 
@@ -229,7 +229,7 @@ async function submitBooking(event) {
     btn.textContent = "جاري الإرسال... ⏳";
     btn.disabled = true;
 
-    // تم تعديل الرابط هنا
+    // 1. إرسال الطلب للسيرفر عشان يظهر في لوحة التحكم
     const response = await fetch(
       "https://sakan-sigma.vercel.app/api/bookings",
       {
@@ -246,19 +246,32 @@ async function submitBooking(event) {
     );
 
     if (response.ok) {
-      alert("تم إرسال طلبك بنجاح! هنتواصل معاك في أقرب وقت. 🎉");
-      closeModal(); // قفل الشباك
-      document.getElementById("bookingForm").reset(); // تفريغ الخانات
+      console.log("تم تسجيل الحجز في قاعدة البيانات بنجاح.");
     } else {
-      alert("حصل خطأ أثناء الإرسال، حاول تاني.");
+      console.log("فشل تسجيل الحجز في القاعدة، لكن سيتم فتح الواتساب.");
     }
   } catch (error) {
     console.error("Error:", error);
-    alert("خطأ في الاتصال بالسيرفر! اتأكد إن السيرفر شغال.");
   } finally {
     btn.textContent = "تأكيد وإرسال الطلب";
     btn.disabled = false;
+    closeModal(); // قفل الشباك
+    document.getElementById("bookingForm").reset(); // تفريغ الخانات
   }
+
+  // 2. تجهيز رسالة الواتساب وفتحها فوراً للمستخدم
+  let adminPhone = "201152638852"; // حط رقم واتساب بتاعك هنا (متبوع بكود مصر 20)
+
+  let whatsappMessage =
+    `السلام عليكم، عايز احجز:\n` +
+    `👤 الاسم: ${nameInput}\n` +
+    `📞 التليفون: ${phoneInput}\n` +
+    `🏠 ${selectedAptForBooking}`;
+
+  let encodedMessage = encodeURIComponent(whatsappMessage);
+
+  // فتح الواتساب في تبويب جديد
+  window.open(`https://wa.me/${adminPhone}?text=${encodedMessage}`, "_blank");
 }
 
 // قفل الشباك لو المستخدم داس في أي مكان بره الشباك
