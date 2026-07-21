@@ -2,6 +2,53 @@
 let currentFilter = "all";
 let priceFilter = "all";
 
+// دالة جلب الشقق من السيرفر ودمجها مع القديم
+async function fetchApartments() {
+  try {
+    // تم تعديل الرابط هنا
+    const response = await fetch(
+      "https://sakan-sigma.vercel.app/api/apartments",
+    );
+    const data = await response.json();
+
+    // تجهيز الداتا اللي جاية من السيرفر عشان تطابق الشكل القديم
+    const newApartments = data.map((apt) => ({
+      name: apt.description,
+      location: apt.location,
+      price: apt.price,
+      type: apt.type,
+      images: apt.images,
+      status: apt.status,
+    }));
+
+    // تحديد المنطقة الحالية من الشقق القديمة (عشان منلخبطش مناطق ببعضها)
+    let currentPageLocation = null;
+    if (typeof apartments !== "undefined" && apartments.length > 0) {
+      currentPageLocation = apartments[0].location;
+    }
+
+    // فلترة الشقق الجديدة عشان نعرض بس اللي تبع الصفحة دي
+    const filteredNewApartments = currentPageLocation
+      ? newApartments.filter((apt) => apt.location === currentPageLocation)
+      : newApartments;
+
+    // دمج الشقق (الجديد من السيرفر في الأول، وبعدين القديم)
+    if (typeof apartments !== "undefined") {
+      apartments = [...filteredNewApartments, ...apartments];
+    } else {
+      window.apartments = filteredNewApartments;
+    }
+
+    render();
+  } catch (error) {
+    console.error("خطأ في جلب بيانات الشقق من السيرفر:", error);
+    // لو حصل خطأ في السيرفر، اعرض الشقق القديمة زي ما هي
+    if (typeof apartments !== "undefined") {
+      render();
+    }
+  }
+}
+
 // دالة الفلترة بالنوع (شباب/بنات)
 function filterApartments(type) {
   currentFilter = type;
@@ -49,8 +96,17 @@ function render() {
       const card = document.createElement("div");
       card.className = "card";
 
+      // تحديد حالة الحجز (للشقق القديمة والجديدة)
       let ribbonHTML = "";
-      if (apt.name.includes("corner-ribbon")) {
+      if (
+        apt.status === "محجوزة" ||
+        apt.name.includes("محجوزة") ||
+        apt.name.includes("reserved")
+      ) {
+        ribbonHTML = `<span class="corner-ribbon reserved">محجوزة</span>`;
+      } else if (apt.status === "متاحة") {
+        ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
+      } else if (apt.name.includes("corner-ribbon")) {
         if (apt.name.includes("reserved"))
           ribbonHTML = `<span class="corner-ribbon reserved">محجوزة</span>`;
         else ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
@@ -68,7 +124,7 @@ function render() {
               return `<iframe class="slider-item ${isActive}" src="${embedUrl}" loading="lazy" allow="autoplay" allowfullscreen></iframe>`;
             }
 
-            if (file.endsWith(".mp4")) {
+            if (file.endsWith(".mp4") || file.includes("video/upload")) {
               // خدعة Cloudinary: تحويل رابط الفيديو لصورة عشان نستخدمها كغلاف
               let posterUrl = file.replace(".mp4", ".jpg");
 
@@ -139,14 +195,79 @@ function prev(btn) {
   items[(index - 1 + items.length) % items.length].classList.add("active");
 }
 
-// دالة الحجز
+// ==========================================
+// نظام الحجز الجديد
+// ==========================================
+let selectedAptForBooking = ""; // متغير عشان نحفظ فيه بيانات الشقة اللي الطالب اختارها
+
+// 1. دالة الحجز (بتفتح الشباك وتسجل بيانات الشقة)
 function bookNow(name, location, price) {
-  let phone = "201152638852";
   let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
-  let message = `عايز احجز:\n\n${cleanName}\n\nالموقع: ${location}\nالسعر: ${price || "اتصل لمعرفة السعر"}`;
-  let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
+  selectedAptForBooking = `المنطقة: ${location} | ${cleanName} | السعر: ${price || "غير محدد"}`;
+
+  // عرض تفاصيل الشقة جوه الشباك
+  document.getElementById("apt-details-text").innerText = selectedAptForBooking;
+
+  // إظهار الشباك
+  document.getElementById("bookingModal").style.display = "flex";
 }
+
+// 2. دالة قفل الشباك
+function closeModal() {
+  document.getElementById("bookingModal").style.display = "none";
+}
+
+// 3. دالة إرسال الطلب للسيرفر
+async function submitBooking(event) {
+  event.preventDefault(); // منع الصفحة من التحميل
+
+  const nameInput = document.getElementById("studentName").value;
+  const phoneInput = document.getElementById("studentPhone").value;
+  const btn = document.querySelector(".confirm-btn");
+
+  try {
+    btn.textContent = "جاري الإرسال... ⏳";
+    btn.disabled = true;
+
+    // تم تعديل الرابط هنا
+    const response = await fetch(
+      "https://sakan-sigma.vercel.app/api/bookings",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userName: nameInput,
+          phone: phoneInput,
+          apartmentDetails: selectedAptForBooking,
+        }),
+      },
+    );
+
+    if (response.ok) {
+      alert("تم إرسال طلبك بنجاح! هنتواصل معاك في أقرب وقت. 🎉");
+      closeModal(); // قفل الشباك
+      document.getElementById("bookingForm").reset(); // تفريغ الخانات
+    } else {
+      alert("حصل خطأ أثناء الإرسال، حاول تاني.");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("خطأ في الاتصال بالسيرفر! اتأكد إن السيرفر شغال.");
+  } finally {
+    btn.textContent = "تأكيد وإرسال الطلب";
+    btn.disabled = false;
+  }
+}
+
+// قفل الشباك لو المستخدم داس في أي مكان بره الشباك
+window.onclick = function (event) {
+  const modal = document.getElementById("bookingModal");
+  if (event.target == modal) {
+    closeModal();
+  }
+};
 
 // دوال الصورة المكبرة
 function openFullImg(element) {
@@ -178,7 +299,7 @@ function togglePriceFilter() {
   }
 }
 
-// تشغيل الموقع بعد التحميل
+// تشغيل جلب البيانات بدل الرندر المباشر
 document.addEventListener("DOMContentLoaded", () => {
-  render();
+  fetchApartments();
 });

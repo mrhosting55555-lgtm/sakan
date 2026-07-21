@@ -444,6 +444,103 @@ body.light .price-btn {
 .hide {
   display: none;
 }
+/* ==========================================
+   شباك الحجز (Booking Modal)
+   ========================================== */
+.modal {
+  display: none; /* مخفي بشكل افتراضي */
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #050816;
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalFadeIn 0.4s ease;
+}
+
+body.light .modal-content {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.light #apt-details-text {
+  color: #333 !important;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  color: #ef4444;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  outline: none;
+  font-size: 15px;
+}
+
+body.light .modal-input {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #111;
+}
+
+.modal-input:focus {
+  border-color: #00e5ff;
+}
+
+.confirm-btn {
+  background: linear-gradient(90deg, #00e5ff, #7c4dff);
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.confirm-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(124, 77, 255, 0.4);
+}
 
 /* أنيميشن شاشات السكيتون للتحميل الكسول */
 @keyframes loadingSkeleton {

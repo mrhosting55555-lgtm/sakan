@@ -101,7 +101,7 @@
     <div class="container" id="app"></div>
 
     <script>
-      const apartments = [
+      let apartments = [
         {
           name: "شقة في عماره 62 قصاد المسجد دور رابع عماره كلها أهالي وبنات متاحة للحجز السنة الجاية ",
           location: "ال77",
@@ -397,6 +397,39 @@
         },
       ];
     </script>
+    <!-- شباك الحجز (Modal) -->
+    <div id="bookingModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 style="margin-bottom: 15px; color: #00e5ff">تأكيد الحجز 🏠</h2>
+        <p
+          id="apt-details-text"
+          style="margin-bottom: 20px; font-size: 14px; color: #ddd"
+        ></p>
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+          <div class="form-group" style="margin-bottom: 15px">
+            <input
+              type="text"
+              id="studentName"
+              placeholder="الاسم ثلاثي"
+              required
+              class="modal-input"
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 20px">
+            <input
+              type="tel"
+              id="studentPhone"
+              placeholder="رقم التليفون (واتساب)"
+              required
+              class="modal-input"
+            />
+          </div>
+          <button type="submit" class="confirm-btn">تأكيد وإرسال الطلب</button>
+        </form>
+      </div>
+    </div>
     <script src="main.js"></script>
     <script src="dark.js"></script>
   </body>
