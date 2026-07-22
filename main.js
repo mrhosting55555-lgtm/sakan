@@ -5,19 +5,19 @@ let priceFilter = "all";
 // دالة جلب الشقق من السيرفر ودمجها مع القديم
 async function fetchApartments() {
   try {
-    // تم تعديل الرابط هنا
     const response = await fetch(
       "https://sakan-sigma.vercel.app/api/apartments",
     );
     const data = await response.json();
 
-    // تجهيز الداتا اللي جاية من السيرفر عشان تطابق الشكل القديم
+    // تجهيز الداتا اللي جاية من السيرفر عشان تطابق الشكل القديم (وضيفنا معاها videoUrl)
     const newApartments = data.map((apt) => ({
       name: apt.description,
       location: apt.location,
       price: apt.price,
       type: apt.type,
       images: apt.images,
+      videoUrl: apt.videoUrl, // تم إضافتها هنا عشان الفيديو يظهر
       status: apt.status,
     }));
 
@@ -112,10 +112,16 @@ function render() {
         else ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
       }
 
+      // دمج الصور مع فيديو Cloudinary الخارجي لو موجود
+      let allMedia = [...(apt.images || [])];
+      if (apt.videoUrl) {
+        allMedia.push(apt.videoUrl); // إضافة لينك الفيديو مع قائمة الوسائط لعرضه في السلايدر
+      }
+
       card.innerHTML = `
       ${ribbonHTML}
       <div class="slider">
-        ${apt.images
+        ${allMedia
           .map((file, i) => {
             const isActive = i === 0 ? "active" : "";
 
@@ -124,11 +130,16 @@ function render() {
               return `<iframe class="slider-item ${isActive}" src="${embedUrl}" loading="lazy" allow="autoplay" allowfullscreen></iframe>`;
             }
 
-            if (file.endsWith(".mp4") || file.includes("video/upload")) {
-              // خدعة Cloudinary: تحويل رابط الفيديو لصورة عشان نستخدمها كغلاف
-              let posterUrl = file.replace(".mp4", ".jpg");
+            // فحص الفيديو (سواء مرفوع مباشر أو لينك خارجي من Cloudinary)
+            if (
+              file.endsWith(".mp4") ||
+              file.includes("video/upload") ||
+              file.includes(".mov")
+            ) {
+              let posterUrl = file
+                .replace(".mp4", ".jpg")
+                .replace(".mov", ".jpg");
 
-              // ضغط صورة الغلاف عشان نحافظ على سرعة الموقع
               if (posterUrl.includes("res.cloudinary.com/")) {
                 posterUrl = posterUrl.replace(
                   "/video/upload/",
@@ -198,38 +209,35 @@ function prev(btn) {
 // ==========================================
 // نظام الحجز الجديد
 // ==========================================
-let selectedAptForBooking = ""; // متغير عشان نحفظ فيه بيانات الشقة اللي الطالب اختارها
+let selectedAptForBooking = "";
 
-// 1. دالة الحجز (بتفتح الشباك وتسجل بيانات الشقة)
 function bookNow(name, location, price) {
   let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
   selectedAptForBooking = `المنطقة: ${location} | ${cleanName} | السعر: ${price || "غير محدد"}`;
 
-  // عرض تفاصيل الشقة جوه الشباك
   document.getElementById("apt-details-text").innerText = selectedAptForBooking;
-
-  // إظهار الشباك
   document.getElementById("bookingModal").style.display = "flex";
 }
 
-// 2. دالة قفل الشباك
 function closeModal() {
   document.getElementById("bookingModal").style.display = "none";
 }
 
-// 3. دالة إرسال الطلب للسيرفر وفتح الواتساب معاً
+// دالة إرسال الطلب للسيرفر وفتح الواتساب معاً
 async function submitBooking(event) {
-  event.preventDefault(); // منع الصفحة من التحميل
+  event.preventDefault();
 
   const nameInput = document.getElementById("studentName").value;
   const phoneInput = document.getElementById("studentPhone").value;
   const btn = document.querySelector(".confirm-btn");
 
   try {
-    btn.textContent = "جاري الإرسال... ⏳";
-    btn.disabled = true;
+    if (btn) {
+      btn.textContent = "جاري الإرسال... ⏳";
+      btn.disabled = true;
+    }
 
-    // 1. إرسال الطلب للسيرفر عشان يظهر في لوحة التحكم
+    // 1. تسجيل الحجز في قاعدة البيانات
     const response = await fetch(
       "https://sakan-sigma.vercel.app/api/bookings",
       {
@@ -248,19 +256,21 @@ async function submitBooking(event) {
     if (response.ok) {
       console.log("تم تسجيل الحجز في قاعدة البيانات بنجاح.");
     } else {
-      console.log("فشل تسجيل الحجز في القاعدة، لكن سيتم فتح الواتساب.");
+      console.log("فشل تسجيل الحجز في القاعدة، سيتم فتح الواتساب.");
     }
   } catch (error) {
     console.error("Error:", error);
   } finally {
-    btn.textContent = "تأكيد وإرسال الطلب";
-    btn.disabled = false;
-    closeModal(); // قفل الشباك
-    document.getElementById("bookingForm").reset(); // تفريغ الخانات
+    if (btn) {
+      btn.textContent = "تأكيد وإرسال الطلب";
+      btn.disabled = false;
+    }
+    closeModal();
+    document.getElementById("bookingForm").reset();
   }
 
-  // 2. تجهيز رسالة الواتساب وفتحها فوراً للمستخدم
-  let adminPhone = "201152638852"; // حط رقم واتساب بتاعك هنا (متبوع بكود مصر 20)
+  // 2. فتح الواتساب أوتوماتيكياً برقمك وتفاصيل الحجز
+  let adminPhone = "201152638852"; // رقم الواتساب بتاعك
 
   let whatsappMessage =
     `السلام عليكم، عايز احجز:\n` +
@@ -269,12 +279,9 @@ async function submitBooking(event) {
     `🏠 ${selectedAptForBooking}`;
 
   let encodedMessage = encodeURIComponent(whatsappMessage);
-
-  // فتح الواتساب في تبويب جديد
   window.open(`https://wa.me/${adminPhone}?text=${encodedMessage}`, "_blank");
 }
 
-// قفل الشباك لو المستخدم داس في أي مكان بره الشباك
 window.onclick = function (event) {
   const modal = document.getElementById("bookingModal");
   if (event.target == modal) {
@@ -313,10 +320,8 @@ function togglePriceFilter() {
 }
 
 // تشغيل الموقع بمجرد فتحه
-// 1. عرض الشقق القديمة فوراً عشان الصفحة متبقاش فاضية
 if (typeof apartments !== "undefined") {
   render();
 }
 
-// 2. جلب الشقق الجديدة من السيرفر في الخلفية ودمجها
 fetchApartments();
