@@ -10,14 +10,14 @@ async function fetchApartments() {
     );
     const data = await response.json();
 
-    // تجهيز الداتا اللي جاية من السيرفر عشان تطابق الشكل القديم (وضيفنا معاها videoUrl)
+    // تجهيز الداتا اللي جاية من السيرفر عشان تطابق الشكل القديم
     const newApartments = data.map((apt) => ({
       name: apt.description,
       location: apt.location,
       price: apt.price,
       type: apt.type,
-      images: apt.images,
-      videoUrl: apt.videoUrl, // تم إضافتها هنا عشان الفيديو يظهر
+      images: apt.images, // تتضمن الصور المرفوعة واللينكات الخارجية المدمجة معاً
+      videoUrl: apt.videoUrl, // تدعم الحقل القديم لو موجود
       status: apt.status,
     }));
 
@@ -112,10 +112,10 @@ function render() {
         else ribbonHTML = `<span class="corner-ribbon available">متاحة</span>`;
       }
 
-      // دمج الصور مع فيديو Cloudinary الخارجي لو موجود
+      // تجهيز كل الوسائط (صور + فيديوهات + لينكات متعددة) لعرضها في السلايدر
       let allMedia = [...(apt.images || [])];
-      if (apt.videoUrl) {
-        allMedia.push(apt.videoUrl); // إضافة لينك الفيديو مع قائمة الوسائط لعرضه في السلايدر
+      if (apt.videoUrl && !allMedia.includes(apt.videoUrl)) {
+        allMedia.push(apt.videoUrl);
       }
 
       card.innerHTML = `
@@ -130,15 +130,17 @@ function render() {
               return `<iframe class="slider-item ${isActive}" src="${embedUrl}" loading="lazy" allow="autoplay" allowfullscreen></iframe>`;
             }
 
-            // فحص الفيديو (سواء مرفوع مباشر أو لينك خارجي من Cloudinary)
+            // فحص الفيديو (سواء مرفوع مباشر أو لينك خارجي من Cloudinary أو امتداد فيديو)
             if (
               file.endsWith(".mp4") ||
               file.includes("video/upload") ||
-              file.includes(".mov")
+              file.includes(".mov") ||
+              file.includes(".webm")
             ) {
               let posterUrl = file
                 .replace(".mp4", ".jpg")
-                .replace(".mov", ".jpg");
+                .replace(".mov", ".jpg")
+                .replace(".webm", ".jpg");
 
               if (posterUrl.includes("res.cloudinary.com/")) {
                 posterUrl = posterUrl.replace(
@@ -207,7 +209,7 @@ function prev(btn) {
 }
 
 // ==========================================
-// نظام الحجز الجديد
+// نظام الحجز
 // ==========================================
 let selectedAptForBooking = "";
 
@@ -215,12 +217,16 @@ function bookNow(name, location, price) {
   let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
   selectedAptForBooking = `المنطقة: ${location} | ${cleanName} | السعر: ${price || "غير محدد"}`;
 
-  document.getElementById("apt-details-text").innerText = selectedAptForBooking;
-  document.getElementById("bookingModal").style.display = "flex";
+  const detailsEl = document.getElementById("apt-details-text");
+  if (detailsEl) detailsEl.innerText = selectedAptForBooking;
+
+  const modalEl = document.getElementById("bookingModal");
+  if (modalEl) modalEl.style.display = "flex";
 }
 
 function closeModal() {
-  document.getElementById("bookingModal").style.display = "none";
+  const modalEl = document.getElementById("bookingModal");
+  if (modalEl) modalEl.style.display = "none";
 }
 
 // دالة إرسال الطلب للسيرفر وفتح الواتساب معاً
@@ -266,11 +272,12 @@ async function submitBooking(event) {
       btn.disabled = false;
     }
     closeModal();
-    document.getElementById("bookingForm").reset();
+    const formEl = document.getElementById("bookingForm");
+    if (formEl) formEl.reset();
   }
 
   // 2. فتح الواتساب أوتوماتيكياً برقمك وتفاصيل الحجز
-  let adminPhone = "201152638852"; // رقم الواتساب بتاعك
+  let adminPhone = "201152638852"; // رقم الواتساب الخاص بك
 
   let whatsappMessage =
     `السلام عليكم، عايز احجز:\n` +
