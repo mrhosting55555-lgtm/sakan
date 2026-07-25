@@ -27,9 +27,12 @@ async function fetchApartments() {
       currentPageLocation = apartments[0].location;
     }
 
-    // فلترة الشقق الجديدة عشان نعرض بس اللي تبع الصفحة دي
+    // فلترة الشقق الجديدة بدقة تامة لمنع ظهور الشقة في غير منطقتها
     const filteredNewApartments = currentPageLocation
-      ? newApartments.filter((apt) => apt.location === currentPageLocation)
+      ? newApartments.filter((apt) => {
+          if (!apt.location || !currentPageLocation) return false;
+          return apt.location.trim().toLowerCase() === currentPageLocation.trim().toLowerCase();
+        })
       : newApartments;
 
     // دمج الشقق (الجديد من السيرفر في الأول، وبعدين القديم)
@@ -214,14 +217,33 @@ function prev(btn) {
 let selectedAptForBooking = "";
 
 function bookNow(name, location, price) {
-  let cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
-  selectedAptForBooking = `المنطقة: ${location} | ${cleanName} | السعر: ${price || "غير محدد"}`;
+  try {
+    // تنظيف اسم الشقة من أي رموز قد تكسر الكود
+    let cleanName = "";
+    if (name) {
+      cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").replace(/['"]/g, "").trim();
+    }
+    
+    selectedAptForBooking = `المنطقة: ${location || "غير محددة"} | ${cleanName || "شقة"} | السعر: ${price || "غير محدد"}`;
 
-  const detailsEl = document.getElementById("apt-details-text");
-  if (detailsEl) detailsEl.innerText = selectedAptForBooking;
+    const detailsEl = document.getElementById("apt-details-text");
+    if (detailsEl) {
+      detailsEl.innerText = selectedAptForBooking;
+    }
 
-  const modalEl = document.getElementById("bookingModal");
-  if (modalEl) modalEl.style.display = "flex";
+    const modalEl = document.getElementById("bookingModal");
+    if (modalEl) {
+      modalEl.style.display = "flex";
+    } else {
+      // لو الشباك مش موجود في الصفحة دي لأي سبب، افتح الواتساب مباشرة كبديل احتياطي سريع
+      let adminPhone = "201152638852";
+      let whatsappMessage = `السلام عليكم، عايز احجز:\n🏠 ${selectedAptForBooking}`;
+      window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
+    }
+  } catch (err) {
+    console.error("خطأ أثناء محاولة الحجز:", err);
+    alert("حدث خطأ بسيط، حاول مرة أخرى.");
+  }
 }
 
 function closeModal() {
