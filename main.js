@@ -178,16 +178,27 @@ function render() {
       </div>
 
       <div class="card-content">
-        <div class="title">${apt.name.replace(/<span[^>]*>([^<]*)<\/span>/g, "")}</div>
+        <div class="title"></div>
         <div class="action-btn">
           <div class="price-btn">${apt.price || "اتصل لمعرفة السعر"}</div>
-          <div class="book-btn" onclick="bookNow('${apt.name.replace(/'/g, "\\'")}', '${apt.location}', '${apt.price}')">احجز</div>
+          <div class="book-btn">احجز</div>
         </div>
       </div>
     `;
 
+      // إدراج اسم الشقة وعنوانها بأمان تام
+      const rawName = apt.name || "";
+      const cleanTitle = rawName.replace(/<span[^>]*>([^<]*)<\/span>/g, "").trim();
+      card.querySelector(".title").textContent = cleanTitle;
+
+      // ربط زر الحجز بالكلاس القديم book-btn مع الحفاظ على الأمان التام
+      const bookBtn = card.querySelector(".book-btn");
+      bookBtn.addEventListener("click", () => {
+        bookNow(cleanTitle, apt.location, apt.price);
+      });
+
       app.appendChild(card);
-    });
+    }); // <-- تم إضافة القوس الناقص هنا لإنهاء الـ forEach بشكل صحيح
 }
 
 // دوال التقليب
@@ -218,7 +229,6 @@ let selectedAptForBooking = "";
 
 function bookNow(name, location, price) {
   try {
-    // تنظيف اسم الشقة من أي رموز قد تكسر الكود
     let cleanName = "";
     if (name) {
       cleanName = name.replace(/<span[^>]*>([^<]*)<\/span>/g, "").replace(/['"]/g, "").trim();
@@ -235,7 +245,6 @@ function bookNow(name, location, price) {
     if (modalEl) {
       modalEl.style.display = "flex";
     } else {
-      // لو الشباك مش موجود في الصفحة دي لأي سبب، افتح الواتساب مباشرة كبديل احتياطي سريع
       let adminPhone = "201152638852";
       let whatsappMessage = `السلام عليكم، عايز احجز:\n🏠 ${selectedAptForBooking}`;
       window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(whatsappMessage)}`, "_blank");
