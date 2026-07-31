@@ -1,0 +1,256 @@
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Cairo", sans-serif;
+      }
+
+      body {
+        background: #050816;
+        color: white;
+        padding: 15px;
+      }
+
+      .admin-header {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 15px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 20px;
+      }
+
+      @media (min-width: 768px) {
+        .admin-header {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 20px;
+          margin-bottom: 30px;
+        }
+      }
+
+      .admin-header h1 {
+        background: linear-gradient(90deg, #00e5ff, #7c4dff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 24px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      @media (min-width: 768px) {
+        .tabs {
+          width: auto;
+        }
+      }
+
+      .tab-btn {
+        flex: 1;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+
+      @media (min-width: 768px) {
+        .tab-btn {
+          flex: unset;
+          padding: 10px 20px;
+          font-size: 16px;
+        }
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(90deg, #00e5ff, #7c4dff);
+        border: none;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      }
+
+      .section {
+        display: none;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      @media (min-width: 768px) {
+        .section {
+          padding: 30px;
+        }
+      }
+
+      .section.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        color: white;
+        outline: none;
+        font-size: 16px;
+      }
+
+      .form-control:focus {
+        border-color: #00e5ff;
+      }
+
+      textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .submit-btn {
+        background: linear-gradient(90deg, #00e5ff, #7c4dff);
+        color: white;
+        border: none;
+        padding: 14px;
+        width: 100%;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(124, 77, 255, 0.4);
+      }
+
+      /* تحسين الجداول للموبايل والشاشات الكبيرة */
+      .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 650px;
+      }
+
+      th,
+      td {
+        padding: 12px 10px;
+        text-align: right;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 14px;
+      }
+
+      th {
+        color: #00e5ff;
+        font-weight: bold;
+      }
+
+      tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .wa-btn {
+        background: #25d366;
+        color: white;
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 50px;
+        font-size: 13px;
+        font-weight: bold;
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      .wa-btn:hover {
+        background: #1da851;
+      }
+
+      .action-edit {
+        background: #7c4dff;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        margin-left: 4px;
+      }
+
+      .action-delete {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .inline-input {
+        width: 70px;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .inline-select {
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      .inline-select option {
+        background: #050816;
+        color: white;
+      }

@@ -2,17 +2,37 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>شقق جامعة اللوتس</title>
-    <link rel="stylesheet" href="style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>شقق جامعة اللوتس | الدليل الشامل</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
+    <!-- Background Elements -->
+    <div class="bg-animation">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+    </div>
+
     <header>
       <div class="logo">
         <h1>جامعة اللوتس</h1>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      <button
+        class="theme-toggle"
+        onclick="toggleTheme()"
+        aria-label="تبديل الثيم"
+      >
+        🌙
+      </button>
     </header>
 
     <div class="search-box">
@@ -23,6 +43,7 @@
         onkeyup="render()"
       />
     </div>
+
     <div class="price-filter">
       <div class="price-header" onclick="togglePriceFilter()">
         <span>💰 السعر</span>
@@ -39,28 +60,25 @@
           />
           الكل</label
         >
-
         <label
           ><input type="radio" name="price" onclick="setPriceFilter('900')" />
           حتى 900 جنيه</label
         >
-
         <label
           ><input type="radio" name="price" onclick="setPriceFilter('1000')" />
           حتى 1000 جنيه</label
         >
-
         <label
           ><input type="radio" name="price" onclick="setPriceFilter('1200')" />
           حتى 1200 جنيه</label
         >
-
         <label
           ><input type="radio" name="price" onclick="setPriceFilter('1500')" />
           حتى 1500 جنيه</label
         >
       </div>
     </div>
+
     <div class="filter-buttons">
       <button onclick="filterApartments('all')">🏠 الكل</button>
       <button onclick="filterApartments('girls')">👩 بنات</button>
@@ -77,28 +95,62 @@
             height="250"
             allow="autoplay"
             allowfullscreen
-          >
-          </iframe>
+          ></iframe>
         </div>
         <div class="custom-video-content">
-          <p>منطقة الحكومية</p>
+          <p>منطقة السبع عماير</p>
         </div>
       </div>
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
           <img
-            src="https://res.cloudinary.com/dxqtdpjp0/image/upload/v1782034263/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9/pic_wgjzjv.jpg"
+            src="https://res.cloudinary.com/dxqtdpjp0/image/upload/v1785417951/WhatsApp_Image_2026-07-30_at_4.25.07_PM_auybdf.jpg"
             alt="خريطة المنطقة على جوجل ماب"
             onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
-          <div class="custom-media-content"></div>
         </div>
       </div>
     </div>
 
     <!-- الشقق -->
     <div class="container" id="app"></div>
+
+    <!-- شباك الحجز (Modal) -->
+    <div id="bookingModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 style="margin-bottom: 15px; color: var(--primary-color)">
+          تأكيد الحجز 🏠
+        </h2>
+        <p
+          id="apt-details-text"
+          style="margin-bottom: 20px; font-size: 14px; opacity: 0.85"
+        ></p>
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+          <div class="form-group" style="margin-bottom: 15px">
+            <input
+              type="text"
+              id="studentName"
+              placeholder="الاسم ثلاثي"
+              required
+              class="modal-input"
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 20px">
+            <input
+              type="tel"
+              id="studentPhone"
+              placeholder="رقم التليفون (واتساب)"
+              required
+              class="modal-input"
+            />
+          </div>
+          <button type="submit" class="confirm-btn">تأكيد وإرسال الطلب</button>
+        </form>
+      </div>
+    </div>
 
     <script>
       let apartments = [
@@ -120,8 +172,6 @@
             "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034278/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20142/vid_zvzyxd.mp4",
           ],
         },
-
-      
 
         {
           name: "شقة دور رابع عماره 141",
@@ -160,41 +210,144 @@
           ],
         },
       ];
-    </script>
-    <!-- شباك الحجز (Modal) -->
-    <div id="bookingModal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 style="margin-bottom: 15px; color: #00e5ff">تأكيد الحجز 🏠</h2>
-        <p
-          id="apt-details-text"
-          style="margin-bottom: 20px; font-size: 14px; color: #ddd"
-        ></p>
 
-        <form id="bookingForm" onsubmit="submitBooking(event)">
-          <div class="form-group" style="margin-bottom: 15px">
-            <input
-              type="text"
-              id="studentName"
-              placeholder="الاسم ثلاثي"
-              required
-              class="modal-input"
-            />
-          </div>
-          <div class="form-group" style="margin-bottom: 20px">
-            <input
-              type="tel"
-              id="studentPhone"
-              placeholder="رقم التليفون (واتساب)"
-              required
-              class="modal-input"
-            />
-          </div>
-          <button type="submit" class="confirm-btn">تأكيد وإرسال الطلب</button>
-        </form>
-      </div>
-    </div>
-    <script src="main.js"></script>
-    <script src="dark.js"></script>
+      let currentTypeFilter = "all";
+      let currentPriceFilter = "all";
+      let selectedApt = null;
+
+      // Theme Management
+      function toggleTheme() {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        const themeBtn = document.querySelector(".theme-toggle");
+        if (currentTheme === "dark") {
+          document.documentElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+          themeBtn.textContent = "🌙";
+        } else {
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+          themeBtn.textContent = "☀️";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        document.querySelector(".theme-toggle").textContent =
+          savedTheme === "dark" ? "☀️" : "🌙";
+        render();
+      });
+
+      // Price Dropdown Toggle
+      function togglePriceFilter() {
+        const options = document.getElementById("priceOptions");
+        const arrow = document.getElementById("arrow");
+        options.classList.toggle("hide");
+        arrow.style.transform = options.classList.contains("hide")
+          ? "rotate(0deg)"
+          : "rotate(180deg)";
+      }
+
+      function setPriceFilter(val) {
+        currentPriceFilter = val;
+        document.getElementById("priceOptions").classList.add("hide");
+        document.getElementById("arrow").style.transform = "rotate(0deg)";
+        render();
+      }
+
+      function filterApartments(type) {
+        currentTypeFilter = type;
+        render();
+      }
+
+      // Render Function
+      function render() {
+        const searchVal = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const app = document.getElementById("app");
+        app.innerHTML = "";
+
+        const filtered = apartments.filter((apt) => {
+          const matchesSearch =
+            apt.name.toLowerCase().includes(searchVal) ||
+            apt.location.toLowerCase().includes(searchVal);
+          const matchesType =
+            currentTypeFilter === "all" || apt.type === currentTypeFilter;
+
+          let matchesPrice = true;
+          if (currentPriceFilter !== "all") {
+            const numPrice = parseInt(apt.price);
+            const limit = parseInt(currentPriceFilter);
+            matchesPrice = !isNaN(numPrice) && numPrice <= limit;
+          }
+
+          return matchesSearch && matchesType && matchesPrice;
+        });
+
+        if (filtered.length === 0) {
+          app.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 3rem; font-weight: 700; opacity: 0.7;">عذراً، لا توجد شقق مطابقة لبحثك.</p>`;
+          return;
+        }
+
+        filtered.forEach((apt, index) => {
+          const card = document.createElement("div");
+          card.className = "apartment-card";
+
+          let mediaHTML = "";
+          if (apt.images && apt.images.length > 0) {
+            const mediaSrc = apt.images[0];
+            if (mediaSrc.endsWith(".mp4") || mediaSrc.includes("video")) {
+              mediaHTML = `<div class="apartment-media"><video src="${mediaSrc}" controls preload="metadata"></video></div>`;
+            } else {
+              mediaHTML = `<div class="apartment-media"><img src="${mediaSrc}" alt="صورة الشقة" loading="lazy" /></div>`;
+            }
+          }
+
+          card.innerHTML = `
+            ${mediaHTML}
+            <div class="apartment-content">
+              <div class="apartment-title">${apt.name}</div>
+              <div class="apartment-footer">
+                <span class="apartment-price">${apt.price ? apt.price + " جنيه" : "السعر عند الاتصال"}</span>
+                <button class="book-btn" onclick="openModal('${apt.name.replace(/'/g, "\\'")}')">احجز الآن</button>
+              </div>
+            </div>
+          `;
+          app.appendChild(card);
+        });
+      }
+
+      // Modal Handlers
+      function openModal(aptName) {
+        selectedApt = aptName;
+        document.getElementById("apt-details-text").innerText =
+          "الشقة المطلوبة: " + aptName;
+        document.getElementById("bookingModal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("bookingModal").style.display = "none";
+      }
+
+      function submitBooking(event) {
+        event.preventDefault();
+        const name = document.getElementById("studentName").value;
+        const phone = document.getElementById("studentPhone").value;
+        const message = `مرحباً، أريد تأكيد حجز الشقة التالية:\n- الشقة: ${selectedApt}\n- الاسم: ${name}\n- رقم التليفون: ${phone}`;
+        const whatsappUrl = `https://wa.me/201152638852?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+        closeModal();
+      }
+
+      // Close modal on outside click
+      window.onclick = function (event) {
+        const modal = document.getElementById("bookingModal");
+        if (event.target === modal) {
+          closeModal();
+        }
+      };
+    </script>
   </body>
 </html>
