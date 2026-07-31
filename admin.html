@@ -4,19 +4,388 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>لوحة التحكم | سكن اللوتس</title>
-    <link rel="stylesheet" href="css/admin.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --- Root Variables & Theme Setup --- */
+      :root {
+        --bg-color: #050816;
+        --text-color: #ffffff;
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --primary-color: #00e5ff;
+        --secondary-color: #7c4dff;
+        --primary-hover: #00b8d4;
+        --danger-color: #ef4444;
+        --success-color: #10b981;
+        --shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        --transition: all 0.4s ease;
+      }
+
+      [data-theme="light"] {
+        --bg-color: #f3f7ff;
+        --text-color: #111111;
+        --card-bg: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(0, 0, 0, 0.06);
+        --primary-color: #2563eb;
+        --secondary-color: #7c4dff;
+        --primary-hover: #1d4ed8;
+        --shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Cairo", sans-serif;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        padding: 30px 20px 60px 20px;
+        direction: rtl;
+        transition:
+          background-color 0.4s,
+          color 0.4s;
+      }
+
+      /* --- Header & Theme Toggle --- */
+      .admin-header {
+        max-width: 1000px;
+        margin: 0 auto 30px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 25px;
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+
+      .admin-top-bar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .admin-header h1 {
+        font-size: 26px;
+        font-weight: 900;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .theme-toggle {
+        background: transparent;
+        border: 1px solid var(--glass-border);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition);
+        font-size: 1.1rem;
+      }
+
+      .theme-toggle:hover {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+
+      /* --- Tabs Navigation --- */
+      .tabs {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .tab-btn {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        color: var(--text-color);
+        padding: 10px 20px;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 14px;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .tab-btn:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 4px 15px rgba(0, 229, 255, 0.25);
+      }
+
+      /* --- Sections --- */
+      .section {
+        display: none;
+        max-width: 1000px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        animation: fadeIn 0.4s ease;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section h2 {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 25px;
+        color: var(--text-color);
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 12px;
+      }
+
+      /* --- Forms Styling --- */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-color);
+        font-size: 15px;
+        outline: none;
+        transition: var(--transition);
+      }
+
+      [data-theme="light"] .form-control {
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+      }
+
+      textarea.form-control {
+        resize: none;
+        height: 110px;
+      }
+
+      select.form-control {
+        cursor: pointer;
+      }
+
+      input[type="file"].form-control {
+        padding: 9px;
+        cursor: pointer;
+      }
+
+      .submit-btn {
+        width: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        padding: 14px;
+        border-radius: 14px;
+        cursor: pointer;
+        border: none;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0 5px 20px rgba(0, 229, 255, 0.25);
+        transition: var(--transition);
+        margin-top: 10px;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 229, 255, 0.4);
+      }
+
+      /* --- Tables Styling --- */
+      .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      th,
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--glass-border);
+        font-size: 14px;
+      }
+
+      th {
+        font-weight: 700;
+        opacity: 0.7;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .inline-input {
+        width: 90px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-color);
+        text-align: center;
+      }
+
+      .inline-select {
+        padding: 6px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-color);
+        cursor: pointer;
+      }
+
+      .action-edit,
+      .action-delete,
+      .wa-btn {
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        transition: var(--transition);
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .action-edit {
+        background: rgba(37, 99, 235, 0.15);
+        color: var(--primary-color);
+        margin-left: 5px;
+      }
+      .action-edit:hover {
+        background: var(--primary-color);
+        color: #fff;
+      }
+
+      .action-delete {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--danger-color);
+      }
+      .action-delete:hover {
+        background: var(--danger-color);
+        color: #fff;
+      }
+
+      .wa-btn {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--success-color);
+      }
+      .wa-btn:hover {
+        background: var(--success-color);
+        color: #fff;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 15px 10px;
+        }
+        .admin-header {
+          padding: 15px;
+        }
+        .section {
+          padding: 20px 15px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="admin-header">
-      <h1>لوحة التحكم ⚙️</h1>
+      <div class="admin-top-bar">
+        <h1>لوحة التحكم ⚙️</h1>
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          aria-label="تبديل الثيم"
+        >
+          🌙
+        </button>
+      </div>
       <div class="tabs">
-        <button class="tab-btn active" onclick="showSection('add-apt')">
+        <button class="tab-btn active" onclick="showSection('add-apt', event)">
           إضافة شقة
         </button>
         <button
           class="tab-btn"
           onclick="
-            showSection('manage-apts');
+            showSection('manage-apts', event);
             fetchAdminApartments();
           "
         >
@@ -25,7 +394,7 @@
         <button
           class="tab-btn"
           onclick="
-            showSection('requests');
+            showSection('requests', event);
             fetchBookings();
           "
         >
@@ -36,13 +405,14 @@
 
     <!-- قسم إضافة شقة -->
     <div id="add-apt" class="section active">
-      <h2 style="margin-bottom: 20px">إضافة شقة جديدة</h2>
+      <h2>إضافة شقة جديدة 🏠</h2>
       <form id="apartmentForm" onsubmit="submitApartment(event)">
         <div class="form-group">
           <label>تفاصيل ووصف الشقة</label>
           <textarea
             class="form-control"
             placeholder="مثال: شقة في عمارة 62 دور رابع..."
+            required
           ></textarea>
         </div>
         <div class="form-group">
@@ -76,7 +446,6 @@
           <input type="file" class="form-control" accept="image/*" multiple />
         </div>
 
-        <!-- زود الكود ده هنا -->
         <div class="form-group">
           <label>لينك الفيديو من Cloudinary (اختياري)</label>
           <input
@@ -93,7 +462,7 @@
 
     <!-- قسم إدارة الشقق -->
     <div id="manage-apts" class="section">
-      <h2 style="margin-bottom: 20px">إدارة الشقق المضافة 🏢</h2>
+      <h2>إدارة الشقق المضافة 🏢</h2>
       <div class="table-responsive">
         <table>
           <thead>
@@ -114,7 +483,7 @@
 
     <!-- قسم طلبات الحجز -->
     <div id="requests" class="section">
-      <h2 style="margin-bottom: 20px">طلبات الحجز الحالية 📋</h2>
+      <h2>طلبات الحجز الحالية 📋</h2>
       <div class="table-responsive">
         <table>
           <thead>
@@ -128,7 +497,7 @@
           </thead>
           <tbody>
             <tr>
-              <td colspan="5" style="text-align: center">
+              <td colspan="5" style="text-align: center; opacity: 0.6">
                 لا توجد طلبات حجز بعد
               </td>
             </tr>
@@ -138,7 +507,32 @@
     </div>
 
     <script>
-      function showSection(sectionId) {
+      // Theme Management
+      function toggleTheme() {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        const themeBtn = document.querySelector(".theme-toggle");
+        if (currentTheme === "light") {
+          document.documentElement.setAttribute("data-theme", "dark");
+          localStorage.setItem("theme", "dark");
+          themeBtn.textContent = "🌙";
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+          themeBtn.textContent = "☀️";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        const themeBtn = document.querySelector(".theme-toggle");
+        if (themeBtn) {
+          themeBtn.textContent = savedTheme === "light" ? "☀️" : "🌙";
+        }
+      });
+
+      function showSection(sectionId, event) {
         document
           .querySelectorAll(".section")
           .forEach((sec) => sec.classList.remove("active"));
@@ -147,7 +541,9 @@
           .forEach((btn) => btn.classList.remove("active"));
 
         document.getElementById(sectionId).classList.add("active");
-        event.target.classList.add("active");
+        if (event && event.target) {
+          event.target.classList.add("active");
+        }
       }
 
       async function submitApartment(event) {
@@ -164,11 +560,9 @@
           form.querySelector('input[type="number"]').value,
         );
 
-        // إضافة لينك الفيديو الجديد
         const videoLink = document.getElementById("videoLinkInput").value;
         formData.append("videoUrl", videoLink);
 
-        // رفع الصور فقط من الجهاز
         const fileInput = form.querySelector('input[type="file"]');
         for (let i = 0; i < fileInput.files.length; i++) {
           formData.append("media", fileInput.files[i]);
@@ -203,13 +597,11 @@
         }
       }
 
-      // جلب الشقق لجدول الإدارة
       async function fetchAdminApartments() {
         const tbody = document.getElementById("admin-apts-list");
         tbody.innerHTML =
-          '<tr><td colspan="5" style="text-align:center;">جاري التحميل... ⏳</td></tr>';
+          '<tr><td colspan="5" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
         try {
-          // تم تعديل الرابط هنا
           const res = await fetch(
             "https://sakan-sigma.vercel.app/api/apartments",
           );
@@ -217,7 +609,7 @@
 
           if (apts.length === 0) {
             tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center;">لم تقم بإضافة أي شقق من لوحة التحكم حتى الآن.</td></tr>';
+              '<tr><td colspan="5" style="text-align:center; opacity:0.6;">لم تقم بإضافة أي شقق من لوحة التحكم حتى الآن.</td></tr>';
             return;
           }
 
@@ -225,37 +617,35 @@
           apts.forEach((apt) => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                        <td>${apt.description.length > 30 ? apt.description.substring(0, 30) + "..." : apt.description}</td>
-                        <td>${apt.location}</td>
-                        <td>
-                            <input type="number" id="price-${apt._id}" value="${apt.price || ""}" class="inline-input">
-                        </td>
-                        <td>
-                            <select id="status-${apt._id}" class="inline-select">
-                                <option value="متاحة" ${apt.status === "متاحة" ? "selected" : ""}>متاحة</option>
-                                <option value="محجوزة" ${apt.status === "محجوزة" ? "selected" : ""}>محجوزة</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button onclick="updateApt('${apt._id}')" class="action-edit">تحديث</button>
-                            <button onclick="deleteApt('${apt._id}')" class="action-delete">حذف</button>
-                        </td>
-                    `;
+              <td>${apt.description.length > 30 ? apt.description.substring(0, 30) + "..." : apt.description}</td>
+              <td>${apt.location}</td>
+              <td>
+                <input type="number" id="price-${apt._id}" value="${apt.price || ""}" class="inline-input">
+              </td>
+              <td>
+                <select id="status-${apt._id}" class="inline-select">
+                  <option value="متاحة" ${apt.status === "متاحة" ? "selected" : ""}>متاحة</option>
+                  <option value="محجوزة" ${apt.status === "محجوزة" ? "selected" : ""}>محجوزة</option>
+                </select>
+              </td>
+              <td>
+                <button onclick="updateApt('${apt._id}')" class="action-edit">تحديث</button>
+                <button onclick="deleteApt('${apt._id}')" class="action-delete">حذف</button>
+              </td>
+            `;
             tbody.appendChild(tr);
           });
         } catch (error) {
           tbody.innerHTML =
-            '<tr><td colspan="5" style="text-align:center; color:#ef4444;">خطأ في جلب الشقق</td></tr>';
+            '<tr><td colspan="5" style="text-align:center; color:var(--danger-color);">خطأ في جلب الشقق</td></tr>';
         }
       }
 
-      // تحديث السعر أو الحالة
       async function updateApt(id) {
         const newPrice = document.getElementById(`price-${id}`).value;
         const newStatus = document.getElementById(`status-${id}`).value;
 
         try {
-          // تم تعديل الرابط هنا
           const res = await fetch(
             `https://sakan-sigma.vercel.app/api/apartments/${id}`,
             {
@@ -275,12 +665,10 @@
         }
       }
 
-      // حذف الشقة نهائياً
       async function deleteApt(id) {
         if (!confirm("متأكد إنك عايز تحذف الشقة دي نهائياً؟ ⚠️")) return;
 
         try {
-          // تم تعديل الرابط هنا
           const res = await fetch(
             `https://sakan-sigma.vercel.app/api/apartments/${id}`,
             {
@@ -290,23 +678,19 @@
 
           if (res.ok) {
             alert("تم الحذف بنجاح!");
-            fetchAdminApartments(); // إعادة تحميل الجدول بعد الحذف
+            fetchAdminApartments();
           }
         } catch (e) {
           alert("خطأ في الحذف");
         }
       }
 
-      // ----------------------------------------------------
-      // جلب طلبات الحجز من السيرفر وعرضها في الجدول
-      // ----------------------------------------------------
       async function fetchBookings() {
         const tbody = document.querySelector("#requests tbody");
         tbody.innerHTML =
-          '<tr><td colspan="5" style="text-align:center;">جاري التحميل... ⏳</td></tr>';
+          '<tr><td colspan="5" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
 
         try {
-          // تم تعديل الرابط هنا
           const res = await fetch(
             "https://sakan-sigma.vercel.app/api/bookings",
           );
@@ -314,16 +698,14 @@
 
           if (bookings.length === 0) {
             tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center;">لا توجد طلبات حجز حالياً.</td></tr>';
+              '<tr><td colspan="5" style="text-align:center; opacity:0.6;">لا توجد طلبات حجز حالياً.</td></tr>';
             return;
           }
 
           tbody.innerHTML = "";
           bookings.forEach((booking) => {
-            // تظهير التاريخ بشكل حلو
             const date = new Date(booking.date).toLocaleDateString("ar-EG");
 
-            // تظبيط رقم الواتساب (عشان لو كتب 010 بنشيل الصفر الأولاني ونحط كود مصر 20)
             let phoneForWa = booking.phone;
             if (phoneForWa.startsWith("0")) {
               phoneForWa = phoneForWa.substring(1);
@@ -331,17 +713,17 @@
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                    <td>${booking.userName}</td>
-                    <td dir="ltr" style="text-align: right;">${booking.phone}</td>
-                    <td>${booking.apartmentDetails}</td>
-                    <td>${date}</td>
-                    <td><a href="https://wa.me/20${phoneForWa}" target="_blank" class="wa-btn">تواصل واتساب</a></td>
-                `;
+              <td>${booking.userName}</td>
+              <td dir="ltr" style="text-align: right;">${booking.phone}</td>
+              <td>${booking.apartmentDetails}</td>
+              <td>${date}</td>
+              <td><a href="https://wa.me/20${phoneForWa}" target="_blank" class="wa-btn">تواصل واتساب</a></td>
+            `;
             tbody.appendChild(tr);
           });
         } catch (error) {
           tbody.innerHTML =
-            '<tr><td colspan="5" style="text-align:center; color:#ef4444;">خطأ في جلب الطلبات</td></tr>';
+            '<tr><td colspan="5" style="text-align:center; color:var(--danger-color);">خطأ في جلب الطلبات</td></tr>';
         }
       }
     </script>
