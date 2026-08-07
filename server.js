@@ -28,7 +28,8 @@ const apartmentSchema = new mongoose.Schema({
   status: { type: String, default: "متاحة" },
   createdAt: { type: Date, default: Date.now },
 });
-const Apartment = mongoose.model("Apartment", apartmentSchema);
+const Apartment =
+  mongoose.models.Apartment || mongoose.model("Apartment", apartmentSchema);
 
 const bookingSchema = new mongoose.Schema({
   userName: String,
@@ -36,7 +37,8 @@ const bookingSchema = new mongoose.Schema({
   apartmentDetails: String,
   date: { type: Date, default: Date.now },
 });
-const Booking = mongoose.model("Booking", bookingSchema);
+const Booking =
+  mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
 
 // ==========================================
 // 4. مسارات الـ API (Routes)
