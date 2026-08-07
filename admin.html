@@ -441,21 +441,28 @@
           <label>السعر (اختياري)</label>
           <input type="number" class="form-control" placeholder="مثال: 1000" />
         </div>
+
         <div class="form-group">
-          <label>الصور (ممكن تختار أكتر من ملف)</label>
-          <input type="file" class="form-control" accept="image/*" multiple />
+          <label>لينكات الصور (كل لينك في سطر)</label>
+          <textarea
+            id="imagesInput"
+            class="form-control"
+            placeholder="https://drive.google.com/file/d/xxxxx/preview"
+            style="height: 140px"
+          ></textarea>
         </div>
 
         <div class="form-group">
-          <label>لينك الفيديو من Cloudinary (اختياري)</label>
+          <label>لينك الفيديو (اختياري)</label>
           <input
+            id="videoLinkInput"
             type="url"
             class="form-control"
-            id="videoLinkInput"
-            placeholder="الصق رابط الفيديو من Cloudinary هنا..."
+            placeholder="https://drive.google.com/file/d/xxxxx/preview"
             dir="ltr"
           />
         </div>
+
         <button type="submit" class="submit-btn">حفظ الشقة ✔️</button>
       </form>
     </div>
@@ -470,6 +477,8 @@
               <th>الوصف</th>
               <th>المنطقة</th>
               <th>السعر</th>
+              <th>الصور</th>
+              <th>الفيديو</th>
               <th>الحالة</th>
               <th>إجراءات</th>
             </tr>
@@ -497,7 +506,7 @@
           </thead>
           <tbody>
             <tr>
-              <td colspan="5" style="text-align: center; opacity: 0.6">
+              <td colspan="7" style="text-align: center; opacity: 0.6">
                 لا توجد طلبات حجز بعد
               </td>
             </tr>
@@ -550,23 +559,20 @@
         event.preventDefault();
         const form = document.getElementById("apartmentForm");
         const submitBtn = document.querySelector(".submit-btn");
-        const formData = new FormData();
+        const images = document
+          .getElementById("imagesInput")
+          .value.split("\n")
+          .map((i) => i.trim())
+          .filter((i) => i);
 
-        formData.append("description", form.querySelector("textarea").value);
-        formData.append("location", form.querySelectorAll("select")[0].value);
-        formData.append("type", form.querySelectorAll("select")[1].value);
-        formData.append(
-          "price",
-          form.querySelector('input[type="number"]').value,
-        );
-
-        const videoLink = document.getElementById("videoLinkInput").value;
-        formData.append("videoUrl", videoLink);
-
-        const fileInput = form.querySelector('input[type="file"]');
-        for (let i = 0; i < fileInput.files.length; i++) {
-          formData.append("media", fileInput.files[i]);
-        }
+        const body = {
+          description: form.querySelector("textarea").value,
+          location: form.querySelectorAll("select")[0].value,
+          type: form.querySelectorAll("select")[1].value,
+          price: form.querySelector('input[type="number"]').value,
+          images,
+          videoUrl: document.getElementById("videoLinkInput").value,
+        };
 
         try {
           submitBtn.textContent = "جاري الرفع... ⏳";
@@ -576,7 +582,10 @@
             "https://sakan-sigma.vercel.app/api/apartments",
             {
               method: "POST",
-              body: formData,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(body),
             },
           );
 
@@ -600,7 +609,7 @@
       async function fetchAdminApartments() {
         const tbody = document.getElementById("admin-apts-list");
         tbody.innerHTML =
-          '<tr><td colspan="5" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
+          '<tr><td colspan="7" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
         try {
           const res = await fetch(
             "https://sakan-sigma.vercel.app/api/apartments",
@@ -609,7 +618,7 @@
 
           if (apts.length === 0) {
             tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center; opacity:0.6;">لم تقم بإضافة أي شقق من لوحة التحكم حتى الآن.</td></tr>';
+              '<tr><td colspan="7" style="text-align:center; opacity:0.6;">لم تقم بإضافة أي شقق من لوحة التحكم حتى الآن.</td></tr>';
             return;
           }
 
@@ -618,26 +627,54 @@
             const tr = document.createElement("tr");
             tr.innerHTML = `
               <td>${apt.description.length > 30 ? apt.description.substring(0, 30) + "..." : apt.description}</td>
+
               <td>${apt.location}</td>
+
               <td>
-                <input type="number" id="price-${apt._id}" value="${apt.price || ""}" class="inline-input">
+               <input
+               type="number"
+               id="price-${apt._id}"
+               value="${apt.price || ""}"
+               class="inline-input">
+              </td>
+
+              <td>
+               <textarea
+               id="images-${apt._id}"
+               class="form-control"
+               style="height:90px;width:250px;">${(apt.images || []).join("\n")}</textarea>
               </td>
               <td>
-                <select id="status-${apt._id}" class="inline-select">
-                  <option value="متاحة" ${apt.status === "متاحة" ? "selected" : ""}>متاحة</option>
-                  <option value="محجوزة" ${apt.status === "محجوزة" ? "selected" : ""}>محجوزة</option>
-                </select>
+               <input
+               type="text"
+               id="video-${apt._id}"
+               value="${apt.videoUrl || ""}"
+               class="form-control">
               </td>
+
+
               <td>
-                <button onclick="updateApt('${apt._id}')" class="action-edit">تحديث</button>
-                <button onclick="deleteApt('${apt._id}')" class="action-delete">حذف</button>
+               <select id="status-${apt._id}" class="inline-select">
+               <option value="متاحة" ${apt.status === "متاحة" ? "selected" : ""}>متاحة</option>
+               <option value="محجوزة" ${apt.status === "محجوزة" ? "selected" : ""}>محجوزة</option>
+               </select>
               </td>
-            `;
+  
+              <td>
+               <button onclick="updateApt('${apt._id}')" class="action-edit">
+               تحديث
+               </button>
+  
+               <button onclick="deleteApt('${apt._id}')" class="action-delete">
+                حذف
+               </button>
+              </td>
+           `;
             tbody.appendChild(tr);
           });
         } catch (error) {
           tbody.innerHTML =
-            '<tr><td colspan="5" style="text-align:center; color:var(--danger-color);">خطأ في جلب الشقق</td></tr>';
+            '<tr><td colspan="7" style="text-align:center; color:var(--danger-color);">خطأ في جلب الشقق</td></tr>';
         }
       }
 
@@ -645,22 +682,37 @@
         const newPrice = document.getElementById(`price-${id}`).value;
         const newStatus = document.getElementById(`status-${id}`).value;
 
+        const newImages = document
+          .getElementById(`images-${id}`)
+          .value.split("\n")
+          .map((i) => i.trim())
+          .filter((i) => i);
+
+        const newVideo = document.getElementById(`video-${id}`).value;
+
         try {
           const res = await fetch(
             `https://sakan-sigma.vercel.app/api/apartments/${id}`,
             {
               method: "PATCH",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ price: newPrice, status: newStatus }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                price: newPrice,
+                status: newStatus,
+                images: newImages,
+                videoUrl: newVideo,
+              }),
             },
           );
 
           if (res.ok) {
-            alert("تم تحديث الشقة بنجاح! ✔️");
+            alert("تم تحديث الشقة بنجاح ✔️");
           } else {
             alert("حصل خطأ في التحديث");
           }
-        } catch (e) {
+        } catch {
           alert("خطأ في الاتصال بالسيرفر");
         }
       }
@@ -688,7 +740,7 @@
       async function fetchBookings() {
         const tbody = document.querySelector("#requests tbody");
         tbody.innerHTML =
-          '<tr><td colspan="5" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
+          '<tr><td colspan="7" style="text-align:center; opacity:0.7;">جاري التحميل... ⏳</td></tr>';
 
         try {
           const res = await fetch(
@@ -698,7 +750,7 @@
 
           if (bookings.length === 0) {
             tbody.innerHTML =
-              '<tr><td colspan="5" style="text-align:center; opacity:0.6;">لا توجد طلبات حجز حالياً.</td></tr>';
+              '<tr><td colspan="7" style="text-align:center; opacity:0.6;">لا توجد طلبات حجز حالياً.</td></tr>';
             return;
           }
 
@@ -723,7 +775,7 @@
           });
         } catch (error) {
           tbody.innerHTML =
-            '<tr><td colspan="5" style="text-align:center; color:var(--danger-color);">خطأ في جلب الطلبات</td></tr>';
+            '<tr><td colspan="7" style="text-align:center; color:var(--danger-color);">خطأ في جلب الطلبات</td></tr>';
         }
       }
     </script>

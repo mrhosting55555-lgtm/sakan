@@ -1,9 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("cloudinary").v2;
+
 require("dotenv").config();
 
 const app = express();
@@ -12,23 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
-
-// 1. إعداد Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// إعداد Multer
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "sakan_lotus",
-    resource_type: "auto",
-  },
-});
-const upload = multer({ storage: storage });
 
 // 2. الاتصال بقاعدة بيانات MongoDB
 mongoose
@@ -120,13 +101,27 @@ app.patch("/api/apartments/:id", async (req, res) => {
 });
 
 // مسار: إضافة طلب حجز جديد
-app.post("/api/bookings", async (req, res) => {
+app.post("/api/apartments", async (req, res) => {
   try {
-    const newBooking = new Booking(req.body);
-    await newBooking.save();
-    res.status(201).json({ message: "تم استلام طلب الحجز بنجاح!" });
+    const newApartment = new Apartment({
+      description: req.body.description,
+      location: req.body.location,
+      type: req.body.type,
+      price: req.body.price,
+      images: req.body.images || [],
+      videoUrl: req.body.videoUrl || "",
+      status: "متاحة",
+    });
+
+    await newApartment.save();
+
+    res.status(201).json({
+      message: "تم إضافة الشقة بنجاح",
+      apartment: newApartment,
+    });
   } catch (error) {
-    res.status(500).json({ error: "حصل خطأ في الحجز" });
+    console.error(error);
+    res.status(500).json({ error: "حصل خطأ أثناء إضافة الشقة" });
   }
 });
 
