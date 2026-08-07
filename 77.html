@@ -576,7 +576,7 @@
         const phone = document.getElementById("studentPhone").value;
 
         try {
-          await fetch("https://sakan-sigma.vercel.app/api/bookings", {
+          await fetch("/api/bookings", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

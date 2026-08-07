@@ -48,7 +48,7 @@ const Booking =
 // 4. مسارات الـ API (Routes)
 // ==========================================
 
-// مسار: إضافة شقة جديدة (يدعم الصور وملف الفيديو الخارجي) - تم دمج وإزالة التكرار
+// مسار: إضافة شقة جديدة (يدعم JSON والـ FormData)
 app.post("/api/apartments", upload.array("media", 15), async (req, res) => {
   try {
     const mediaUrls = req.files ? req.files.map((file) => file.path) : [];
@@ -58,7 +58,12 @@ app.post("/api/apartments", upload.array("media", 15), async (req, res) => {
       location: req.body.location,
       type: req.body.type,
       price: req.body.price,
-      images: mediaUrls.length > 0 ? mediaUrls : req.body.images || [],
+      images:
+        mediaUrls.length > 0
+          ? mediaUrls
+          : (typeof req.body.images === "string"
+              ? req.body.images.split("\n")
+              : req.body.images) || [],
       videoUrl: req.body.videoUrl || "",
     });
 
