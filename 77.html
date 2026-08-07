@@ -22,67 +22,88 @@
       <div class="blob blob-2"></div>
     </div>
 
-    <header>
-      <div class="logo">
-        <h1>جامعة اللوتس</h1>
-      </div>
-      <button
-        class="theme-toggle"
-        onclick="toggleTheme()"
-        aria-label="تبديل الثيم"
-      >
-        🌙
-      </button>
-    </header>
+    <!-- Top Control Panel (Header, Search, Price, and Type Filters combined cleanly) -->
+    <div class="top-control-panel">
+      <header>
+        <div class="logo">
+          <h1>شقق جامعة اللوتس</h1>
+        </div>
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          aria-label="تبديل الثيم"
+        >
+          🌙
+        </button>
+      </header>
 
-    <div class="search-box">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 ابحث عن شقة أو منطقة..."
-        onkeyup="render()"
-      />
-    </div>
-
-    <div class="price-filter">
-      <div class="price-header" onclick="togglePriceFilter()">
-        <span>💰 السعر</span>
-        <span id="arrow">▼</span>
-      </div>
-
-      <div id="priceOptions" class="price-options hide">
-        <label
-          ><input
-            type="radio"
-            name="price"
-            checked
-            onclick="setPriceFilter('all')"
+      <div class="filters-row">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 ابحث عن شقة أو رقم عمارة..."
+            onkeyup="render()"
           />
-          الكل</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('900')" />
-          حتى 900 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1000')" />
-          حتى 1000 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1200')" />
-          حتى 1200 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1500')" />
-          حتى 1500 جنيه</label
-        >
-      </div>
-    </div>
+        </div>
 
-    <div class="filter-buttons">
-      <button onclick="filterApartments('all')">🏠 الكل</button>
-      <button onclick="filterApartments('girls')">👩 بنات</button>
-      <button onclick="filterApartments('boys')">👨 شباب</button>
+        <div class="price-filter">
+          <div class="price-header" onclick="togglePriceFilter()">
+            <span>💰 تصفية حسب السعر</span>
+            <span id="arrow">▼</span>
+          </div>
+
+          <div id="priceOptions" class="price-options hide">
+            <label>
+              <input
+                type="radio"
+                name="price"
+                checked
+                onclick="setPriceFilter('all')"
+              />
+              الكل
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('900')"
+              />
+              حتى 900 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1000')"
+              />
+              حتى 1000 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1200')"
+              />
+              حتى 1200 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1500')"
+              />
+              حتى 1500 جنيه
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-buttons">
+          <button onclick="filterApartments('all')">🏠 الكل</button>
+          <button onclick="filterApartments('girls')">👩 بنات</button>
+          <button onclick="filterApartments('boys')">👨 شباب</button>
+        </div>
+      </div>
     </div>
 
     <div class="custom-video-section">
@@ -90,10 +111,7 @@
         <div class="custom-video-wrapper">
           <span class="custom-badge">فيديو المنطقة 🎥</span>
           <iframe
-            src=""
-            width="100%"
-            height="250"
-            allow="autoplay"
+            src="https://drive.google.com/file/d/1JaaW8uGei3fjLiEcvdY9CsoE2EnrpJc5/preview"
             allowfullscreen
           ></iframe>
         </div>
@@ -103,12 +121,15 @@
       </div>
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
+          <span class="custom-badge">خريطة المنطقة 🗺️</span>
           <img
-            src="https://res.cloudinary.com/dxqtdpjp0/image/upload/v1782034268/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077/pic_ty3e1s.jpg"
+            src="https://drive.google.com/file/d/1cn0lUJ-R9OuBbhfTuIC_o1IqtMTSwNsc/preview"
             alt="خريطة المنطقة على جوجل ماب"
-            onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
+        </div>
+        <div class="custom-video-content">
+          <p>موقع الـ 77</p>
         </div>
       </div>
     </div>
@@ -120,16 +141,27 @@
     <div id="bookingModal" class="modal">
       <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 style="margin-bottom: 15px; color: var(--primary-color)">
+        <h2
+          style="
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            font-weight: 800;
+          "
+        >
           تأكيد الحجز 🏠
         </h2>
         <p
           id="apt-details-text"
-          style="margin-bottom: 20px; font-size: 14px; opacity: 0.85"
+          style="
+            margin-bottom: 22px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+          "
         ></p>
 
         <form id="bookingForm" onsubmit="submitBooking(event)">
-          <div class="form-group" style="margin-bottom: 15px">
+          <div style="margin-bottom: 16px">
             <input
               type="text"
               id="studentName"
@@ -138,7 +170,7 @@
               class="modal-input"
             />
           </div>
-          <div class="form-group" style="margin-bottom: 20px">
+          <div style="margin-bottom: 24px">
             <input
               type="tel"
               id="studentPhone"
@@ -152,7 +184,7 @@
       </div>
     </div>
 
-    <!-- JavaScript Integrated Logic -->
+    <!-- JavaScript Logic -->
     <script>
       let apartments = [
         {
@@ -161,7 +193,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034271/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2062/vid_auefra.mp4",
+            "https://drive.google.com/file/d/104kScKRnCuiBsXXU6a5SSc4D_me7vBOn/preview",
           ],
         },
         {
@@ -170,7 +202,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034270/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2074/vid_sphrod.mp4",
+            "https://drive.google.com/file/d/1EB_RC7rYsRkYFqN9QNZ4kGupmpN2iQas/preview",
           ],
         },
         {
@@ -179,7 +211,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034270/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2085/vid1_i7fpjg.mp4",
+            "https://drive.google.com/file/d/1AuHvTLhz9xz7ny6fgYxf4THQSW1IR0pN/preview",
           ],
         },
         {
@@ -188,7 +220,7 @@
           price: "1000",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034270/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2096/vid_fv2fua.mp4",
+            "https://drive.google.com/file/d/12lOaAtOrlEK1YgCHOeEhCAY0_jmQJK32/preview",
           ],
         },
         {
@@ -197,7 +229,7 @@
           price: "850",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034269/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%2097/vid_id7dsa.mp4",
+            "https://drive.google.com/file/d/1hWYPEOFLYAty-6RzujPDYCXjqudw3y9E/preview",
           ],
         },
         {
@@ -206,7 +238,7 @@
           price: "1000",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034274/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20106/vid_byq37g.mp4",
+            "https://drive.google.com/file/d/1nQ_s9WYf2J-IsAcmq3xwu7iECB5dWpA7/preview",
           ],
         },
         {
@@ -215,7 +247,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034273/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20110/vid_a1zny2.mp4",
+            "https://drive.google.com/file/d/1Mzj56DFiZPYzcV7cwEBAhO-sV0E4HHeM/preview",
           ],
         },
         {
@@ -224,7 +256,7 @@
           price: "900",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034273/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20115/vid_wfnwis.mp4",
+            "https://drive.google.com/file/d/1H7ngwf1C87vBq9y66QPD1R2TsRc0MHkp/preview",
           ],
         },
         {
@@ -233,170 +265,136 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034271/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20124/vid_v1uteb.mp4",
+            "https://drive.google.com/file/d/1JAeMPxUSyM90hj-YVayjc3Rl7jvB2E-N/preview",
           ],
         },
         {
           name: "شقة في عمارة 126 المربع الاول خلفي دور خامس عمارة بنات وشباب كل الفرش جديد متاحة للحجز السنة الجديدة",
           location: "ال77",
-          price: "1200$",
+          price: "1200",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034274/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20126/vid_c4yyik.mp4",
+            "https://drive.google.com/file/d/1dOI-UjCW73Hv0iyKsASDtm4QZwMDxcLo/preview",
           ],
         },
         {
-          name: " شقة في عمارة 118 المربع التاني  دور تاني عمارة كلها أهالي باقي سرير بنات <span class='corner-ribbon reserved'>محجوزة</span>",
+          name: " شقة في عمارة 118 المربع التاني دور تاني عمارة كلها أهالي باقي سرير بنات <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
-          price: "1000$",
+          price: "1000",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034272/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20118/vid_nmwo7n.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقه في المربع الاول دور تالت فيها ديب فريزر و باقي سريرين ف اوضه <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
-          price: "1200$",
+          price: "1200",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034274/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20126/vid_c4yyik.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقه في المربع التاني دور رابع العماره كلها بنات و أهالي باقي 5 سراير",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034275/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%2077%20%D8%B9%D9%85%D8%A7%D8%B1%D8%A9/%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9%20%D8%A7%D9%84%D8%AA%D8%A7%D9%86%D9%8A%20%D8%A7%D9%84%D8%AF%D9%88%D8%B1%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9/vid_mjpika.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في ال ٧٧ المربع الأول جنب السوبر ماركت تشطيب الترا سوبر لوكس ويوجد غرفة مكيفة بنات متاحة فترة السمر",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1782264516/WhatsApp_Image_2026-06-24_at_1.31.03_AM_2_pqpjil.jpg",
-          ],
+          images: [],
         },
         {
-          name: "شقة في المربع الرابع عماره ٨٥ دور تالت 5 سراير منهم أوضه سينجل فيها ديب فريزر  البلكونه فاتحه على الملعب باقي ٣ سراير",
+          name: "شقة في المربع الرابع عماره ٨٥ دور تالت 5 سراير منهم أوضه سينجل فيها ديب فريزر البلكونه فاتحه على الملعب باقي ٣ سراير",
           location: "ال77",
-          price: "1000$",
+          price: "1000",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782268097/WhatsApp_Video_2026-06-24_at_1.27.35_AM_hjwrax.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقه في عماره 58 دور تالت باقي اوضه",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782338775/WhatsApp_Video_2026-06-25_at_12.53.33_AM_fdd1zd.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في المربع الرابع دور تالت عماره 84 لسه بتتفرش فرش جديد متاحة للسنه الجديده بنات، فيها ديب فريزر",
           location: "ال77",
-          price: "1050$",
+          price: "1050",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783390695/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_77_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9_jhyv9h.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في المربع التاني أمامي دور رابع العماره أهالي وبنات باقي 5 سراير هيكون فيها فلتر وفيها ديب فريزر",
           location: "ال77",
-          price: "1000$",
+          price: "1000",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783395111/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84%D9%A7%D9%A7_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%AA%D8%A7%D9%86%D9%8A_%D8%A3%D9%85%D8%A7%D9%85%D9%8A_%D8%AF%D9%88%D8%B1_%D8%B1%D8%A7%D8%A8%D8%B9_%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D8%A3%D9%87%D8%A7%D9%84%D9%8A_%D9%88%D8%A8%D9%86%D8%A7%D8%AA_uznyxx.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في المربع التالت دور تاني كل الفرش جديد أول مره تتسكن، فيها ديب فريزر ومقفله كلها حديدالعماره أهالي وبنات ",
           location: "ال77",
-          price: "1100$",
+          price: "1100",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783396007/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_%D9%A7%D9%A7_%D8%A7%D9%84%D9%85%D8%B1%D8%A8%D8%B9_%D8%A7%D9%84%D8%AA%D8%A7%D9%84%D8%AA_%D8%AF%D9%88%D8%B1_%D8%AA%D8%A7%D9%86%D9%8A_%D9%83%D9%84_%D8%A7%D9%84%D9%81%D8%B1%D8%B4_%D8%AC%D8%AF%D9%8A%D8%AF_%D8%A3%D9%88%D9%84_%D9%85%D8%B1%D9%87_%D8%AA%D8%AA%D8%B3%D9%83%D9%86_rv45u3.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في عماره 76 دور أرضي مرتفع العماره أهالي وفيه كاميرات في العماره، هيكون متاح ديب فريزر مطلوب ٣ بنات ياخدوا الشقة كلها سينجل",
           location: "ال77",
-          price: "1350$",
+          price: "1350",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784150926/WhatsApp_Video_2026-07-15_at_5.14.53_PM_1_ebxcgu.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في ال ٧٧ عماره ٧٣ دور خامس",
           location: "ال77",
           price: "",
           type: "boys",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784150732/WhatsApp_Video_2026-07-15_at_5.14.53_PM_znmdsp.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في عماره ٧٧ دور تالت باقي ٣ سراير أول مره تتسكن",
           location: "ال77",
           price: "1000",
           type: "boys",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/image/upload/v1784547266/2_fk4u7b.jpg",
-          ],
+          images: [],
         },
         {
-          name: "شقة في  المربع الأول أمامي خلف السوبر ماركت دور تالت اول مره تتأجر <span class='corner-ribbon reserved'>محجوزة</span>",
+          name: "شقة في المربع الأول أمامي خلف السوبر ماركت دور تالت اول مره تتأجر <span class='corner-ribbon reserved'>محجوزة</span>",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784550743/WhatsApp_Video_2026-07-20_at_2.51.15_AM_uvixte.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة في المربع التاني دور سادس باقي سرير",
           location: "ال77",
           price: "900",
           type: "boys",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784551225/WhatsApp_Video_2026-07-20_at_2.51.16_AM_nmmgsw.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقه في عماره 73 دور تالت العماره كلها بنات ",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784619038/WhatsApp_Video_2026-07-21_at_6.45.07_AM_noludw.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقه في المربع الاول خلفي عماره 125 دور اول علوي باقي اوضه سينجل و اوضه دابل",
           location: "ال77",
           price: "",
           type: "boys",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784619524/WhatsApp_Video_2026-07-21_at_6.45.06_AM_toqgfw.mp4",
-          ],
+          images: [],
         },
         {
           name: "شقة عند المسجد دور تاني لسه بتتفرش كل الفرش زيرو وفيها ديب فريزر ونت أرضي ومقفله حديد والعماره عائلات",
           location: "ال77",
           price: "",
           type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1784623442/WhatsApp_Video_2026-07-21_at_6.42.37_AM_dndeaz.mp4",
-          ],
+          images: [],
         },
       ];
 
@@ -404,7 +402,6 @@
       let currentPriceFilter = "all";
       let selectedApt = null;
 
-      // Theme Management
       function toggleTheme() {
         const currentTheme =
           document.documentElement.getAttribute("data-theme");
@@ -428,7 +425,6 @@
         render();
       });
 
-      // Price Dropdown Toggle
       function togglePriceFilter() {
         const options = document.getElementById("priceOptions");
         const arrow = document.getElementById("arrow");
@@ -450,7 +446,6 @@
         render();
       }
 
-      // Render Function
       function render() {
         const searchVal = document
           .getElementById("searchInput")
@@ -480,18 +475,16 @@
           return;
         }
 
-        filtered.forEach((apt, index) => {
+        filtered.forEach((apt) => {
           const card = document.createElement("div");
           card.className = "apartment-card";
 
           let mediaHTML = "";
           if (apt.images && apt.images.length > 0) {
-            const mediaSrc = apt.images[0];
-            if (mediaSrc.endsWith(".mp4") || mediaSrc.includes("video")) {
-              mediaHTML = `<div class="apartment-media"><video src="${mediaSrc}" controls preload="metadata"></video></div>`;
-            } else {
-              mediaHTML = `<div class="apartment-media"><img src="${mediaSrc}" alt="صورة الشقة" loading="lazy" /></div>`;
-            }
+            mediaHTML = `
+              <div class="apartment-media">
+                  <iframe src="${apt.images[0]}" allowfullscreen></iframe>
+              </div>`;
           }
 
           card.innerHTML = `
@@ -508,7 +501,6 @@
         });
       }
 
-      // Modal Handlers
       function openModal(aptName) {
         selectedApt = aptName;
         document.getElementById("apt-details-text").innerText =
@@ -530,7 +522,6 @@
         closeModal();
       }
 
-      // Close modal on outside click
       window.onclick = function (event) {
         const modal = document.getElementById("bookingModal");
         if (event.target === modal) {

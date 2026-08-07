@@ -1,25 +1,29 @@
-
-      /* --- Root Variables & Theme Setup --- */
-      :root {
+:root {
         --bg-color: #f8fafc;
-        --text-color: #1e293b;
-        --card-bg: rgba(255, 255, 255, 0.75);
-        --nav-bg: rgba(255, 255, 255, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.4);
-        --primary-color: #2563eb;
-        --primary-hover: #1d4ed8;
-        --accent-color: #f59e0b;
-        --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --card-bg: #ffffff;
+        --text-color: #0f172a;
+        --text-muted: #64748b;
+        --primary-color: #6366f1;
+        --primary-hover: #4f46e5;
+        --accent-color: #f43f5e;
+        --border-color: #e2e8f0;
+        --shadow:
+          0 10px 30px -5px rgba(99, 102, 241, 0.05),
+          0 5px 15px -5px rgba(0, 0, 0, 0.03);
+        --modal-bg: rgba(15, 23, 42, 0.6);
       }
 
       [data-theme="dark"] {
-        --bg-color: #0f172a;
-        --text-color: #f1f5f9;
-        --card-bg: rgba(30, 41, 59, 0.7);
-        --nav-bg: rgba(15, 23, 42, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        --bg-color: #090d16;
+        --card-bg: #1e293b;
+        --text-color: #f8fafc;
+        --text-muted: #94a3b8;
+        --primary-color: #818cf8;
+        --primary-hover: #6366f1;
+        --accent-color: #fb7185;
+        --border-color: #334155;
+        --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+        --modal-bg: rgba(0, 0, 0, 0.8);
       }
 
       * {
@@ -27,173 +31,179 @@
         margin: 0;
         padding: 0;
         font-family: "Cairo", sans-serif;
-        text-decoration: none;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease,
+          border-color 0.3s ease,
+          transform 0.2s ease;
       }
 
       body {
         background-color: var(--bg-color);
         color: var(--text-color);
         min-height: 100vh;
-        transition:
-          background-color 0.4s ease,
-          color 0.4s ease;
-        padding-bottom: 3rem;
+        padding: 30px 15px;
+        position: relative;
+        overflow-x: hidden;
       }
 
-      /* --- Animated Background Blobs --- */
+      /* Background Aesthetic Blobs */
       .bg-animation {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        overflow: hidden;
         z-index: -1;
-        filter: blur(80px);
+        overflow: hidden;
         opacity: 0.4;
+        pointer-events: none;
       }
 
       .blob {
         position: absolute;
+        filter: blur(120px);
         border-radius: 50%;
-        will-change: transform;
-        animation: floatBlobs 20s infinite alternate;
       }
 
       .blob-1 {
-        width: 400px;
-        height: 400px;
-        background: #3b82f6;
-        top: -100px;
-        right: -100px;
-      }
-      .blob-2 {
         width: 500px;
         height: 500px;
-        background: #ec4899;
+        background: rgba(99, 102, 241, 0.15);
+        top: -150px;
+        right: -100px;
+      }
+
+      .blob-2 {
+        width: 450px;
+        height: 450px;
+        background: rgba(244, 63, 94, 0.1);
         bottom: -150px;
-        left: -150px;
-        animation-delay: -5s;
+        left: -100px;
       }
 
-      @keyframes floatBlobs {
-        0% {
-          transform: translate(0, 0) scale(1);
-        }
-        100% {
-          transform: translate(50px, 80px) scale(1.1);
-        }
+      /* Main Wrapper for Control Panel (Top Section) */
+      .top-control-panel {
+        max-width: 1200px;
+        margin: 0 auto 30px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
       }
 
-      /* --- Header --- */
+      /* Header Layout */
       header {
-        position: sticky;
-        top: 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem 5%;
-        background: var(--nav-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--glass-border);
-        z-index: 1000;
+        padding: 22px 35px;
+        background: var(--card-bg);
+        border-radius: 24px;
         box-shadow: var(--shadow);
+        border: 1px solid var(--border-color);
       }
 
       .logo h1 {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         font-weight: 900;
-        color: var(--text-color);
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
       }
 
       .theme-toggle {
-        background: transparent;
-        border: 1px solid var(--glass-border);
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 48px;
+        height: 48px;
         cursor: pointer;
         display: flex;
-        justify-content: center;
         align-items: center;
-        transition: var(--transition);
-        font-size: 1.1rem;
+        justify-content: center;
+        font-size: 1.3rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
       }
 
       .theme-toggle:hover {
-        background: var(--primary-color);
+        transform: scale(1.1);
         border-color: var(--primary-color);
       }
 
-      /* --- Search & Filters --- */
-      .search-box {
-        max-width: 600px;
-        margin: 2rem auto 1rem auto;
-        padding: 0 1.5rem;
+      /* Filters & Search Row Layout */
+      .filters-row {
+        display: grid;
+        grid-template-columns: 2fr 1.2fr 1.5fr;
+        gap: 15px;
+        align-items: center;
       }
 
+      @media (max-width: 900px) {
+        .filters-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Search Box Styles */
       .search-box input {
         width: 100%;
-        padding: 0.9rem 1.2rem;
-        border-radius: 14px;
-        border: 1px solid var(--glass-border);
+        padding: 16px 22px;
+        border-radius: 18px;
+        border: 1px solid var(--border-color);
         background: var(--card-bg);
-        backdrop-filter: blur(8px);
         color: var(--text-color);
         font-size: 1rem;
-        outline: none;
         box-shadow: var(--shadow);
-        transition: var(--transition);
+        outline: none;
+        font-weight: 600;
       }
 
       .search-box input:focus {
         border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
       }
 
       /* Price Filter Dropdown */
       .price-filter {
-        max-width: 600px;
-        margin: 0 auto 1rem auto;
-        padding: 0 1.5rem;
         position: relative;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        user-select: none;
       }
 
       .price-header {
-        background: var(--card-bg);
-        backdrop-filter: blur(8px);
-        border: 1px solid var(--glass-border);
-        padding: 0.8rem 1.2rem;
-        border-radius: 12px;
-        cursor: pointer;
+        padding: 16px 22px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         font-weight: 700;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-      }
-
-      .price-header:hover {
-        border-color: var(--primary-color);
+        font-size: 1rem;
       }
 
       .price-options {
         position: absolute;
-        top: 100%;
-        left: 1.5rem;
-        right: 1.5rem;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
         background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        margin-top: 5px;
-        padding: 0.5rem 0;
-        box-shadow: var(--shadow);
-        z-index: 10;
+        border: 1px solid var(--border-color);
+        border-radius: 18px;
+        padding: 15px 22px;
         display: flex;
         flex-direction: column;
+        gap: 12px;
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        z-index: 100;
       }
 
       .price-options.hide {
@@ -201,198 +211,194 @@
       }
 
       .price-options label {
-        padding: 0.6rem 1.2rem;
-        cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        color: var(--text-muted);
         font-weight: 600;
-        transition: var(--transition);
       }
 
-      .price-options label:hover {
-        background: rgba(37, 99, 235, 0.1);
+      .price-options input[type="radio"] {
+        accent-color: var(--primary-color);
+        width: 18px;
+        height: 18px;
       }
 
-      /* Filter Buttons (Gender/Category) */
+      /* Filter Type Buttons */
       .filter-buttons {
-        max-width: 600px;
-        margin: 0 auto 2rem auto;
-        padding: 0 1.5rem;
         display: flex;
         gap: 10px;
       }
 
       .filter-buttons button {
         flex: 1;
-        padding: 0.7rem;
-        border-radius: 12px;
-        border: 1px solid var(--glass-border);
+        padding: 16px 12px;
+        border-radius: 18px;
+        border: 1px solid var(--border-color);
         background: var(--card-bg);
-        backdrop-filter: blur(8px);
         color: var(--text-color);
         font-weight: 700;
         cursor: pointer;
         box-shadow: var(--shadow);
-        transition: var(--transition);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
       }
 
       .filter-buttons button:hover {
         background: var(--primary-color);
         color: #fff;
         border-color: var(--primary-color);
+        transform: translateY(-2px);
       }
 
-      /* --- Custom Video / Media Section --- */
+      /* Custom Media Section */
       .custom-video-section {
-        max-width: 1000px;
-        margin: 0 auto 2rem auto;
-        padding: 0 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto 30px auto;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
+        gap: 20px;
       }
 
       .custom-video-card {
         background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
+        border: 1px solid var(--border-color);
         box-shadow: var(--shadow);
       }
 
       .custom-video-wrapper {
         position: relative;
-        width: 100%;
-        height: 220px;
+      }
+
+      .custom-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(6px);
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        z-index: 2;
       }
 
       .custom-video-wrapper iframe,
       .custom-video-wrapper img {
         width: 100%;
-        height: 100%;
+        height: 230px;
         object-fit: cover;
         border: none;
       }
 
-      .custom-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #fff;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        z-index: 2;
-      }
-
       .custom-video-content {
-        padding: 1rem;
+        padding: 18px;
         font-weight: 700;
         text-align: center;
+        font-size: 1.05rem;
       }
 
-      /* --- Apartments Grid Container --- */
+      /* Grid Cards */
       .container {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 1.5rem;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+        gap: 24px;
       }
 
-      /* Apartment Card Style */
       .apartment-card {
         background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
+        border-radius: 20px;
         overflow: hidden;
+        border: 1px solid var(--border-color);
         box-shadow: var(--shadow);
         display: flex;
         flex-direction: column;
-        transition: var(--transition);
-        position: relative;
+        justify-content: space-between;
       }
 
       .apartment-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-4px);
         border-color: var(--primary-color);
       }
 
-      .apartment-media {
+      .apartment-media iframe {
         width: 100%;
-        height: 200px;
-        position: relative;
-        background: #000;
-      }
-
-      .apartment-media img,
-      .apartment-media video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        height: 210px;
+        border: none;
       }
 
       .apartment-content {
-        padding: 1.2rem;
+        padding: 22px;
         display: flex;
         flex-direction: column;
+        gap: 15px;
         flex-grow: 1;
-        justify-content: space-between;
-        gap: 1rem;
       }
 
       .apartment-title {
-        font-size: 1rem;
+        font-size: 1.05rem;
         font-weight: 700;
-        line-height: 1.5;
+        line-height: 1.7;
+        color: var(--text-color);
       }
 
       .apartment-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-top: 1px solid var(--glass-border);
-        padding-top: 0.8rem;
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid var(--border-color);
       }
 
       .apartment-price {
-        font-weight: 900;
+        font-weight: 800;
         color: var(--primary-color);
+        font-size: 1.05rem;
       }
 
       .book-btn {
         background: var(--primary-color);
-        color: #fff;
+        color: white;
         border: none;
-        padding: 0.5rem 1.2rem;
-        border-radius: 8px;
+        padding: 10px 20px;
+        border-radius: 12px;
         font-weight: 700;
         cursor: pointer;
-        transition: var(--transition);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
       }
 
       .book-btn:hover {
         background: var(--primary-hover);
+        transform: scale(1.05);
       }
 
-      /* Corner Ribbon for Reserved */
+      /* Ribbons */
       .corner-ribbon {
-        background: #ef4444;
+        background: var(--accent-color);
         color: white;
-        padding: 2px 10px;
-        font-size: 0.75rem;
-        font-weight: bold;
-        border-radius: 4px;
+        padding: 3px 10px;
+        font-size: 0.8rem;
+        border-radius: 6px;
         display: inline-block;
-        margin-right: 5px;
+        margin-right: 6px;
+        font-weight: 700;
+      }
+      .corner-ribbon.reserved {
+        background: #ef4444;
       }
 
-      /* --- Modal / Booking Window --- */
+      /* Modal Design */
       .modal {
         display: none;
         position: fixed;
@@ -400,28 +406,27 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(5px);
+        background: var(--modal-bg);
+        backdrop-filter: blur(8px);
         justify-content: center;
         align-items: center;
-        z-index: 2000;
-        padding: 1rem;
+        z-index: 1000;
+        padding: 20px;
       }
 
       .modal-content {
         background: var(--card-bg);
-        backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        padding: 2rem;
-        border-radius: 20px;
+        padding: 35px;
+        border-radius: 24px;
         width: 100%;
-        max-width: 450px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        max-width: 460px;
         position: relative;
-        animation: scaleUp 0.3s ease;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--border-color);
+        animation: modalScale 0.3s ease;
       }
 
-      @keyframes scaleUp {
+      @keyframes modalScale {
         from {
           transform: scale(0.9);
           opacity: 0;
@@ -434,43 +439,55 @@
 
       .close-btn {
         position: absolute;
-        top: 15px;
+        top: 20px;
         left: 20px;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         cursor: pointer;
-        font-weight: bold;
+        color: var(--text-muted);
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: var(--bg-color);
+      }
+
+      .close-btn:hover {
+        color: var(--accent-color);
+        background: rgba(244, 63, 94, 0.1);
       }
 
       .modal-input {
         width: 100%;
-        padding: 0.8rem 1rem;
-        border-radius: 10px;
-        border: 1px solid var(--glass-border);
+        padding: 14px 18px;
+        border-radius: 14px;
+        border: 1px solid var(--border-color);
         background: var(--bg-color);
         color: var(--text-color);
         outline: none;
         font-size: 1rem;
-        transition: var(--transition);
       }
 
       .modal-input:focus {
         border-color: var(--primary-color);
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
       }
 
       .confirm-btn {
         width: 100%;
-        padding: 0.8rem;
         background: var(--primary-color);
-        color: #fff;
+        color: white;
         border: none;
-        border-radius: 10px;
+        padding: 14px;
+        border-radius: 14px;
         font-weight: 700;
-        font-size: 1rem;
         cursor: pointer;
-        transition: var(--transition);
+        font-size: 1.05rem;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
       }
 
       .confirm-btn:hover {
         background: var(--primary-hover);
+        transform: translateY(-2px);
       }
-    

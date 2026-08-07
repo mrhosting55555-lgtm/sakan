@@ -21,94 +21,111 @@
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
     </div>
+    <!-- Top Control Panel (Header, Search, Price, and Type Filters combined cleanly) -->
+    <div class="top-control-panel">
+      <header>
+        <div class="logo">
+          <h1>شقق جامعة اللوتس</h1>
+        </div>
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          aria-label="تبديل الثيم"
+        >
+          🌙
+        </button>
+      </header>
 
-    <header>
-      <div class="logo">
-        <h1>جامعة اللوتس</h1>
-      </div>
-      <button
-        class="theme-toggle"
-        onclick="toggleTheme()"
-        aria-label="تبديل الثيم"
-      >
-        🌙
-      </button>
-    </header>
-
-    <div class="search-box">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 ابحث عن شقة أو منطقة..."
-        onkeyup="render()"
-      />
-    </div>
-
-    <div class="price-filter">
-      <div class="price-header" onclick="togglePriceFilter()">
-        <span>💰 السعر</span>
-        <span id="arrow">▼</span>
-      </div>
-
-      <div id="priceOptions" class="price-options hide">
-        <label
-          ><input
-            type="radio"
-            name="price"
-            checked
-            onclick="setPriceFilter('all')"
+      <div class="filters-row">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 ابحث عن شقة أو رقم عمارة..."
+            onkeyup="render()"
           />
-          الكل</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('900')" />
-          حتى 900 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1000')" />
-          حتى 1000 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1200')" />
-          حتى 1200 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1500')" />
-          حتى 1500 جنيه</label
-        >
-      </div>
-    </div>
+        </div>
 
-    <div class="filter-buttons">
-      <button onclick="filterApartments('all')">🏠 الكل</button>
-      <button onclick="filterApartments('girls')">👩 بنات</button>
-      <button onclick="filterApartments('boys')">👨 شباب</button>
+        <div class="price-filter">
+          <div class="price-header" onclick="togglePriceFilter()">
+            <span>💰 تصفية حسب السعر</span>
+            <span id="arrow">▼</span>
+          </div>
+
+          <div id="priceOptions" class="price-options hide">
+            <label>
+              <input
+                type="radio"
+                name="price"
+                checked
+                onclick="setPriceFilter('all')"
+              />
+              الكل
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('900')"
+              />
+              حتى 900 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1000')"
+              />
+              حتى 1000 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1200')"
+              />
+              حتى 1200 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1500')"
+              />
+              حتى 1500 جنيه
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-buttons">
+          <button onclick="filterApartments('all')">🏠 الكل</button>
+          <button onclick="filterApartments('girls')">👩 بنات</button>
+          <button onclick="filterApartments('boys')">👨 شباب</button>
+        </div>
+      </div>
     </div>
 
     <div class="custom-video-section">
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
           <span class="custom-badge">فيديو المنطقة 🎥</span>
-          <iframe
-            src=""
-            width="100%"
-            height="250"
-            allow="autoplay"
-            allowfullscreen
-          ></iframe>
+          <iframe src="" allowfullscreen></iframe>
         </div>
         <div class="custom-video-content">
-          <p>منطقة السبع عماير</p>
+          <p>منطقة ال7 عماير</p>
         </div>
       </div>
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
+          <span class="custom-badge">خريطة المنطقة 🗺️</span>
           <img
-            src="https://res.cloudinary.com/dxqtdpjp0/image/upload/v1785417951/WhatsApp_Image_2026-07-30_at_4.25.07_PM_auybdf.jpg"
+            src="https://drive.google.com/file/d/1cn0lUJ-R9OuBbhfTuIC_o1IqtMTSwNsc/"
             alt="خريطة المنطقة على جوجل ماب"
-            onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
+        </div>
+        <div class="custom-video-content">
+          <p>موقع الـ7 عماير</p>
         </div>
       </div>
     </div>
@@ -120,16 +137,27 @@
     <div id="bookingModal" class="modal">
       <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 style="margin-bottom: 15px; color: var(--primary-color)">
+        <h2
+          style="
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            font-weight: 800;
+          "
+        >
           تأكيد الحجز 🏠
         </h2>
         <p
           id="apt-details-text"
-          style="margin-bottom: 20px; font-size: 14px; opacity: 0.85"
+          style="
+            margin-bottom: 22px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+          "
         ></p>
 
         <form id="bookingForm" onsubmit="submitBooking(event)">
-          <div class="form-group" style="margin-bottom: 15px">
+          <div style="margin-bottom: 16px">
             <input
               type="text"
               id="studentName"
@@ -138,7 +166,7 @@
               class="modal-input"
             />
           </div>
-          <div class="form-group" style="margin-bottom: 20px">
+          <div style="margin-bottom: 24px">
             <input
               type="tel"
               id="studentPhone"
@@ -160,7 +188,7 @@
           price: "1000",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/1_vgnvmr.mp4",
+            "https://drive.google.com/file/d/1m5Ai1avuVuzPSVARh9iClFD3qsML1FOE/preview",
           ],
         },
         {
@@ -169,7 +197,7 @@
           price: "1000",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034278/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20142/vid_zvzyxd.mp4",
+            "https://drive.google.com/file/d/1YXkfuWu5lTIpBP5ZOJQz4pbMlEZsNNrl/preview",
           ],
         },
 
@@ -179,43 +207,14 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034277/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D8%A7%D9%84%207%20%D8%B9%D9%85%D8%A7%D9%8A%D8%B1/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20141/%D8%A7%D9%84%D8%AF%D9%88%D8%B1%20%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9/VID_ofjrja.mp4",
-          ],
-        },
-        {
-          name: "شقة في أول عماره ناحية الجامعة شباب أو بنات",
-          location: "ال7 عماير",
-          price: "",
-          type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783389591/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_%D9%A7_%D8%B9%D9%85%D8%A7%D9%8A%D8%B1_%D8%A3%D9%88%D9%84_%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D9%86%D8%A7%D8%AD%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%B4%D8%A8%D8%A7%D8%A8_%D8%A3%D9%88_%D8%A8%D9%86%D8%A7%D8%AA_xj53vj.mp4",
-          ],
-        },
-        {
-          name: "شقة في عماره 141 أول عماره ناحية الجامعة دور خامس باقي سريرين بنات ",
-          location: "ال7 عماير",
-          price: "1050$",
-          type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783397094/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_7_%D8%B9%D9%85%D8%A7%D9%8A%D8%B1_%D8%B9%D9%85%D8%A7%D8%B1%D9%87_141_%D8%A3%D9%88%D9%84_%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D9%86%D8%A7%D8%AD%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%AF%D9%88%D8%B1_%D8%AE%D8%A7%D9%85%D8%B3_ktocep.mp4",
-          ],
-        },
-        {
-          name: "شقة في عماره 141 أول عماره ناحية الجامعة دور ارضي بنات او شباب  ",
-          location: "ال7 عماير",
-          price: "",
-          type: "girls",
-          images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783397872/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84_%D9%A7_%D8%B9%D9%85%D8%A7%D9%8A%D8%B1_%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D9%A1%D9%A4%D9%A1_%D8%A3%D9%88%D9%84_%D8%B9%D9%85%D8%A7%D8%B1%D9%87_%D9%86%D8%A7%D8%AD%D9%8A%D8%A9_%D8%A7%D9%84%D8%AC%D8%A7%D9%85%D8%B9%D9%87_%D8%AF%D9%88%D8%B1_%D8%A3%D8%B1%D8%B6%D9%8A_tebkze.mp4",
+            "https://drive.google.com/file/d/1jgTCcrC0YsYpDCHt_Rmpyd8hVGOH2aIz/preview",
           ],
         },
       ];
-
       let currentTypeFilter = "all";
       let currentPriceFilter = "all";
       let selectedApt = null;
 
-      // Theme Management
       function toggleTheme() {
         const currentTheme =
           document.documentElement.getAttribute("data-theme");
@@ -239,7 +238,6 @@
         render();
       });
 
-      // Price Dropdown Toggle
       function togglePriceFilter() {
         const options = document.getElementById("priceOptions");
         const arrow = document.getElementById("arrow");
@@ -261,7 +259,6 @@
         render();
       }
 
-      // Render Function
       function render() {
         const searchVal = document
           .getElementById("searchInput")
@@ -291,18 +288,16 @@
           return;
         }
 
-        filtered.forEach((apt, index) => {
+        filtered.forEach((apt) => {
           const card = document.createElement("div");
           card.className = "apartment-card";
 
           let mediaHTML = "";
           if (apt.images && apt.images.length > 0) {
-            const mediaSrc = apt.images[0];
-            if (mediaSrc.endsWith(".mp4") || mediaSrc.includes("video")) {
-              mediaHTML = `<div class="apartment-media"><video src="${mediaSrc}" controls preload="metadata"></video></div>`;
-            } else {
-              mediaHTML = `<div class="apartment-media"><img src="${mediaSrc}" alt="صورة الشقة" loading="lazy" /></div>`;
-            }
+            mediaHTML = `
+              <div class="apartment-media">
+                  <iframe src="${apt.images[0]}" allowfullscreen></iframe>
+              </div>`;
           }
 
           card.innerHTML = `
@@ -319,7 +314,6 @@
         });
       }
 
-      // Modal Handlers
       function openModal(aptName) {
         selectedApt = aptName;
         document.getElementById("apt-details-text").innerText =
@@ -341,7 +335,6 @@
         closeModal();
       }
 
-      // Close modal on outside click
       window.onclick = function (event) {
         const modal = document.getElementById("bookingModal");
         if (event.target === modal) {
