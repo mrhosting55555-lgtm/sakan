@@ -21,6 +21,7 @@
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
     </div>
+
     <!-- Top Control Panel (Header, Search, Price, and Type Filters combined cleanly) -->
     <div class="top-control-panel">
       <header>
@@ -109,23 +110,26 @@
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
           <span class="custom-badge">فيديو المنطقة 🎥</span>
-          <iframe src="" allowfullscreen></iframe>
+          <iframe
+            src="https://drive.google.com/file/d/1JaaW8uGei3fjLiEcvdY9CsoE2EnrpJc5/preview"
+            allowfullscreen
+          ></iframe>
         </div>
         <div class="custom-video-content">
-          <p>منطقة ال7 عماير</p>
+          <p>منطقة ال77</p>
         </div>
       </div>
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
           <span class="custom-badge">خريطة المنطقة 🗺️</span>
           <img
-            src="https://drive.google.com/file/d/1cn0lUJ-R9OuBbhfTuIC_o1IqtMTSwNsc/"
+            src="https://drive.google.com/file/d/1cn0lUJ-R9OuBbhfTuIC_o1IqtMTSwNsc/preview"
             alt="خريطة المنطقة على جوجل ماب"
             style="cursor: zoom-in"
           />
         </div>
         <div class="custom-video-content">
-          <p>موقع الـ7 عماير</p>
+          <p>موقع الـ 77</p>
         </div>
       </div>
     </div>
@@ -180,8 +184,11 @@
       </div>
     </div>
 
+    <!-- JavaScript Logic -->
     <script>
-      let apartments = [
+      const OWNER_PHONE = "201152638852";
+
+      const staticApartments = [
         {
           name: "شقة دور خامس عمارة 141 العمارة بنات وشباب متاحة للحجز السنة الجديده",
           location: "ال7 عماير",
@@ -210,7 +217,38 @@
             "https://drive.google.com/file/d/1jgTCcrC0YsYpDCHt_Rmpyd8hVGOH2aIz/preview",
           ],
         },
+
+        {
+          name: "شقة في ال ٧ عماير أول عماره ناحية الجامعة شباب أو بنات",
+          location: "ال7 عماير",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1J0ADUUt-D0kW4FgGlshmYYb8SUmhMP7W/preview",
+          ],
+        },
+
+        {
+          name: "شقة في ال ٧ عماير عماره ١٤١ أول عماره ناحية الجامعه دور أرضي شباب أو بنات",
+          location: "ال7 عماير",
+          price: "",
+          type: "girls",
+          images: [
+            "https://drive.google.com/file/d/1VNxFP85ZtKmJxzX3XTUa-3VI9NDl3Gpe/preview",
+          ],
+        },
+        {
+          name: "شقة في ال ٧ عماير عماره ١٥٢ دور خامس",
+          location: "ال7 عماير",
+          price: "",
+          type: "boys",
+          images: [
+            "https://drive.google.com/file/d/1TuFs7cRYrfP70KokWYmlez_vRSPaHnvW/preview",
+          ],
+        },
       ];
+      let apartments = [...staticApartments];
+
       let currentTypeFilter = "all";
       let currentPriceFilter = "all";
       let selectedApt = null;
@@ -235,7 +273,8 @@
         document.documentElement.setAttribute("data-theme", savedTheme);
         document.querySelector(".theme-toggle").textContent =
           savedTheme === "dark" ? "☀️" : "🌙";
-        render();
+
+        loadApartments();
       });
 
       function togglePriceFilter() {
@@ -267,9 +306,11 @@
         app.innerHTML = "";
 
         const filtered = apartments.filter((apt) => {
+          const aptName = (apt.name || "").toLowerCase();
+          const aptLocation = (apt.location || "").toLowerCase();
+
           const matchesSearch =
-            apt.name.toLowerCase().includes(searchVal) ||
-            apt.location.toLowerCase().includes(searchVal);
+            aptName.includes(searchVal) || aptLocation.includes(searchVal);
           const matchesType =
             currentTypeFilter === "all" || apt.type === currentTypeFilter;
 
@@ -300,18 +341,70 @@
               </div>`;
           }
 
-          card.innerHTML = `
-            ${mediaHTML}
-            <div class="apartment-content">
-              <div class="apartment-title">${apt.name}</div>
-              <div class="apartment-footer">
-                <span class="apartment-price">${apt.price ? apt.price + " جنيه" : "السعر عند الاتصال"}</span>
-                <button class="book-btn" onclick="openModal('${apt.name.replace(/'/g, "\\'")}')">احجز الآن</button>
-              </div>
-            </div>
-          `;
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "apartment-content";
+
+          const titleDiv = document.createElement("div");
+          titleDiv.className = "apartment-title";
+          titleDiv.innerHTML = apt.name;
+
+          const footerDiv = document.createElement("div");
+          footerDiv.className = "apartment-footer";
+
+          const priceSpan = document.createElement("span");
+          priceSpan.className = "apartment-price";
+          priceSpan.textContent = apt.price
+            ? apt.price + " جنيه"
+            : "السعر عند الاتصال";
+
+          const bookBtn = document.createElement("button");
+          bookBtn.className = "book-btn";
+          bookBtn.textContent = "احجز الآن";
+          bookBtn.addEventListener("click", () => openModal(apt.name));
+
+          footerDiv.appendChild(priceSpan);
+          footerDiv.appendChild(bookBtn);
+
+          contentDiv.appendChild(titleDiv);
+          contentDiv.appendChild(footerDiv);
+
+          if (mediaHTML) {
+            card.innerHTML = mediaHTML;
+          }
+          card.appendChild(contentDiv);
           app.appendChild(card);
         });
+      }
+
+      async function loadApartments() {
+        render(); // يعرض الشقق الثابتة فورًا
+
+        try {
+          const res = await fetch(
+            "https://sakan-sigma.vercel.app/api/apartments",
+          );
+          if (!res.ok) throw new Error("Failed to fetch apartments");
+          const data = await res.json();
+
+          const formattedApartments = data.map((apt) => ({
+            name:
+              apt.description +
+              (apt.status === "محجوزة"
+                ? " <span class='corner-ribbon reserved'>محجوزة</span>"
+                : ""),
+            location: apt.location,
+            price: apt.price,
+            type: apt.type,
+            images: apt.images || [],
+            videoUrl: apt.videoUrl || "",
+          }));
+
+          apartments = [...staticApartments, ...formattedApartments];
+
+          render();
+        } catch (err) {
+          console.error(err);
+        }
       }
 
       function openModal(aptName) {
@@ -325,22 +418,44 @@
         document.getElementById("bookingModal").style.display = "none";
       }
 
-      function submitBooking(event) {
+      async function submitBooking(event) {
         event.preventDefault();
         const name = document.getElementById("studentName").value;
         const phone = document.getElementById("studentPhone").value;
-        const message = `مرحباً، أريد تأكيد حجز الشقة التالية:\n- الشقة: ${selectedApt}\n- الاسم: ${name}\n- رقم التليفون: ${phone}`;
-        const whatsappUrl = `https://wa.me/201152638852?text=${encodeURIComponent(message)}`;
+
+        try {
+          await fetch("/api/bookings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userName: name,
+              phone: phone,
+              apartmentDetails: selectedApt,
+            }),
+          });
+        } catch (err) {
+          console.error("Error saving booking:", err);
+        }
+
+        // إزالة وسوم الـ HTML عند إرسال النص للواتساب للحفاظ على نظافة الرسالة
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = selectedApt;
+        const plainAptName = tempDiv.textContent || tempDiv.innerText || "";
+
+        const message = `مرحباً، أريد تأكيد حجز الشقة التالية:\n- الشقة: ${plainAptName}\n- الاسم: ${name}\n- رقم التليفون: ${phone}`;
+        const whatsappUrl = `https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
         closeModal();
       }
 
-      window.onclick = function (event) {
+      window.addEventListener("click", function (event) {
         const modal = document.getElementById("bookingModal");
         if (event.target === modal) {
           closeModal();
         }
-      };
+      });
     </script>
   </body>
 </html>

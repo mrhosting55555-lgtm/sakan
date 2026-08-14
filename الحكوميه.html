@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>شقق جامعة اللوتس | منطقة الحكومية</title>
+    <title>شقق جامعة اللوتس | الدليل الشامل</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,483 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      /* --- Root Variables & Theme Setup --- */
-      :root {
-        --bg-color: #f8fafc;
-        --text-color: #1e293b;
-        --card-bg: rgba(255, 255, 255, 0.75);
-        --nav-bg: rgba(255, 255, 255, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.4);
-        --primary-color: #2563eb;
-        --primary-hover: #1d4ed8;
-        --accent-color: #f59e0b;
-        --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      [data-theme="dark"] {
-        --bg-color: #0f172a;
-        --text-color: #f1f5f9;
-        --card-bg: rgba(30, 41, 59, 0.7);
-        --nav-bg: rgba(15, 23, 42, 0.85);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Cairo", sans-serif;
-        text-decoration: none;
-      }
-
-      body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        min-height: 100vh;
-        transition:
-          background-color 0.4s ease,
-          color 0.4s ease;
-        padding-bottom: 3rem;
-      }
-
-      /* --- Animated Background Blobs --- */
-      .bg-animation {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: -1;
-        filter: blur(80px);
-        opacity: 0.4;
-      }
-
-      .blob {
-        position: absolute;
-        border-radius: 50%;
-        will-change: transform;
-        animation: floatBlobs 20s infinite alternate;
-      }
-
-      .blob-1 {
-        width: 400px;
-        height: 400px;
-        background: #3b82f6;
-        top: -100px;
-        right: -100px;
-      }
-      .blob-2 {
-        width: 500px;
-        height: 500px;
-        background: #ec4899;
-        bottom: -150px;
-        left: -150px;
-        animation-delay: -5s;
-      }
-
-      @keyframes floatBlobs {
-        0% {
-          transform: translate(0, 0) scale(1);
-        }
-        100% {
-          transform: translate(50px, 80px) scale(1.1);
-        }
-      }
-
-      /* --- Header --- */
-      header {
-        position: sticky;
-        top: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 5%;
-        background: var(--nav-bg);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--glass-border);
-        z-index: 1000;
-        box-shadow: var(--shadow);
-      }
-
-      .logo h1 {
-        font-size: 1.4rem;
-        font-weight: 900;
-        color: var(--text-color);
-      }
-
-      .theme-toggle {
-        background: transparent;
-        border: 1px solid var(--glass-border);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: var(--transition);
-        font-size: 1.1rem;
-      }
-
-      .theme-toggle:hover {
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-      }
-
-      /* --- Search & Filters --- */
-      .search-box {
-        max-width: 600px;
-        margin: 2rem auto 1rem auto;
-        padding: 0 1.5rem;
-      }
-
-      .search-box input {
-        width: 100%;
-        padding: 0.9rem 1.2rem;
-        border-radius: 14px;
-        border: 1px solid var(--glass-border);
-        background: var(--card-bg);
-        backdrop-filter: blur(8px);
-        color: var(--text-color);
-        font-size: 1rem;
-        outline: none;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-      }
-
-      .search-box input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-      }
-
-      /* Price Filter Dropdown */
-      .price-filter {
-        max-width: 600px;
-        margin: 0 auto 1rem auto;
-        padding: 0 1.5rem;
-        position: relative;
-      }
-
-      .price-header {
-        background: var(--card-bg);
-        backdrop-filter: blur(8px);
-        border: 1px solid var(--glass-border);
-        padding: 0.8rem 1.2rem;
-        border-radius: 12px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-weight: 700;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-      }
-
-      .price-header:hover {
-        border-color: var(--primary-color);
-      }
-
-      .price-options {
-        position: absolute;
-        top: 100%;
-        left: 1.5rem;
-        right: 1.5rem;
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        margin-top: 5px;
-        padding: 0.5rem 0;
-        box-shadow: var(--shadow);
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .price-options.hide {
-        display: none;
-      }
-
-      .price-options label {
-        padding: 0.6rem 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        transition: var(--transition);
-      }
-
-      .price-options label:hover {
-        background: rgba(37, 99, 235, 0.1);
-      }
-
-      /* Filter Buttons (Gender/Category) */
-      .filter-buttons {
-        max-width: 600px;
-        margin: 0 auto 2rem auto;
-        padding: 0 1.5rem;
-        display: flex;
-        gap: 10px;
-      }
-
-      .filter-buttons button {
-        flex: 1;
-        padding: 0.7rem;
-        border-radius: 12px;
-        border: 1px solid var(--glass-border);
-        background: var(--card-bg);
-        backdrop-filter: blur(8px);
-        color: var(--text-color);
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: var(--shadow);
-        transition: var(--transition);
-      }
-
-      .filter-buttons button:hover {
-        background: var(--primary-color);
-        color: #fff;
-        border-color: var(--primary-color);
-      }
-
-      /* --- Custom Video / Media Section --- */
-      .custom-video-section {
-        max-width: 1000px;
-        margin: 0 auto 2rem auto;
-        padding: 0 1.5rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .custom-video-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-
-      .custom-video-wrapper {
-        position: relative;
-        width: 100%;
-        height: 220px;
-      }
-
-      .custom-video-wrapper iframe,
-      .custom-video-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border: none;
-      }
-
-      .custom-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0, 0, 0, 0.7);
-        color: #fff;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        z-index: 2;
-      }
-
-      .custom-video-content {
-        padding: 1rem;
-        font-weight: 700;
-        text-align: center;
-      }
-
-      /* --- Apartments Grid Container --- */
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-      }
-
-      /* Apartment Card Style */
-      .apartment-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        display: flex;
-        flex-direction: column;
-        transition: var(--transition);
-        position: relative;
-      }
-
-      .apartment-card:hover {
-        transform: translateY(-5px);
-        border-color: var(--primary-color);
-      }
-
-      .apartment-media {
-        width: 100%;
-        height: 200px;
-        position: relative;
-        background: #000;
-      }
-
-      .apartment-media img,
-      .apartment-media video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-
-      .apartment-content {
-        padding: 1.2rem;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        justify-content: space-between;
-        gap: 1rem;
-      }
-
-      .apartment-title {
-        font-size: 1rem;
-        font-weight: 700;
-        line-height: 1.5;
-      }
-
-      .apartment-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid var(--glass-border);
-        padding-top: 0.8rem;
-      }
-
-      .apartment-price {
-        font-weight: 900;
-        color: var(--primary-color);
-      }
-
-      .book-btn {
-        background: var(--primary-color);
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1.2rem;
-        border-radius: 8px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .book-btn:hover {
-        background: var(--primary-hover);
-      }
-
-      /* Corner Ribbon for Reserved */
-      .corner-ribbon {
-        background: #ef4444;
-        color: white;
-        padding: 2px 10px;
-        font-size: 0.75rem;
-        font-weight: bold;
-        border-radius: 4px;
-        display: inline-block;
-        margin-right: 5px;
-      }
-
-      /* --- Modal / Booking Window --- */
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(5px);
-        justify-content: center;
-        align-items: center;
-        z-index: 2000;
-        padding: 1rem;
-      }
-
-      .modal-content {
-        background: var(--card-bg);
-        backdrop-filter: blur(16px);
-        border: 1px solid var(--glass-border);
-        padding: 2rem;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 450px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        position: relative;
-        animation: scaleUp 0.3s ease;
-      }
-
-      @keyframes scaleUp {
-        from {
-          transform: scale(0.9);
-          opacity: 0;
-        }
-        to {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 15px;
-        left: 20px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        font-weight: bold;
-      }
-
-      .modal-input {
-        width: 100%;
-        padding: 0.8rem 1rem;
-        border-radius: 10px;
-        border: 1px solid var(--glass-border);
-        background: var(--bg-color);
-        color: var(--text-color);
-        outline: none;
-        font-size: 1rem;
-        transition: var(--transition);
-      }
-
-      .modal-input:focus {
-        border-color: var(--primary-color);
-      }
-
-      .confirm-btn {
-        width: 100%;
-        padding: 0.8rem;
-        background: var(--primary-color);
-        color: #fff;
-        border: none;
-        border-radius: 10px;
-        font-weight: 700;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: var(--transition);
-      }
-
-      .confirm-btn:hover {
-        background: var(--primary-hover);
-      }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
@@ -498,67 +22,88 @@
       <div class="blob blob-2"></div>
     </div>
 
-    <header>
-      <div class="logo">
-        <h1>جامعة اللوتس</h1>
-      </div>
-      <button
-        class="theme-toggle"
-        onclick="toggleTheme()"
-        aria-label="تبديل الثيم"
-      >
-        🌙
-      </button>
-    </header>
+    <!-- Top Control Panel (Header, Search, Price, and Type Filters combined cleanly) -->
+    <div class="top-control-panel">
+      <header>
+        <div class="logo">
+          <h1>شقق جامعة اللوتس</h1>
+        </div>
+        <button
+          class="theme-toggle"
+          onclick="toggleTheme()"
+          aria-label="تبديل الثيم"
+        >
+          🌙
+        </button>
+      </header>
 
-    <div class="search-box">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 ابحث عن شقة أو منطقة..."
-        onkeyup="render()"
-      />
-    </div>
-
-    <div class="price-filter">
-      <div class="price-header" onclick="togglePriceFilter()">
-        <span>💰 السعر</span>
-        <span id="arrow">▼</span>
-      </div>
-
-      <div id="priceOptions" class="price-options hide">
-        <label
-          ><input
-            type="radio"
-            name="price"
-            checked
-            onclick="setPriceFilter('all')"
+      <div class="filters-row">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 ابحث عن شقة أو رقم عمارة..."
+            onkeyup="render()"
           />
-          الكل</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('900')" />
-          حتى 900 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1000')" />
-          حتى 1000 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1200')" />
-          حتى 1200 جنيه</label
-        >
-        <label
-          ><input type="radio" name="price" onclick="setPriceFilter('1500')" />
-          حتى 1500 جنيه</label
-        >
-      </div>
-    </div>
+        </div>
 
-    <div class="filter-buttons">
-      <button onclick="filterApartments('all')">🏠 الكل</button>
-      <button onclick="filterApartments('girls')">👩 بنات</button>
-      <button onclick="filterApartments('boys')">👨 شباب</button>
+        <div class="price-filter">
+          <div class="price-header" onclick="togglePriceFilter()">
+            <span>💰 تصفية حسب السعر</span>
+            <span id="arrow">▼</span>
+          </div>
+
+          <div id="priceOptions" class="price-options hide">
+            <label>
+              <input
+                type="radio"
+                name="price"
+                checked
+                onclick="setPriceFilter('all')"
+              />
+              الكل
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('900')"
+              />
+              حتى 900 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1000')"
+              />
+              حتى 1000 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1200')"
+              />
+              حتى 1200 جنيه
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="price"
+                onclick="setPriceFilter('1500')"
+              />
+              حتى 1500 جنيه
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-buttons">
+          <button onclick="filterApartments('all')">🏠 الكل</button>
+          <button onclick="filterApartments('girls')">👩 بنات</button>
+          <button onclick="filterApartments('boys')">👨 شباب</button>
+        </div>
+      </div>
     </div>
 
     <div class="custom-video-section">
@@ -566,27 +111,25 @@
         <div class="custom-video-wrapper">
           <span class="custom-badge">فيديو المنطقة 🎥</span>
           <iframe
-            src=""
-            width="100%"
-            height="250"
-            allow="autoplay"
+            src="https://drive.google.com/file/d/1JaaW8uGei3fjLiEcvdY9CsoE2EnrpJc5/preview"
             allowfullscreen
-          >
-          </iframe>
+          ></iframe>
         </div>
         <div class="custom-video-content">
-          <p>منطقة الحكومية</p>
+          <p>منطقة ال77</p>
         </div>
       </div>
       <div class="custom-video-card">
         <div class="custom-video-wrapper">
+          <span class="custom-badge">خريطة المنطقة 🗺️</span>
           <img
-            src="https://res.cloudinary.com/dxqtdpjp0/image/upload/v1782034263/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9/pic_wgjzjv.jpg"
+            src="https://drive.google.com/file/d/1cn0lUJ-R9OuBbhfTuIC_o1IqtMTSwNsc/preview"
             alt="خريطة المنطقة على جوجل ماب"
-            onclick="openFullImg(this)"
             style="cursor: zoom-in"
           />
-          <div class="custom-media-content"></div>
+        </div>
+        <div class="custom-video-content">
+          <p>موقع الـ 77</p>
         </div>
       </div>
     </div>
@@ -594,8 +137,58 @@
     <!-- الشقق -->
     <div class="container" id="app"></div>
 
+    <!-- شباك الحجز (Modal) -->
+    <div id="bookingModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2
+          style="
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            font-weight: 800;
+          "
+        >
+          تأكيد الحجز 🏠
+        </h2>
+        <p
+          id="apt-details-text"
+          style="
+            margin-bottom: 22px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+          "
+        ></p>
+
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+          <div style="margin-bottom: 16px">
+            <input
+              type="text"
+              id="studentName"
+              placeholder="الاسم ثلاثي"
+              required
+              class="modal-input"
+            />
+          </div>
+          <div style="margin-bottom: 24px">
+            <input
+              type="tel"
+              id="studentPhone"
+              placeholder="رقم التليفون (واتساب)"
+              required
+              class="modal-input"
+            />
+          </div>
+          <button type="submit" class="confirm-btn">تأكيد وإرسال الطلب</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript Logic -->
     <script>
-      let apartments = [
+      const OWNER_PHONE = "201152638852";
+
+      const staticApartments = [
         {
           name: "شقة في عمارة 128 خلف كيمت دور ارضي",
           location: "الحكوميه",
@@ -620,7 +213,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1782034267/%D8%A7%D9%84%D8%B4%D9%82%D9%82/%D9%85%D9%86%D8%B7%D9%82%D8%A9%20%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9/%D8%B9%D9%85%D8%A7%D8%B1%D9%87%20137/vid_bbuob4.mp4",
+            "https://drive.google.com/file/d/1gQtz7FL9x9yyIzv3Y9OIGmct53bK5EeS/preview",
           ],
         },
         {
@@ -670,7 +263,7 @@
           price: "",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783390113/%D8%B4%D9%82%D8%A9_%D9%81%D9%8A_%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9_os2ckt.mp4",
+            "https://drive.google.com/file/d/14H2PYOXvYx6mTAPxMBHxQCtdPbLyyg6D/preview",
           ],
         },
         {
@@ -679,7 +272,7 @@
           price: "1100$",
           type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783396217/%D8%B4%D9%82%D8%A9_%D8%AF%D9%88%D8%B1_%D8%AA%D8%A7%D9%86%D9%8A_%D9%81%D9%8A_%D9%81%D9%8A%D9%84%D8%A7_%D9%85%D8%B4%D8%B7%D9%8A%D8%A9_%D8%B3%D9%88%D8%A8%D8%B1_%D9%84%D9%88%D9%83%D8%B3_jnrvxv.mp4",
+            "https://drive.google.com/file/d/1vwYG2r47XTNis4OJ7GhN8RKIDHiE-Zj4/preview",
           ],
         },
         {
@@ -687,17 +280,37 @@
           location: "الحكوميه",
           price: "1100$",
           type: "girls",
+          images: [""],
+        },
+
+        {
+          name: "شقة في الحكومية عماره ١٥٤ دور خامس السرير ",
+          location: "الحكوميه",
+          price: "1000$",
+          type: "girls",
           images: [
-            "https://res.cloudinary.com/dxqtdpjp0/video/upload/v1783396737/WhatsApp_Video_2026-07-04_at_5.24.42_PM_1_seudh2.mp4",
+            "https://drive.google.com/file/d/1tqEcMYfkGsVL9deKkin4KFNHEyjduRl-/preview",
+          ],
+        },
+
+        {
+          name: "شقة في الحكومية عماره165 دور سادس شباب أو بنات",
+          location: "الحكوميه",
+          price: "1000$",
+          type: "boys",
+
+          images: [
+            "https://drive.google.com/file/d/1LTRWgSWBIJgZKgImbZpeiTmZct4kLSmO/preview",
           ],
         },
       ];
+
+      let apartments = [...staticApartments];
 
       let currentTypeFilter = "all";
       let currentPriceFilter = "all";
       let selectedApt = null;
 
-      // Theme Management
       function toggleTheme() {
         const currentTheme =
           document.documentElement.getAttribute("data-theme");
@@ -718,10 +331,10 @@
         document.documentElement.setAttribute("data-theme", savedTheme);
         document.querySelector(".theme-toggle").textContent =
           savedTheme === "dark" ? "☀️" : "🌙";
-        render();
+
+        loadApartments();
       });
 
-      // Price Dropdown Toggle
       function togglePriceFilter() {
         const options = document.getElementById("priceOptions");
         const arrow = document.getElementById("arrow");
@@ -743,7 +356,6 @@
         render();
       }
 
-      // Render Function
       function render() {
         const searchVal = document
           .getElementById("searchInput")
@@ -752,9 +364,11 @@
         app.innerHTML = "";
 
         const filtered = apartments.filter((apt) => {
+          const aptName = (apt.name || "").toLowerCase();
+          const aptLocation = (apt.location || "").toLowerCase();
+
           const matchesSearch =
-            apt.name.toLowerCase().includes(searchVal) ||
-            apt.location.toLowerCase().includes(searchVal);
+            aptName.includes(searchVal) || aptLocation.includes(searchVal);
           const matchesType =
             currentTypeFilter === "all" || apt.type === currentTypeFilter;
 
@@ -779,29 +393,78 @@
 
           let mediaHTML = "";
           if (apt.images && apt.images.length > 0) {
-            const mediaSrc = apt.images[0];
-            if (mediaSrc.endsWith(".mp4") || mediaSrc.includes("video")) {
-              mediaHTML = `<div class="apartment-media"><video src="${mediaSrc}" controls preload="metadata"></video></div>`;
-            } else {
-              mediaHTML = `<div class="apartment-media"><img src="${mediaSrc}" alt="صورة الشقة" loading="lazy" /></div>`;
-            }
+            mediaHTML = `
+              <div class="apartment-media">
+                  <iframe src="${apt.images[0]}" allowfullscreen></iframe>
+              </div>`;
           }
 
-          card.innerHTML = `
-            ${mediaHTML}
-            <div class="apartment-content">
-              <div class="apartment-title">${apt.name}</div>
-              <div class="apartment-footer">
-                <span class="apartment-price">${apt.price ? apt.price + " جنيه" : "السعر عند الاتصال"}</span>
-                <button class="book-btn" onclick="openModal('${apt.name.replace(/'/g, "\\'")}')">احجز الآن</button>
-              </div>
-            </div>
-          `;
+          const contentDiv = document.createElement("div");
+          contentDiv.className = "apartment-content";
+
+          const titleDiv = document.createElement("div");
+          titleDiv.className = "apartment-title";
+          titleDiv.innerHTML = apt.name;
+
+          const footerDiv = document.createElement("div");
+          footerDiv.className = "apartment-footer";
+
+          const priceSpan = document.createElement("span");
+          priceSpan.className = "apartment-price";
+          priceSpan.textContent = apt.price
+            ? apt.price + " جنيه"
+            : "السعر عند الاتصال";
+
+          const bookBtn = document.createElement("button");
+          bookBtn.className = "book-btn";
+          bookBtn.textContent = "احجز الآن";
+          bookBtn.addEventListener("click", () => openModal(apt.name));
+
+          footerDiv.appendChild(priceSpan);
+          footerDiv.appendChild(bookBtn);
+
+          contentDiv.appendChild(titleDiv);
+          contentDiv.appendChild(footerDiv);
+
+          if (mediaHTML) {
+            card.innerHTML = mediaHTML;
+          }
+          card.appendChild(contentDiv);
           app.appendChild(card);
         });
       }
 
-      // Modal Handlers
+      async function loadApartments() {
+        render(); // يعرض الشقق الثابتة فورًا
+
+        try {
+          const res = await fetch(
+            "https://sakan-sigma.vercel.app/api/apartments",
+          );
+          if (!res.ok) throw new Error("Failed to fetch apartments");
+          const data = await res.json();
+
+          const formattedApartments = data.map((apt) => ({
+            name:
+              apt.description +
+              (apt.status === "محجوزة"
+                ? " <span class='corner-ribbon reserved'>محجوزة</span>"
+                : ""),
+            location: apt.location,
+            price: apt.price,
+            type: apt.type,
+            images: apt.images || [],
+            videoUrl: apt.videoUrl || "",
+          }));
+
+          apartments = [...staticApartments, ...formattedApartments];
+
+          render();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
       function openModal(aptName) {
         selectedApt = aptName;
         document.getElementById("apt-details-text").innerText =
@@ -813,58 +476,44 @@
         document.getElementById("bookingModal").style.display = "none";
       }
 
-      function submitBooking(event) {
+      async function submitBooking(event) {
         event.preventDefault();
         const name = document.getElementById("studentName").value;
         const phone = document.getElementById("studentPhone").value;
-        const message = `مرحباً، أريد تأكيد حجز الشقة التالية:\n- الشقة: ${selectedApt}\n- الاسم: ${name}\n- رقم التليفون: ${phone}`;
-        const whatsappUrl = `https://wa.me/201152638852?text=${encodeURIComponent(message)}`;
+
+        try {
+          await fetch("/api/bookings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userName: name,
+              phone: phone,
+              apartmentDetails: selectedApt,
+            }),
+          });
+        } catch (err) {
+          console.error("Error saving booking:", err);
+        }
+
+        // إزالة وسوم الـ HTML عند إرسال النص للواتساب للحفاظ على نظافة الرسالة
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = selectedApt;
+        const plainAptName = tempDiv.textContent || tempDiv.innerText || "";
+
+        const message = `مرحباً، أريد تأكيد حجز الشقة التالية:\n- الشقة: ${plainAptName}\n- الاسم: ${name}\n- رقم التليفون: ${phone}`;
+        const whatsappUrl = `https://wa.me/${OWNER_PHONE}?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, "_blank");
         closeModal();
       }
 
-      window.onclick = function (event) {
+      window.addEventListener("click", function (event) {
         const modal = document.getElementById("bookingModal");
         if (event.target === modal) {
           closeModal();
         }
-      };
+      });
     </script>
-
-    <!-- شباك الحجز (Modal) -->
-    <div id="bookingModal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 style="margin-bottom: 15px; color: var(--primary-color)">
-          تأكيد الحجز 🏠
-        </h2>
-        <p
-          id="apt-details-text"
-          style="margin-bottom: 20px; font-size: 14px; opacity: 0.85"
-        ></p>
-
-        <form id="bookingForm" onsubmit="submitBooking(event)">
-          <div class="form-group" style="margin-bottom: 15px">
-            <input
-              type="text"
-              id="studentName"
-              placeholder="الاسم ثلاثي"
-              required
-              class="modal-input"
-            />
-          </div>
-          <div class="form-group" style="margin-bottom: 20px">
-            <input
-              type="tel"
-              id="studentPhone"
-              placeholder="رقم التليفون (واتساب)"
-              required
-              class="modal-input"
-            />
-          </div>
-          <button type="submit" class="confirm-btn">تأكيد وإرسال الطلب</button>
-        </form>
-      </div>
-    </div>
   </body>
 </html>
